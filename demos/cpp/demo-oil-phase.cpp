@@ -391,7 +391,9 @@ auto oilChemicalModelCubicEOS(const OilMixture& mixture, CubicEOS::Model modelty
 
     // Initialize the CubicEOS instance
     CubicEOS eos(nspecies);
-    eos.setPhaseAsVapor();
+
+    eos.setPhaseAsLiquid();  // <-
+
     eos.setCriticalTemperatures(Tc);
     eos.setCriticalPressures(Pc);
     eos.setAcentricFactors(omega);
@@ -588,7 +590,7 @@ auto convertPhase(const PhaseType& phase, const Database& database, std::vector<
 int main()
 {
     // Database db("supcrt07-organics.xml");
-    Database db("supcrt98");
+    Database db("C:\\0\\p\\reaktoro\\databases\\supcrt\\supcrt98.xml");
 
     // NOTE: Copy & Pasted from ChemicalEditor {
     // The default temperatures for the interpolation of the thermodynamic properties (in units of celsius)
@@ -629,26 +631,28 @@ int main()
     {
         auto oil_species = std::vector<OilSpecies>{
             OilSpecies(db.gaseousSpecies("CH4(g)")),
+            OilSpecies(db.gaseousSpecies("C2H6(g)")),
         };
 
         OilSpecies C2H6;
         C2H6.setName("C2H6(o)");
         C2H6.setFormula("C2H6");
 
-        auto C2H6_species = oil_species[0].elements(); // copy from CH4
-        // change values
-        for (auto& kv : C2H6_species) {
-            if (kv.first.name() == "C") kv.second = 2.0;
-            if (kv.first.name() == "H") kv.second = 6.0;
-        }
+        //auto C2H6_species = oil_species[0].elements(); // copy from CH4
+        //// change values
+        //for (auto& kv : C2H6_species) {
+        //    if (kv.first.name() == "C") kv.second = 2.0;
+        //    if (kv.first.name() == "H") kv.second = 6.0;
+        //}
 
-        // http://www.coolprop.org/fluid_properties/fluids/Ethane.html
-        C2H6.setAcentricFactor(0.099);
-        C2H6.setCriticalPressure(4872200.0); // [Pa]
-        C2H6.setCriticalTemperature(305.322); // [K]
-        C2H6.setElements(C2H6_species);
+        //// http://www.coolprop.org/fluid_properties/fluids/Ethane.html
+        //C2H6.setAcentricFactor(0.099);
+        //C2H6.setCriticalPressure(4872200.0); // [Pa]
+        //C2H6.setCriticalTemperature(305.322); // [K]
+        //C2H6.setElements(C2H6_species);
+        //C2H6.setThermoData(oil_species[0].thermoData());
 
-        oil_species.push_back(C2H6);
+        //oil_species.push_back(C2H6);
 
         auto mixture = OilMixture(oil_species);
         auto oil = OilPhase(mixture);
