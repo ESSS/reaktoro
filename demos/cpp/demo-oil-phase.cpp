@@ -64,15 +64,61 @@ struct OilSpeciesThermoData
 };
 
 
+
+
 /// A type to describe the attributes of a gaseous species
 class OilSpecies : public Species
 {
+private:
+    struct Impl
+    {
+        // The critical temperature of the gaseous species (in units of K)
+        double critical_temperature = 0.0;
+
+        // The critical pressure of the gaseous species (in units of Pa)
+        double critical_pressure = 0.0;
+
+        // The acentric factor of the gaseous species
+        double acentric_factor = 0.0;
+
+        /// The thermodynamic data of the gaseous species.
+        OilSpeciesThermoData thermo;
+    };
+
 public:
     /// Construct a default OilSpecies instance
     OilSpecies();
 
     /// Construct an OilSpecies instance from a Species instance
     OilSpecies(const Species& species);
+
+    // [Prototyping: added now]
+    /// Copies data from a GaseousSpecies
+    explicit OilSpecies(const GaseousSpecies& species)
+        : Species(species)
+        , pimpl(new Impl())
+    {
+        this->setCriticalTemperature(species.criticalTemperature());
+        this->setCriticalPressure(species.criticalPressure());
+        this->setAcentricFactor(species.acentricFactor());
+
+        auto const& gas_thermo_data = species.thermoData();
+        
+        Optional<OilSpeciesThermoParamsHKF> oil_hkf;
+        if (!gas_thermo_data.hkf.empty()) {
+            GaseousSpeciesThermoParamsHKF const& hkf = gas_thermo_data.hkf.get();
+            oil_hkf = OilSpeciesThermoParamsHKF{ hkf.Gf, hkf.Hf, hkf.Sr, hkf.a, hkf.b, hkf.c, hkf.Tmax };
+        }
+
+        this->setThermoData(OilSpeciesThermoData{
+            gas_thermo_data.properties,
+            gas_thermo_data.reaction,
+            oil_hkf,
+            gas_thermo_data.phreeqc
+        });
+    }
+
+    // [End]
 
     /// Set the critical temperature of the gaseous species (in units of K)
     auto setCriticalTemperature(double val) -> void;
@@ -99,26 +145,9 @@ public:
     auto thermoData() const -> const OilSpeciesThermoData&;
 
 private:
-    struct Impl;
-
     std::shared_ptr<Impl> pimpl;
 };
 
-
-struct OilSpecies::Impl
-{
-    // The critical temperature of the gaseous species (in units of K)
-    double critical_temperature = 0.0;
-
-    // The critical pressure of the gaseous species (in units of Pa)
-    double critical_pressure = 0.0;
-
-    // The acentric factor of the gaseous species
-    double acentric_factor = 0.0;
-
-    /// The thermodynamic data of the gaseous species.
-    OilSpeciesThermoData thermo;
-};
 
 OilSpecies::OilSpecies()
 : pimpl(new Impl())
@@ -583,16 +612,30 @@ int main()
     //ChemicalSystem system(editor);
 
      // Approach 2:
-    auto oil_species = std::vector<OilSpecies>{
-        db.gaseousSpecies("H2O(g)"),
-        db.gaseousSpecies("CH4(g)"),
-    };
-    auto mixture = OilMixture(oil_species);
-    auto oil = OilPhase(mixture);
-
     std::vector<Phase> phases;
     phases.push_back(convertPhase(editor.aqueousPhase(), db, pressures, temperatures));
-    phases.push_back(convertPhase(oil, db, pressures, temperatures));
+
+    //{
+    //    auto gas_species = std::vector<GaseousSpecies>{
+    //        db.gaseousSpecies("H2O(g)"),
+    //        db.gaseousSpecies("CH4(g)"),
+    //    };
+    //    auto mixture = GaseousMixture(gas_species);
+    //    auto oil = GaseousPhase(mixture);
+
+    //    phases.push_back(convertPhase(oil, db, pressures, temperatures));
+    //}
+
+    {
+        auto oil_species = std::vector<OilSpecies>{
+            OilSpecies(db.gaseousSpecies("H2O(g)")),
+            OilSpecies(db.gaseousSpecies("CH4(g)")),
+        };
+        auto mixture = OilMixture(oil_species);
+        auto oil = OilPhase(mixture);
+
+        phases.push_back(convertPhase(oil, db, pressures, temperatures));
+    }
 
     ChemicalSystem system(phases);
 
