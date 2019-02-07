@@ -615,20 +615,19 @@ int main()
     std::vector<Phase> phases;
     phases.push_back(convertPhase(editor.aqueousPhase(), db, pressures, temperatures));
 
-    //{
-    //    auto gas_species = std::vector<GaseousSpecies>{
-    //        db.gaseousSpecies("H2O(g)"),
-    //        db.gaseousSpecies("CH4(g)"),
-    //    };
-    //    auto mixture = GaseousMixture(gas_species);
-    //    auto oil = GaseousPhase(mixture);
+    {
+        auto gas_species = std::vector<GaseousSpecies>{
+            db.gaseousSpecies("H2O(g)"),
+            db.gaseousSpecies("CH4(g)"),
+        };
+        auto mixture = GaseousMixture(gas_species);
+        auto gas = GaseousPhase(mixture);
 
-    //    phases.push_back(convertPhase(oil, db, pressures, temperatures));
-    //}
+        phases.push_back(convertPhase(gas, db, pressures, temperatures));
+    }
 
     {
         auto oil_species = std::vector<OilSpecies>{
-            OilSpecies(db.gaseousSpecies("H2O(g)")),
             OilSpecies(db.gaseousSpecies("CH4(g)")),
         };
         auto mixture = OilMixture(oil_species);
