@@ -393,6 +393,7 @@ auto oilChemicalModelCubicEOS(const OilMixture& mixture, CubicEOS::Model modelty
     CubicEOS eos(nspecies);
 
     eos.setPhaseAsLiquid();  // <-
+    // eos.setPhaseAsVapor();  // <-
 
     eos.setCriticalTemperatures(Tc);
     eos.setCriticalPressures(Pc);
@@ -610,7 +611,8 @@ int main()
     editor.addAqueousPhase("H O C");
 
     //// Approach 1:
-    //editor.addGaseousPhase({"H2O(g)", "CH4(g)" /* , "C2H6(g) " */ });
+    //// editor.addGaseousPhase({"H2O(g)", "CH4(g)" /* , "C2H6(g) " */ });
+    //editor.addGaseousPhase({"CH4(g)" /* , "C2H6(g) " */ });
     //ChemicalSystem system(editor);
 
      // Approach 2:
@@ -619,7 +621,7 @@ int main()
 
     {
         auto gas_species = std::vector<GaseousSpecies>{
-            db.gaseousSpecies("H2O(g)"),
+            //db.gaseousSpecies("H2O(g)"),
             db.gaseousSpecies("CH4(g)"),
         };
         auto mixture = GaseousMixture(gas_species);
@@ -631,12 +633,12 @@ int main()
     {
         auto oil_species = std::vector<OilSpecies>{
             OilSpecies(db.gaseousSpecies("CH4(g)")),
-            OilSpecies(db.gaseousSpecies("C2H6(g)")),
+            //OilSpecies(db.gaseousSpecies("C2H6(g)")),
         };
 
-        OilSpecies C2H6;
-        C2H6.setName("C2H6(o)");
-        C2H6.setFormula("C2H6");
+        //OilSpecies C2H6;
+        //C2H6.setName("C2H6(o)");
+        //C2H6.setFormula("C2H6");
 
         //auto C2H6_species = oil_species[0].elements(); // copy from CH4
         //// change values
@@ -664,10 +666,10 @@ int main()
 
 
     EquilibriumProblem problem(system);
-    //problem.setTemperature(4.0, "degC");
-    //problem.setPressure(35.0, "bar");
-    problem.add("H2O", 1, "kg");
-    problem.add("CH4", 100, "g");
+    problem.setTemperature(-125.0, "degC");
+    problem.setPressure(30.0, "bar");
+    // problem.add("H2O", 1, "kg");
+    problem.add("CH4", 10, "mol");
 
     ChemicalState state = equilibrate(problem);
 

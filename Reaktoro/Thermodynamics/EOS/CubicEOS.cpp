@@ -19,6 +19,7 @@
 
 // C++ includes
 #include <algorithm>
+#include <iostream>  // TODO: REMOVE
 
 // Reaktoro includes
 #include <Reaktoro/Common/Constants.hpp>
@@ -26,6 +27,10 @@
 #include <Reaktoro/Common/SetUtils.hpp>
 #include <Reaktoro/Common/TableUtils.hpp>
 #include <Reaktoro/Math/Roots.hpp>
+
+#include <eigen3/Eigen/Dense>
+#include <eigen3/unsupported/Eigen/Polynomials>
+
 
 namespace Reaktoro {
 namespace internal {
@@ -153,6 +158,24 @@ auto Psi(CubicEOS::Model type) -> double
 }
 
 } // namespace internal
+
+
+
+std::tuple<bool, double, double> calculate_roots(double p1, double p2, double p3)
+{
+    bool has_real_root;
+
+    auto coeffs = Eigen::Vector4d(p3, p2, p1, 1);
+
+    auto psolver = Eigen::PolynomialSolver<double, 3>(coeffs);
+
+    auto greatest = psolver.greatestRealRoot(has_real_root);
+    auto smallest = psolver.smallestRealRoot(has_real_root);
+
+    return std::make_tuple(has_real_root, smallest, greatest);
+}
+
+
 
 struct CubicEOS::Impl
 {
@@ -327,7 +350,18 @@ struct CubicEOS::Impl
 
         // Calculate the compressibility factor Z using Newton's method
         ChemicalScalar Z(nspecies);
-        Z.val = newton(f, Z0, tolerance, maxiter);
+
+        auto roots_result = calculate_roots(A.val, B.val, C.val);
+        auto has_real_roots = std::get<0>(roots_result);
+        auto smallest_root = std::get<1>(roots_result);
+        auto greatest_root = std::get<2>(roots_result);
+        
+        // Z.val = newton(f, Z0, tolerance, maxiter);
+
+        std::cout << "isvapor: " << isvapor << "\ngreatest_root: " << greatest_root << "\nsmallest_root: " << smallest_root << std::endl;
+        std::cout << "old newton: " << newton(f, Z0, tolerance, maxiter) << std::endl;
+
+        Z.val = isvapor ? greatest_root : smallest_root;
 
         // Calculate the partial derivatives of Z (dZdT, dZdP, dZdn)
         const double factor = -1.0/(3*Z.val*Z.val + 2*A.val*Z.val + B.val);
