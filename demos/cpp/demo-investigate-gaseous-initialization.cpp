@@ -26,6 +26,7 @@ auto solve(ChemicalEditor& editor) -> void {
 	ChemicalSystem system(editor);
 
 	EquilibriumProblem problem(system);
+	problem.add("O2", 1, "umol");
 	problem.add("CO2(g)", 1, "mol");
 	problem.add("H2O(g)", 1, "mol");
 	problem.add("H2S(g)", 1, "mol");
