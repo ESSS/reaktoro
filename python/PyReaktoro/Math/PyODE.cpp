@@ -19,6 +19,7 @@
 
 // Reaktoro includes
 #include <Reaktoro/Math/ODE.hpp>
+#include <Reaktoro/Math/MathUtils.hpp>
 
 namespace Reaktoro {
 
@@ -87,6 +88,8 @@ void exportODE(py::module& m)
 //        .def("integrate", integrate2)
 //        .def("solve", &ODESolver::solve)
 //        ;
+    
+    m.def("check_libm", &check_libm);
 }
 
 } // namespace Reaktoro

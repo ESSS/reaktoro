@@ -165,4 +165,48 @@ auto residual3p(MatrixConstRef A, VectorConstRef x, VectorConstRef b) -> Vector
     return r;
 }
 
+// This is temporarily here (will not be merged)
+// To check that openlibm is indeed being linked
+// (Implementation is in ChemicalSolver.cpp)
+extern "C" int isopenlibm(void);
+auto check_libm() -> std::vector<double>
+{
+    auto r = std::vector<double>(12, -1.0);
+
+    r[0] = isopenlibm() - 1.0;
+
+    // Values in comments are returned by the standard libraries in the respective
+    // platform. If the platform is ommitted, it's the same as returned by openlibm
+
+    // Windows: -0.34431837261747222
+    r[1] = tanh(-0.3589835151970974) - (-0.34431837261747228);
+    r[2] = std::tanh(-0.3589835151970974) - (-0.34431837261747228);
+
+    // Linux: 1.0552633797823418e+43
+    // NOTE: only `exp` tries to use `Reaktoro::exp`, might be a problem
+    r[3] = ::exp(99.06494938359764) - 1.0552633797823417e+43;
+    r[4] = std::exp(99.06494938359764) - 1.0552633797823417e+43;
+
+    auto x = 0.70444454416678126;
+
+    // Linux: 0.64761068800896837
+    r[5] = sin(x) - 0.64761068800896848;
+    r[6] = std::sin(x) - 0.64761068800896848;
+
+    // Windows: 0.84991470526022272
+    r[7] = tan(x) - 0.84991470526022261;
+    r[8] = std::tan(x) - 0.84991470526022261;
+
+    // Windows: 1.2585529728058984
+    r[9] = cosh(x) - 1.2585529728058982;
+    r[10] = std::cosh(x) - 1.2585529728058982;
+
+    // Note: `floor` is being used from ucrtbase in Windows, due to a duplicated symbol
+    // linker issue, but it doesn't seem problematic
+    auto f = floor(1e15 + 0.1);
+    r[11] = f - 1e15;
+
+    return r;
+}
+
 } // namespace Reaktoro

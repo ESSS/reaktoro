@@ -74,4 +74,9 @@ auto dot3p(VectorConstRef x, VectorConstRef y, double s) -> double;
 /// Return the residual of the equation `A*x - b` with triple-precision.
 auto residual3p(MatrixConstRef A, VectorConstRef x, VectorConstRef b) -> Vector;
 
+// This is temporarily here (will not be merged)
+// To check that openlibm is indeed being linked
+// (Implementation is in ChemicalSolver.cpp)
+auto check_libm() -> std::vector<double>;
+
 } // namespace Reaktoro
