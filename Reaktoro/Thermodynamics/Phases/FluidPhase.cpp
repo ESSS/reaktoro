@@ -59,7 +59,8 @@ FluidPhase::FluidPhase(const FluidMixture& mixture, const std::string& name, Pha
     // Set the Phase attributes
     setSpecies(species);
     //setChemicalModelPengRobinson();
-	setChemicalModelSoaveRedlichKwong();
+	//setChemicalModelSoaveRedlichKwong();
+	setChemicalModelRedlichKwong();
 }
 
 auto FluidPhase::setChemicalModelIdeal() -> FluidPhase&
