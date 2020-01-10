@@ -322,13 +322,24 @@ struct CubicEOS::Impl
         const ChemicalScalar BT = 2*(epsilon*sigma - epsilon - sigma)*beta*betaT + qT*beta - (epsilon + sigma - q)*betaT;
         const ChemicalScalar CT = -3*epsilon*sigma*beta*beta*betaT - qT*beta*beta - 2*(epsilon*sigma + q)*beta*betaT;
 
-        // Calculate cubicEOS roots using cardano's method
-        auto cubicEOS_roots = realAndPositiveRoots(cardano(1, A.val, B.val, C.val));
+        // Calculate cubicEOS roots
+        auto roots = cardano(1, A.val, B.val, C.val);
+
+        //verify if all cubicEOS_roots are greater than bmix
+        std::vector<double> cubicEOS_roots;
+        cubicEOS_roots.reserve(3);
+        if (std::get<0>(roots).imag() == 0 && std::get<0>(roots).real() >= bmix.val)
+            cubicEOS_roots.push_back(std::get<0>(roots).real());
+        if (std::get<1>(roots).imag() == 0 && std::get<1>(roots).real() >= bmix.val)
+            cubicEOS_roots.push_back(std::get<1>(roots).real());
+        if (std::get<2>(roots).imag() == 0 && std::get<2>(roots).real() >= bmix.val)
+            cubicEOS_roots.push_back(std::get<2>(roots).real());
 
         // All possible Compressibility factor
         std::vector<ChemicalScalar> Zs;
-        if (cubicEOS_roots.size() == 1)
+        if (cubicEOS_roots.size() == 1 || cubicEOS_roots.size() == 2) 
         {
+            //even if cubicEOS_roots has 2 roots, assume that the smallest does not have physical meaning
             Zs.push_back(ChemicalScalar(nspecies, cubicEOS_roots[0]));
         }
         else
