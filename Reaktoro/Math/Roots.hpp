@@ -65,9 +65,9 @@ auto newton(const std::function<std::tuple<double,double>(double)>& f,
 auto newton(const std::function<void(VectorConstRef, VectorRef, MatrixRef)>& f,
             VectorConstRef x0, double epsilon, unsigned maxiter) -> Vector;
 
-/// Return all real and positive roots of a group of roots
+/// Return all real roots of a group of roots
 /// @param roots CubicRoots with of complex and real roots
 /// @return A vector with all real roots
-auto realAndPositiveRoots(const CubicRoots& roots)->std::vector<double>;
+auto realRoots(const CubicRoots& roots)->std::vector<double>;
 
 } // namespace Reaktoro
