@@ -1,14 +1,14 @@
 from reaktoro import *
 
 def test_Cubic_EOS_multiple_roots():
-    """This problem leads to the following CubicEOS roost
+    """This problem leads to the following CubicEOS roots
     PR - Z1 = 1.00027728
          Z2 = 0.0001655
          Z3 = -0.0011024
     since bmix = 1.635e-05 -> Z3 is an invalid root 
-    since Z3 < Z2 < Z1 -< Z2 is an invalid root
-    so, Reaktoro should remove Z3, Z2 and proceed instead of only remove
-    Z3 and raise the exception "Logic error: it was expected Z roots of size 3, but got: 2".    
+    and since Z3 < Z2 < Z1 -> Z2 is an invalid root.
+    Reaktoro should remove Z3, Z2 and proceed instead of removing only
+    Z3 and raising the exception "Logic error: it was expected Z roots of size 3, but got: 2".    
     """
     
     database = Database("supcrt98.xml")
