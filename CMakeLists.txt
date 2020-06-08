@@ -44,6 +44,9 @@ endif()
 # Set the CTest option BUILD_TESTING to the value of BUILD_TESTS
 set(BUILD_TESTING BUILD_TEST)
 
+# Define is Reaktoro should be built linking against openlibm instead of system's default libm
+option(REAKTORO_USE_OPENLIBM      "Build linking with openlibm." OFF)
+
 # Define if shared library should be build instead of static.
 option(BUILD_SHARED_LIBS "Build shared libraries." ON)
 
@@ -91,8 +94,6 @@ add_subdirectory(Reaktoro)
 # Build the Python extension module PyReaktoro and the Python packages reaktoro
 if(REAKTORO_BUILD_PYTHON)
     add_subdirectory(python)
-else()
-    add_subdirectory(python EXCLUDE_FROM_ALL)
 endif()
 
 # Build the Python package ireaktoro, the Reaktoro interpreter
