@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import pathlib
 
 import reaktoro
 
@@ -10,15 +9,15 @@ import pytest
 is_debug_plots_on = False
 
 
-def get_test_data_dir():
+@pytest.fixture
+def data_dir():
     from pathlib import Path
     import os
-    return Path(os.path.abspath(__file__)).parents[0] / "data"
+    return Path(os.path.abspath(__file__)).parents[1] / "data"
 
 
 @pytest.fixture
-def pedersen_pvtlib_composition_results():
-    data_dir = pathlib.Path(__file__).parent.absolute() / "data"
+def pedersen_pvtlib_composition_results(data_dir):
     df_pvtlib_result = pd.read_csv(
         data_dir / "pvtlib-pedersen63-phase-compositions.csv",
     )
@@ -26,8 +25,7 @@ def pedersen_pvtlib_composition_results():
 
 
 @pytest.fixture
-def pedersen_pvtlib_fugacities_results():
-    data_dir = pathlib.Path(__file__).parent.absolute() / "data"
+def pedersen_pvtlib_fugacities_results(data_dir):
     df_pvtlib_result = pd.read_csv(
         data_dir / "pvtlib-pedersen63-phase-fugacities.csv"
     )
@@ -78,7 +76,12 @@ def pedersen_chemical_system(composition, gaseous_species, oil_species):
     return system
 
 
-def test_composition_results(composition, pedersen_chemical_system, pedersen_pvtlib_composition_results):
+def test_composition_results(
+    composition, 
+    pedersen_chemical_system, 
+    pedersen_pvtlib_composition_results,
+    num_regression
+):
     temperature = -42.0  # degC
     system = pedersen_chemical_system
     problem = reaktoro.EquilibriumProblem(system)
@@ -174,6 +177,16 @@ def test_composition_results(composition, pedersen_chemical_system, pedersen_pvt
     reaktoro_co2_liq_composition = composition_liq[-n_points_liq_pvtlib:, 1]
     assert_allclose(reaktoro_c1_liq_composition, df_pvtlib_result_liq["C1"], rtol=5e-3)
     assert_allclose(reaktoro_co2_liq_composition, df_pvtlib_result_liq["CO2"], rtol=2e-3)
+
+    molar_fractions = {
+        "liquid_phase": reaktoro_phase_fractions_liquid,
+        "gas_phase": reaktoro_phase_fractions_gas,
+        "C1(g)": reaktoro_c1_gas_composition,
+        "CO2(g)": reaktoro_co2_gas_composition,
+        "C1(liq)": reaktoro_c1_liq_composition,
+        "CO2(liq)": reaktoro_co2_liq_composition,
+    }
+    num_regression.check(molar_fractions)
 
     if is_debug_plots_on:
         import matplotlib.pyplot as plt
