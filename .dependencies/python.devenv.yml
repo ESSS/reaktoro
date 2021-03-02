@@ -7,7 +7,6 @@ dependencies:
   - pip
   - tabulate
   - colorama
-  - openpyxl
   - setuptools>=49.0
   - python={{ python_version }}
   - jupyter
