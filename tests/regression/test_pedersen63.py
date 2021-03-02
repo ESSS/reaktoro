@@ -247,7 +247,8 @@ def test_fugacities_results(
     gaseous_species,
     pedersen_chemical_system, 
     pedersen_pvtlib_composition_results,
-    pedersen_pvtlib_fugacities_results
+    pedersen_pvtlib_fugacities_results,
+    num_regression
 ):
     temperature = -42.0  # degC
     system = pedersen_chemical_system
@@ -330,6 +331,14 @@ def test_fugacities_results(
     reaktoro_co2_activity_liq = activities_liq[:, 3]
     assert_allclose(reaktoro_c1_activity_liq, pvtlib_fugacities_liq[:, 0], rtol=2e-2)
     assert_allclose(reaktoro_co2_activity_liq, pvtlib_fugacities_liq[:, 1], rtol=2e-2)
+
+    components_activities = {
+        "c1_activities_liq": reaktoro_c1_activity_liq,
+        "co2_activities_liq": reaktoro_co2_activity_liq,
+        "c1_activities_gas": reaktoro_c1_activity_gas,
+        "co2_activities_gas": reaktoro_co2_activity_gas,
+    }
+    num_regression.check(components_activities)
 
     if is_debug_plots_on:
         import matplotlib.pyplot as plt
