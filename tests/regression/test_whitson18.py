@@ -69,7 +69,6 @@ def test_composition_results(
     num_regression
 ):
     temperature = 280  # degF
-    pressure = 500  # psi
 
     system = whitson_chemical_system
     problem = reaktoro.EquilibriumProblem(system)
@@ -235,4 +234,142 @@ def test_composition_results(
         plt.legend(shadow=True, ncol=3)
 
         # plt.savefig("reaktoro_pvtlib_compositions_whitson_liq.png", dpi=300)
+        plt.show()
+
+
+def test_fugacities_result(
+    oil_species,
+    gaseous_species,
+    whitson_chemical_system,
+    whitson_pvtlib_results,
+    num_regression
+):
+    temperature = 280  # degF
+    system = whitson_chemical_system
+
+    state = reaktoro.ChemicalState(system)
+    state.setTemperature(temperature, 'degF')
+
+    # Gathering pvtlib results
+    df_pvtlib_result = whitson_pvtlib_results
+    df_pvtlib_result_gas = df_pvtlib_result[df_pvtlib_result.phase_id == 1]
+    df_pvtlib_result_liq = df_pvtlib_result[df_pvtlib_result.phase_id == 0]
+
+    # Properties' calculation loop for gas phase
+    activities_gas = list()
+    pvtlib_fugacities_gas = list()
+    for _, df_row in df_pvtlib_result_gas.iterrows():
+        P = df_row.P
+        composition_0 = df_row.x0
+        composition_1 = df_row.x1
+        composition_2 = df_row.x2
+        state.setPressure(P, 'psi')
+        state.setSpeciesAmount(gaseous_species[0], composition_0)
+        state.setSpeciesAmount(gaseous_species[1], composition_1)
+        state.setSpeciesAmount(gaseous_species[2], composition_2)
+
+        fugacity_0 = df_row.fugacity_0
+        fugacity_1 = df_row.fugacity_1
+        fugacity_2 = df_row.fugacity_2
+        fugacities = np.array([fugacity_0, fugacity_1, fugacity_2])
+
+        gas_properties = state.properties()
+        activities = np.exp(gas_properties.lnActivities().val)
+        activities_gas.append(activities)
+        pvtlib_fugacities_gas.append(fugacities)
+
+    activities_gas = np.array(activities_gas)
+    pvtlib_fugacities_gas = np.array(pvtlib_fugacities_gas)
+
+    reaktoro_c1_activity_gas = activities_gas[:, 0]
+    reaktoro_c4_activity_gas = activities_gas[:, 1]
+    reaktoro_c10_activity_gas = activities_gas[:, 2]
+    assert_allclose(reaktoro_c1_activity_gas, pvtlib_fugacities_gas[:, 0], rtol=2e-2)
+    assert_allclose(reaktoro_c4_activity_gas, pvtlib_fugacities_gas[:, 1], rtol=2e-2)
+    assert_allclose(reaktoro_c10_activity_gas, pvtlib_fugacities_gas[:, 2], rtol=2e-2)
+
+    # Properties' calculation loop for liq phase
+    activities_liq = list()
+    pvtlib_fugacities_liq = list()
+    for _, df_row in df_pvtlib_result_liq.iterrows():
+        P = df_row.P
+        composition_0 = df_row.x0
+        composition_1 = df_row.x1
+        composition_2 = df_row.x2
+        state.setPressure(P, 'psi')
+        state.setSpeciesAmount(oil_species[0], composition_0)
+        state.setSpeciesAmount(oil_species[1], composition_1)
+        state.setSpeciesAmount(oil_species[2], composition_2)
+
+        fugacity_0 = df_row.fugacity_0
+        fugacity_1 = df_row.fugacity_1
+        fugacity_2 = df_row.fugacity_2
+        fugacities = np.array([fugacity_0, fugacity_1, fugacity_2])
+
+        gas_properties = state.properties()
+        activities = np.exp(gas_properties.lnActivities().val)
+        activities_liq.append(activities)
+        pvtlib_fugacities_liq.append(fugacities)
+
+    activities_liq = np.array(activities_liq)
+    pvtlib_fugacities_liq = np.array(pvtlib_fugacities_liq)
+
+    reaktoro_c1_activity_liq = activities_liq[:, 3]
+    reaktoro_c4_activity_liq = activities_liq[:, 4]
+    reaktoro_c10_activity_liq = activities_liq[:, 5]
+    assert_allclose(reaktoro_c1_activity_liq, pvtlib_fugacities_liq[:, 0], rtol=2e-2)
+    assert_allclose(reaktoro_c4_activity_liq, pvtlib_fugacities_liq[:, 1], rtol=2e-2)
+    assert_allclose(reaktoro_c10_activity_liq, pvtlib_fugacities_liq[:, 2], rtol=2e-2)
+
+    components_activities = {
+        "c1_activities_liq": reaktoro_c1_activity_liq,
+        "c4_activities_liq": reaktoro_c4_activity_liq,
+        "c10_activities_liq": reaktoro_c10_activity_liq,
+        "c1_activities_gas": reaktoro_c1_activity_gas,
+        "c4_activities_gas": reaktoro_c4_activity_gas,
+        "c10_activities_gas": reaktoro_c10_activity_gas,
+    }
+    num_regression.check(components_activities)
+
+    if is_debug_plots_on:
+        import matplotlib.pyplot as plt
+
+        plt.figure(figsize=(8, 6))
+
+        pressure_values_gas = df_pvtlib_result_gas.P.values
+        plt.plot(pressure_values_gas, activities_gas[:, 0], "-x", label="C1(g) - Reaktoro")
+        plt.plot(pressure_values_gas, pvtlib_fugacities_gas[:, 0], "-o", label="C1(g) - pvtlib")
+        plt.plot(pressure_values_gas, activities_gas[:, 1], "-x", label="C4(g) - Reaktoro")
+        plt.plot(pressure_values_gas, pvtlib_fugacities_gas[:, 1], "-o", label="C4(g) - pvtlib")
+        plt.plot(pressure_values_gas, activities_gas[:, 2], "-x", label="C10(g) - Reaktoro")
+        plt.plot(pressure_values_gas, pvtlib_fugacities_gas[:, 2], "-o", label="C10(g) - pvtlib")
+
+        plt.xlabel("Pressure [psi]")
+        plt.ylabel("Fugacities [psi]")
+        plt.title(f"Fixed T = {temperature} degF")
+        plt.legend(shadow=True)
+
+        plt.grid(True)
+
+        # plt.savefig("reaktoro_pvtlib_fugacities_gas_whitson.png", dpi=300)
+        plt.show()
+
+        plt.figure(figsize=(8, 6))
+
+        pressure_values_liq = df_pvtlib_result_liq.P.values
+        plt.plot(pressure_values_liq, activities_liq[:, 3], "-x", label="C1(liq) - Reaktoro")
+        plt.plot(pressure_values_liq, pvtlib_fugacities_liq[:, 0], "-o", label="C1(liq) - pvtlib")
+        plt.plot(pressure_values_liq, activities_liq[:, 4], "-x", label="C4(liq) - Reaktoro")
+        plt.plot(pressure_values_liq, pvtlib_fugacities_liq[:, 1], "-o", label="C4(liq) - pvtlib")
+        plt.plot(pressure_values_liq, activities_liq[:, 5], "-x", label="C10(liq) - Reaktoro")
+        plt.plot(pressure_values_liq, pvtlib_fugacities_liq[:, 2], "-o", label="C10(liq) - pvtlib")
+
+        plt.xlabel("Pressure [psi]")
+        plt.ylabel("Fugacities [psi]")
+        plt.title(f"Fixed T = {temperature} degF")
+        plt.legend(shadow=True)
+
+        plt.grid(True)
+
+        # plt.savefig("reaktoro_pvtlib_fugacities_liq_whitson.png", dpi=300)
         plt.show()
