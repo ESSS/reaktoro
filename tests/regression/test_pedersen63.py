@@ -48,7 +48,7 @@ def oil_species():
 
 
 @pytest.fixture
-def pedersen_chemical_system(composition, gaseous_species, oil_species):
+def pedersen_chemical_system(gaseous_species, oil_species):
 
     temperature = -42.0  # degC
 
