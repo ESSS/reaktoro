@@ -312,10 +312,6 @@ def test_equilibrium_CH4_H2S_liq_gas(temperature, pressure, num_regression):
     
     options = EquilibriumOptions()
     options.hessian = GibbsHessian.Exact
-    options.nonlinear.max_iterations = 100
-    options.optimum.max_iterations = 200
-    options.optimum.ipnewton.step = StepMode.Conservative
-    options.optimum.tolerance = 1e-17
     solver.setOptions(options)
             
     state = ChemicalState(system)
