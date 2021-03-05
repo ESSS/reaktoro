@@ -497,6 +497,61 @@ CubicEOS::Result::Result(unsigned nspecies)
   ln_fugacity_coefficients(nspecies)
 {}
 
+auto computeSpeciesFugacity(
+    const ThermoScalar& P,
+    const ThermoScalar& T,
+    const ChemicalScalar& xi,
+    const ChemicalScalar& ai,
+    const double& bi,
+    const ChemicalScalar& aiT,
+    const ChemicalScalar& amix,
+    const ChemicalScalar& amixT,
+    const ChemicalScalar& bmix,
+    const ChemicalScalar& A,
+    const ChemicalScalar& B,
+    const ChemicalScalar& C,
+    const ChemicalScalar& Z,
+    const double epsilon,
+    const double sigma) -> ChemicalScalar
+{
+    const double R = universalGasConstant;
+    
+    const ChemicalScalar q = amix/(bmix*R*T);
+    const ChemicalScalar qT = q*(amixT/amix - 1.0/T);
+
+    const ChemicalScalar beta = P*bmix/(R*T);
+    const ThermoScalar betai = P*bi/(R*T);
+
+    const ChemicalScalar qi = q*(1 + ai/amix - bi/bmix);
+    const ChemicalScalar qiT = qi*qT/q + q*(aiT - ai*amixT/amix)/amix;
+
+    const ThermoScalar Ai = (epsilon + sigma - 1.0)*betai - 1.0;
+    const ChemicalScalar Bi = (epsilon*sigma - epsilon - sigma)*(2*beta*betai - beta*beta) - (epsilon + sigma - q)*(betai - beta) - (epsilon + sigma - qi)*beta;
+    const ChemicalScalar Ci = -3*sigma*epsilon*beta*beta*betai + 2*epsilon*sigma*beta*beta*beta - (epsilon*sigma + qi)*beta*beta - 2*(epsilon*sigma + q)*(beta*betai - beta*beta);
+    const ChemicalScalar Zi = -(Ai*Z*Z + (Bi + B)*Z + Ci + 2*C)/(3*Z*Z + 2*A*Z + B);
+
+    // Calculate the integration factor I
+    ChemicalScalar I;
+    if(epsilon != sigma) I = log((Z + sigma*beta)/(Z + epsilon*beta))/(sigma - epsilon);
+                    else I = beta/(Z + epsilon*beta);
+
+    // Calculate the integration factor I for each component
+    ChemicalScalar Ii;
+    if(epsilon != sigma) Ii = I + ((Zi + sigma*betai)/(Z + sigma*beta) - (Zi + epsilon*betai)/(Z + epsilon*beta))/(sigma - epsilon);
+                    else Ii = I * (1 + betai/beta - (Zi + epsilon*betai)/(Z + epsilon*beta));
+
+    auto Gi_res = R*T*(Zi - (Zi - betai)/(Z - beta) - log(Z - beta) - qi*I - q*Ii + q*I);
+    auto ln_fi = Gi_res/(R*T) + log(xi * P);
+    auto fi = exp(ln_fi);
+    return fi;
+}
+
+auto calculateNormalizedPhaseGibbsEnergy() -> void
+{
+    // TODO: implement the normalized phase Gibbs energy
+    return;
+}
+
 /// Sanity check free function to verify if BIPs matrices have proper dimensions. Considering that the phase has
 /// n species, the BIP matricies k, kT and kTT should have (n, n) as dimensions.
 /// @see CubicEOS::setInteractionParamsFunction
