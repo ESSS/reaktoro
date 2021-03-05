@@ -210,9 +210,9 @@ auto calculateNormalizedPhaseGibbsEnergy(
     const ThermoScalar& P,
     const ThermoScalar& T,
     const ChemicalVector& x,
-    const ChemicalScalar& ai,
-    const double& bi,
-    const ChemicalScalar& aiT,
+    const ChemicalVector& abar,
+    const Vector& bbar,
+    const ChemicalVector& abarT,
     const ChemicalScalar& amix,
     const ChemicalScalar& amixT,
     const ChemicalScalar& bmix,
@@ -227,10 +227,56 @@ auto calculateNormalizedPhaseGibbsEnergy(
     for(unsigned i = 0; i < nspecies; ++i)
     {
         auto xi = x[i];
-        auto fi = computeSpeciesFugacity(P, T, xi, ai, bi, aiT, amix, amixT, bmix, A, B, C, Z, epsilon, sigma);
+        auto fi = computeSpeciesFugacity(P, T, xi, abar[i], bbar[i], abarT[i], amix, amixT, bmix, A, B, C, Z, epsilon, sigma);
         G_normalized += xi * log(fi);
     }
     return G_normalized;
+}
+
+auto selectCompressibilityFactorByGibbsEnergy(
+    const unsigned& nspecies,
+    std::vector<ChemicalScalar> Zs,
+    const ThermoScalar& P,
+    const ThermoScalar& T,
+    const ChemicalVector& x,
+    const ChemicalVector& abar,
+    const Vector& bbar,
+    const ChemicalVector& abarT,
+    const ChemicalScalar& amix,
+    const ChemicalScalar& amixT,
+    const ChemicalScalar& bmix,
+    const ChemicalScalar& A,
+    const ChemicalScalar& B,
+    const ChemicalScalar& C,
+    const double epsilon,
+    const double sigma) -> ChemicalScalar
+{
+    ChemicalScalar Z(nspecies);
+    if (Zs.size() == 1)
+    {
+        Z = Zs[0];
+        return Z;
+    }
+
+    if (Zs.size() != 2) {
+        Exception exception;
+        exception.error << "selectCompressibilityByGibbsEnergy received invalid input";
+        exception.reason << "Zs should have size 1 or 2 in selectCompressibilityByGibbsEnergy, "
+            << "but has a size of " << Zs.size();
+        RaiseError(exception);
+    }
+
+    std::vector<ChemicalScalar> normalized_Gs;
+    normalized_Gs.push_back(
+        calculateNormalizedPhaseGibbsEnergy(nspecies, P, T, x, abar, bbar, abarT, amix, amixT, bmix, A, B, C, Zs[0], epsilon, sigma)
+    );
+    normalized_Gs.push_back(
+        calculateNormalizedPhaseGibbsEnergy(nspecies, P, T, x, abar, bbar, abarT, amix, amixT, bmix, A, B, C, Zs[1], epsilon, sigma)
+    );
+
+    Z = normalized_Gs[0] < normalized_Gs[1] ? Zs[0] : Zs[1];
+
+    return Z;
 }
 
 struct CubicEOS::Impl
@@ -438,12 +484,13 @@ struct CubicEOS::Impl
             Zs.push_back(ChemicalScalar(nspecies, cubicEOS_roots[2]));  // Z_min
         }
 
-        // Selecting compressibility factor - Z_liq < Z_gas
         ChemicalScalar Z(nspecies);
-        if (isvapor)
-            Z.val = *std::max_element(cubicEOS_roots.begin(), cubicEOS_roots.end());
-        else
-            Z.val = *std::min_element(cubicEOS_roots.begin(), cubicEOS_roots.end());
+        Z = selectCompressibilityFactorByGibbsEnergy(nspecies, Zs, P, T, x, abar, bbar, abarT, amix, amixT, bmix, A, B, C, epsilon, sigma);
+        // Selecting compressibility factor - Z_liq < Z_gas
+        // if (isvapor)
+        //     Z.val = *std::max_element(cubicEOS_roots.begin(), cubicEOS_roots.end());
+        // else
+        //     Z.val = *std::min_element(cubicEOS_roots.begin(), cubicEOS_roots.end());
 
         auto input_phase_type = isvapor ? PhaseType::Gas : PhaseType::Liquid;
         auto identified_phase_type = input_phase_type;
