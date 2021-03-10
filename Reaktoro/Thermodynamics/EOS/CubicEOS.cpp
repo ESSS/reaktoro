@@ -604,9 +604,6 @@ struct CubicEOS::Impl
 
         return result;
     }
-
-    private:
-    
 };
 
 CubicEOS::Result::Result()
