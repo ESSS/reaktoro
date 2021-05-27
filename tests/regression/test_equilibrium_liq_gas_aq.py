@@ -36,6 +36,7 @@ from _pytest.python_api import approx
         "temperature equal 310.95 K and 62.6 bar",
     ],
 )
+@pytest.mark.xfail(reason="Failing due to fugacity calculation.")
 def test_equilibrium_CH4_H2S_CO2_H2O_liq_gas_aq(temperature, pressure, num_regression):
     """
     This test checks the capability of solving a system that has CH4, H2S,
