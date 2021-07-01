@@ -485,12 +485,12 @@ struct CubicEOS::Impl
         }
 
         ChemicalScalar Z(nspecies);
-        // Z = selectCompressibilityFactorByGibbsEnergy(nspecies, Zs, P, T, x, abar, bbar, abarT, amix, amixT, bmix, A, B, C, epsilon, sigma);
+         Z = selectCompressibilityFactorByGibbsEnergy(nspecies, Zs, P, T, x, abar, bbar, abarT, amix, amixT, bmix, A, B, C, epsilon, sigma);
         // Selecting compressibility factor - Z_liq < Z_gas
-        if (isvapor)
-            Z.val = *std::max_element(cubicEOS_roots.begin(), cubicEOS_roots.end());
-        else
-            Z.val = *std::min_element(cubicEOS_roots.begin(), cubicEOS_roots.end());
+//        if (isvapor)
+//            Z.val = *std::max_element(cubicEOS_roots.begin(), cubicEOS_roots.end());
+//        else
+//            Z.val = *std::min_element(cubicEOS_roots.begin(), cubicEOS_roots.end());
 
         auto input_phase_type = isvapor ? PhaseType::Gas : PhaseType::Liquid;
         auto identified_phase_type = input_phase_type;
@@ -622,7 +622,7 @@ CubicEOS::Result::Result(unsigned nspecies)
 {}
 
 /// Sanity check free function to verify if BIPs matrices have proper dimensions. Considering that the phase has
-/// n species, the BIP matricies k, kT and kTT should have (n, n) as dimensions.
+/// n species, the BIP matrices k, kT and kTT should have (n, n) as dimensions.
 /// @see CubicEOS::setInteractionParamsFunction
 auto sanityCheckInteractionParamsFunction(const unsigned& nspecies, const CubicEOS::InteractionParamsFunction& func) -> void
 {
