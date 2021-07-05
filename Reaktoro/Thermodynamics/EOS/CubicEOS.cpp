@@ -495,9 +495,6 @@ struct CubicEOS::Impl
 
         auto input_phase_type = isvapor ? PhaseType::Gas : PhaseType::Liquid;
 
-        // When using selectCompressibilityFactorByGibbsEnergy, the switch-case below
-        // is not necessary.
-        // TODO: remove switch-case if selectCompressibilityFactorByGibbsEnergy is used
         auto identified_phase_type = input_phase_type;
         switch (phase_identification_method)
         {
