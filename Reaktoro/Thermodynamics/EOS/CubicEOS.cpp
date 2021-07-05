@@ -175,6 +175,8 @@ auto computeSpeciesFugacity(
 {
     const double R = universalGasConstant;
     
+	const double almost_zero = 1e-20;
+
     const ChemicalScalar q = amix/(bmix*R*T);
     const ChemicalScalar qT = q*(amixT/amix - 1.0/T);
 
@@ -191,12 +193,12 @@ auto computeSpeciesFugacity(
 
     // Calculate the integration factor I
     ChemicalScalar I;
-    if(epsilon != sigma) I = log((Z + sigma*beta)/(Z + epsilon*beta))/(sigma - epsilon);
+    if(std::abs(epsilon - sigma) > almost_zero) I = log((Z + sigma*beta)/(Z + epsilon*beta))/(sigma - epsilon);
                     else I = beta/(Z + epsilon*beta);
 
     // Calculate the integration factor I for each component
     ChemicalScalar Ii;
-    if(epsilon != sigma) Ii = I + ((Zi + sigma*betai)/(Z + sigma*beta) - (Zi + epsilon*betai)/(Z + epsilon*beta))/(sigma - epsilon);
+    if(std::abs(epsilon - sigma) > almost_zero) Ii = I + ((Zi + sigma*betai)/(Z + sigma*beta) - (Zi + epsilon*betai)/(Z + epsilon*beta))/(sigma - epsilon);
                     else Ii = I * (1 + betai/beta - (Zi + epsilon*betai)/(Z + epsilon*beta));
 
     auto Gi_res = R*T*(Zi - (Zi - betai)/(Z - beta) - log(Z - beta) - qi*I - q*Ii + q*I);

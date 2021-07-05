@@ -118,6 +118,7 @@ auto computeGibbsResidualEnergy(
     const double epsilon,
     const double sigma) -> ChemicalScalar
 {
+	auto const almost_zero = 1e-20;
     auto constexpr R = universalGasConstant;
     auto const& T = temperature;
 
@@ -129,7 +130,7 @@ auto computeGibbsResidualEnergy(
     
     // Calculate the integration factor I
     ChemicalScalar I;
-    if (epsilon != sigma) 
+    if (std::abs(epsilon - sigma) > almost_zero)
         I = log((Z + sigma * beta) / (Z + epsilon * beta)) / (sigma - epsilon);
     else 
         I = beta / (Z + epsilon * beta);        
