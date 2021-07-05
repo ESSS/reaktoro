@@ -51,7 +51,6 @@ def whitson_chemical_system(gaseous_species, oil_species, custom_hydrocarbon_db)
 
     eos_params = reaktoro.CubicEOSParams(
         model=reaktoro.CubicEOSModel.PengRobinson,
-        phase_identification_method=reaktoro.PhaseIdentificationMethod.GibbsEnergyAndEquationOfStateMethod,
     )
 
     editor.addGaseousPhase(gaseous_species).setChemicalModelCubicEOS(eos_params)

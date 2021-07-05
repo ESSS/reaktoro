@@ -191,7 +191,6 @@ def test_ternary_c1_c4_c10_mixture(P, T, F_expected, x_expected, y_expected):
 
     eos_params = reaktoro.CubicEOSParams(
         model=reaktoro.CubicEOSModel.PengRobinson,
-        phase_identification_method=reaktoro.PhaseIdentificationMethod.GibbsEnergyAndEquationOfStateMethod,
     )
 
     editor.addGaseousPhase(gaseous_species).setChemicalModelCubicEOS(eos_params)

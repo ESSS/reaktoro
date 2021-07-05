@@ -64,7 +64,6 @@ def pedersen_chemical_system(gaseous_species, oil_species):
 
     eos_params = reaktoro.CubicEOSParams(
         model=reaktoro.CubicEOSModel.SoaveRedlichKwong,
-        phase_identification_method=reaktoro.PhaseIdentificationMethod.GibbsEnergyAndEquationOfStateMethod,
         binary_interaction_values=calculate_bips
     )
 
