@@ -494,8 +494,11 @@ struct CubicEOS::Impl
 			Z.val = *std::min_element(cubicEOS_roots.begin(), cubicEOS_roots.end());
 
         auto input_phase_type = isvapor ? PhaseType::Gas : PhaseType::Liquid;
-        auto identified_phase_type = input_phase_type;
 
+        // When using selectCompressibilityFactorByGibbsEnergy, the switch-case below
+        // is not necessary.
+        // TODO: remove switch-case if selectCompressibilityFactorByGibbsEnergy is used
+        auto identified_phase_type = input_phase_type;
         switch (phase_identification_method)
         {
         case PhaseIdentificationMethod::None:
