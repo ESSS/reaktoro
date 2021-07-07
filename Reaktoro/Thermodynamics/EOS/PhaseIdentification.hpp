@@ -65,7 +65,7 @@ auto identifyPhaseUsingIsothermalCompressibility(
 /// @param temperature Phase temperature
 /// @param amix attractive parameter
 /// @param Zs Z-roots, as calculated by the cubic EOS. Must have size 1 or 2 here.
-///     If size(Z) == 2, the values od Gibbs residual energy are compared. It is a liquid phase if
+///     If size(Z) == 2, the values of Gibbs residual energy are compared. It is a liquid phase if
 ///     Gibbs residual energy of Z_min is the smallest and gaseous if Gibbs residual energy of Z_max
 ///     is the smallest.
 ///     If size(Z) == 1, the pressue is compared with the local P_min and local P_max of the EoS.
