@@ -174,8 +174,8 @@ auto computeSpeciesFugacity(
     const double sigma) -> ChemicalScalar
 {
     const double R = universalGasConstant;
-    
-	const double almost_zero = 1e-20;
+
+    const double almost_zero = 1e-20;
 
     const ChemicalScalar q = amix/(bmix*R*T);
     const ChemicalScalar qT = q*(amixT/amix - 1.0/T);
@@ -230,7 +230,7 @@ auto calculateNormalizedPhaseGibbsEnergy(
     {
         auto xi = x[i];
         auto fi = computeSpeciesFugacity(P, T, xi, abar[i], bbar[i], abarT[i], amix, amixT, bmix, A, B, C, Z, epsilon, sigma);
-		G_normalized += xi.val * log(fi).val;
+        G_normalized += xi * log(fi);
     }
     return G_normalized;
 }
@@ -488,12 +488,12 @@ struct CubicEOS::Impl
 
         ChemicalScalar Z(nspecies);
         
-		// Selecting compressibility factor - Z_liq < Z_gas
-		//TODO: study the possibilty to use selectCompressibilityFactorByGibbsEnergy for Z selection
+        // Selecting compressibility factor - Z_liq < Z_gas
+        //TODO: study the possibilty to use selectCompressibilityFactorByGibbsEnergy for Z selection
         if (isvapor)
             Z.val = *std::max_element(cubicEOS_roots.begin(), cubicEOS_roots.end());
         else
-			Z.val = *std::min_element(cubicEOS_roots.begin(), cubicEOS_roots.end());
+            Z.val = *std::min_element(cubicEOS_roots.begin(), cubicEOS_roots.end());
 
         auto input_phase_type = isvapor ? PhaseType::Gas : PhaseType::Liquid;
 
@@ -521,21 +521,21 @@ struct CubicEOS::Impl
             throw std::logic_error("CubicEOS received an unexpected phaseIdentificationMethod");
         }
 
-		if (identified_phase_type != input_phase_type) {
-			// Since the phase is identified as different than the expect input phase type, it is
-			// deemed inappropriate. Artificially high values are configured for fugacities, so that
-			// this condition is "removed" by the optimizer.
-			result.molar_volume = 0.0;
-			result.residual_molar_gibbs_energy = 0.0;
-			result.residual_molar_enthalpy = 0.0;
-			result.residual_molar_heat_capacity_cp = 0.0;
-			result.residual_molar_heat_capacity_cv = 0.0;
-			result.partial_molar_volumes.fill(0.0);
-			result.residual_partial_molar_gibbs_energies.fill(0.0);
-			result.residual_partial_molar_enthalpies.fill(0.0);
-			result.ln_fugacity_coefficients.fill(0.0);
-			return result;
-		}		
+        if (identified_phase_type != input_phase_type) {
+            // Since the phase is identified as different than the expect input phase type, it is
+            // deemed inappropriate. Artificially high values are configured for fugacities, so that
+            // this condition is "removed" by the optimizer.
+            result.molar_volume = 0.0;
+            result.residual_molar_gibbs_energy = 0.0;
+            result.residual_molar_enthalpy = 0.0;
+            result.residual_molar_heat_capacity_cp = 0.0;
+            result.residual_molar_heat_capacity_cv = 0.0;
+            result.partial_molar_volumes.fill(0.0);
+            result.residual_partial_molar_gibbs_energies.fill(0.0);
+            result.residual_partial_molar_enthalpies.fill(0.0);
+            result.ln_fugacity_coefficients.fill(0.0);
+            return result;
+        }
 
         ChemicalScalar& V = result.molar_volume;
         ChemicalScalar& G_res = result.residual_molar_gibbs_energy;

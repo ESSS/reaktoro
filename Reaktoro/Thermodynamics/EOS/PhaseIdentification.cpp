@@ -118,7 +118,7 @@ auto computeGibbsResidualEnergy(
     const double epsilon,
     const double sigma) -> ChemicalScalar
 {
-	auto const almost_zero = 1e-20;
+    auto const almost_zero = 1e-20;
     auto constexpr R = universalGasConstant;
     auto const& T = temperature;
 
