@@ -107,6 +107,38 @@ auto pressureComparison(const ThermoScalar& Pressure, const ThermoScalar& Temper
     RaiseError(exception);
 }
 
+auto computeGibbsResidualEnergy(
+    const ThermoScalar& pressure,
+    const ThermoScalar& temperature,
+    const ChemicalScalar& amix,
+    const ChemicalScalar& bmix,
+    const ChemicalScalar& A,
+    const ChemicalScalar& B,
+    const ChemicalScalar& Z,
+    const double epsilon,
+    const double sigma) -> ChemicalScalar
+{
+	auto const almost_zero = 1e-20;
+    auto constexpr R = universalGasConstant;
+    auto const& T = temperature;
+
+    // Computing the values of residual Gibbs energy for all Zs
+    ChemicalScalar Gs;
+    const double factor = -1.0 / (3 * Z.val*Z.val + 2 * A.val*Z.val + B.val);
+    const ChemicalScalar beta = pressure * bmix / (R * T);
+    const ChemicalScalar q = amix / (bmix * R * T);
+    
+    // Calculate the integration factor I
+    ChemicalScalar I;
+    if (std::abs(epsilon - sigma) > almost_zero)
+        I = log((Z + sigma * beta) / (Z + epsilon * beta)) / (sigma - epsilon);
+    else 
+        I = beta / (Z + epsilon * beta);        
+
+    Gs = R * temperature*(Z - 1 - log(Z - beta) - q * I);
+    
+    return Gs;
+}
 
 auto gibbsResidualEnergyComparison(
     const ThermoScalar& pressure,
@@ -127,23 +159,23 @@ auto gibbsResidualEnergyComparison(
     std::vector<ChemicalScalar> Gs;
     for (const auto Z : {Z_max, Z_min})
     {
-        const double factor = -1.0 / (3 * Z.val*Z.val + 2 * A.val*Z.val + B.val);
-        const ChemicalScalar beta = pressure * bmix / (R * T);
-        const ChemicalScalar q = amix / (bmix * R * T);
-        
-        // Calculate the integration factor I and its temperature derivative IT
-        ChemicalScalar I;
-        if (epsilon != sigma) 
-            I = log((Z + sigma * beta) / (Z + epsilon * beta)) / (sigma - epsilon);
-        else 
-            I = beta / (Z + epsilon * beta);        
+        auto current_G = computeGibbsResidualEnergy(
+            pressure,
+            temperature,
+            amix,
+            bmix,
+            A,
+            B,
+            Z,
+            epsilon,
+            sigma
+        );
 
-        Gs.push_back(R * temperature*(Z - 1 - log(Z - beta) - q * I));
+        Gs.push_back(current_G);
     }
     
     return (Gs[0].val < Gs[1].val) ? PhaseType::Gas : PhaseType::Liquid;
 }
-
 
 auto identifyPhaseUsingGibbsEnergyAndEos(
     const ThermoScalar& pressure,

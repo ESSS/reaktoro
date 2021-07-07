@@ -78,6 +78,10 @@ def test_equilibrium_CH4_H2S_CO2_H2O_liq_gas_aq(temperature, pressure, num_regre
     
     options = EquilibriumOptions()
     options.hessian = GibbsHessian.Exact
+    # options.nonlinear.max_iterations = 100
+    # options.optimum.max_iterations = 200
+    # options.optimum.ipnewton.step = StepMode.Conservative
+    # options.optimum.tolerance = 1e-14
     solver.setOptions(options)
             
     state = ChemicalState(system)

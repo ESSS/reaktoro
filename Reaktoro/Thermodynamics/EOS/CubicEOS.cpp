@@ -156,6 +156,131 @@ auto Psi(CubicEOS::Model type) -> double
 
 } // namespace internal
 
+auto computeSpeciesFugacity(
+    const ThermoScalar& P,
+    const ThermoScalar& T,
+    const ChemicalScalar& xi,
+    const ChemicalScalar& ai,
+    const double& bi,
+    const ChemicalScalar& aiT,
+    const ChemicalScalar& amix,
+    const ChemicalScalar& amixT,
+    const ChemicalScalar& bmix,
+    const ChemicalScalar& A,
+    const ChemicalScalar& B,
+    const ChemicalScalar& C,
+    const ChemicalScalar& Z,
+    const double epsilon,
+    const double sigma) -> ChemicalScalar
+{
+    const double R = universalGasConstant;
+    
+	const double almost_zero = 1e-20;
+
+    const ChemicalScalar q = amix/(bmix*R*T);
+    const ChemicalScalar qT = q*(amixT/amix - 1.0/T);
+
+    const ChemicalScalar beta = P*bmix/(R*T);
+    const ThermoScalar betai = P*bi/(R*T);
+
+    const ChemicalScalar qi = q*(1 + ai/amix - bi/bmix);
+    const ChemicalScalar qiT = qi*qT/q + q*(aiT - ai*amixT/amix)/amix;
+
+    const ThermoScalar Ai = (epsilon + sigma - 1.0)*betai - 1.0;
+    const ChemicalScalar Bi = (epsilon*sigma - epsilon - sigma)*(2*beta*betai - beta*beta) - (epsilon + sigma - q)*(betai - beta) - (epsilon + sigma - qi)*beta;
+    const ChemicalScalar Ci = -3*sigma*epsilon*beta*beta*betai + 2*epsilon*sigma*beta*beta*beta - (epsilon*sigma + qi)*beta*beta - 2*(epsilon*sigma + q)*(beta*betai - beta*beta);
+    const ChemicalScalar Zi = -(Ai*Z*Z + (Bi + B)*Z + Ci + 2*C)/(3*Z*Z + 2*A*Z + B);
+
+    // Calculate the integration factor I
+    ChemicalScalar I;
+    if(std::abs(epsilon - sigma) > almost_zero) I = log((Z + sigma*beta)/(Z + epsilon*beta))/(sigma - epsilon);
+                    else I = beta/(Z + epsilon*beta);
+
+    // Calculate the integration factor I for each component
+    ChemicalScalar Ii;
+    if(std::abs(epsilon - sigma) > almost_zero) Ii = I + ((Zi + sigma*betai)/(Z + sigma*beta) - (Zi + epsilon*betai)/(Z + epsilon*beta))/(sigma - epsilon);
+                    else Ii = I * (1 + betai/beta - (Zi + epsilon*betai)/(Z + epsilon*beta));
+
+    auto Gi_res = R*T*(Zi - (Zi - betai)/(Z - beta) - log(Z - beta) - qi*I - q*Ii + q*I);
+    auto ln_fi = Gi_res/(R*T) + log(xi * P);
+    auto fi = exp(ln_fi);
+    return fi;
+}
+
+auto calculateNormalizedPhaseGibbsEnergy(
+    const unsigned& nspecies,
+    const ThermoScalar& P,
+    const ThermoScalar& T,
+    const ChemicalVector& x,
+    const ChemicalVector& abar,
+    const Vector& bbar,
+    const ChemicalVector& abarT,
+    const ChemicalScalar& amix,
+    const ChemicalScalar& amixT,
+    const ChemicalScalar& bmix,
+    const ChemicalScalar& A,
+    const ChemicalScalar& B,
+    const ChemicalScalar& C,
+    const ChemicalScalar& Z,
+    const double epsilon,
+    const double sigma) -> ChemicalScalar
+{
+    ChemicalScalar G_normalized;
+    for(unsigned i = 0; i < nspecies; ++i)
+    {
+        auto xi = x[i];
+        auto fi = computeSpeciesFugacity(P, T, xi, abar[i], bbar[i], abarT[i], amix, amixT, bmix, A, B, C, Z, epsilon, sigma);
+		G_normalized += xi.val * log(fi).val;
+    }
+    return G_normalized;
+}
+
+auto selectCompressibilityFactorByGibbsEnergy(
+    const unsigned& nspecies,
+    std::vector<ChemicalScalar> Zs,
+    const ThermoScalar& P,
+    const ThermoScalar& T,
+    const ChemicalVector& x,
+    const ChemicalVector& abar,
+    const Vector& bbar,
+    const ChemicalVector& abarT,
+    const ChemicalScalar& amix,
+    const ChemicalScalar& amixT,
+    const ChemicalScalar& bmix,
+    const ChemicalScalar& A,
+    const ChemicalScalar& B,
+    const ChemicalScalar& C,
+    const double epsilon,
+    const double sigma) -> ChemicalScalar
+{
+    ChemicalScalar Z(nspecies);
+    if (Zs.size() == 1)
+    {
+        Z = Zs[0];
+        return Z;
+    }
+
+    if (Zs.size() != 2) {
+        Exception exception;
+        exception.error << "selectCompressibilityByGibbsEnergy received invalid input";
+        exception.reason << "Zs should have size 1 or 2 in selectCompressibilityByGibbsEnergy, "
+            << "but has a size of " << Zs.size();
+        RaiseError(exception);
+    }
+
+    std::vector<ChemicalScalar> normalized_Gs;
+    normalized_Gs.push_back(
+        calculateNormalizedPhaseGibbsEnergy(nspecies, P, T, x, abar, bbar, abarT, amix, amixT, bmix, A, B, C, Zs[0], epsilon, sigma)
+    );
+    normalized_Gs.push_back(
+        calculateNormalizedPhaseGibbsEnergy(nspecies, P, T, x, abar, bbar, abarT, amix, amixT, bmix, A, B, C, Zs[1], epsilon, sigma)
+    );
+
+    Z = normalized_Gs[0] < normalized_Gs[1] ? Zs[0] : Zs[1];
+
+    return Z;
+}
+
 struct CubicEOS::Impl
 {
     /// The number of species in the phase.
@@ -340,10 +465,14 @@ struct CubicEOS::Impl
         const auto cubic_size = cubicEOS_roots.size();
 
         std::vector<ChemicalScalar> Zs;
-        if (cubic_size == 1 || cubic_size == 2)
+        if (cubic_size == 1)
         {
-            //even if cubicEOS_roots has 2 roots, assume that the smallest does not have physical meaning
             Zs.push_back(ChemicalScalar(nspecies, cubicEOS_roots[0]));
+        }
+        else if (cubic_size == 2)
+        {
+            Zs.push_back(ChemicalScalar(nspecies, cubicEOS_roots[0]));
+            Zs.push_back(ChemicalScalar(nspecies, cubicEOS_roots[1]));
         }
         else
         {
@@ -357,16 +486,18 @@ struct CubicEOS::Impl
             Zs.push_back(ChemicalScalar(nspecies, cubicEOS_roots[2]));  // Z_min
         }
 
-        // Selecting compressibility factor - Z_liq < Z_gas
         ChemicalScalar Z(nspecies);
+        
+		// Selecting compressibility factor - Z_liq < Z_gas
+		//TODO: study the possibilty to use selectCompressibilityFactorByGibbsEnergy for Z selection
         if (isvapor)
             Z.val = *std::max_element(cubicEOS_roots.begin(), cubicEOS_roots.end());
         else
-            Z.val = *std::min_element(cubicEOS_roots.begin(), cubicEOS_roots.end());
+			Z.val = *std::min_element(cubicEOS_roots.begin(), cubicEOS_roots.end());
 
         auto input_phase_type = isvapor ? PhaseType::Gas : PhaseType::Liquid;
-        auto identified_phase_type = input_phase_type;
 
+        auto identified_phase_type = input_phase_type;
         switch (phase_identification_method)
         {
         case PhaseIdentificationMethod::None:
@@ -390,22 +521,21 @@ struct CubicEOS::Impl
             throw std::logic_error("CubicEOS received an unexpected phaseIdentificationMethod");
         }
 
-        if (identified_phase_type != input_phase_type)
-        {
-            // Since the phase is identified as different than the expect input phase type, it is
-            // deemed inappropriate. Artificially high values are configured for fugacities, so that
-            // this condition is "removed" by the optimizer.
-            result.molar_volume = 0.0;
-            result.residual_molar_gibbs_energy = 0.0;
-            result.residual_molar_enthalpy = 0.0;
-            result.residual_molar_heat_capacity_cp = 0.0;
-            result.residual_molar_heat_capacity_cv = 0.0;
-            result.partial_molar_volumes.fill(0.0);
-            result.residual_partial_molar_gibbs_energies.fill(0.0);
-            result.residual_partial_molar_enthalpies.fill(0.0);
-            result.ln_fugacity_coefficients.fill(100.0);
-            return result;
-        }
+		if (identified_phase_type != input_phase_type) {
+			// Since the phase is identified as different than the expect input phase type, it is
+			// deemed inappropriate. Artificially high values are configured for fugacities, so that
+			// this condition is "removed" by the optimizer.
+			result.molar_volume = 0.0;
+			result.residual_molar_gibbs_energy = 0.0;
+			result.residual_molar_enthalpy = 0.0;
+			result.residual_molar_heat_capacity_cp = 0.0;
+			result.residual_molar_heat_capacity_cv = 0.0;
+			result.partial_molar_volumes.fill(0.0);
+			result.residual_partial_molar_gibbs_energies.fill(0.0);
+			result.residual_partial_molar_enthalpies.fill(0.0);
+			result.ln_fugacity_coefficients.fill(0.0);
+			return result;
+		}		
 
         ChemicalScalar& V = result.molar_volume;
         ChemicalScalar& G_res = result.residual_molar_gibbs_energy;

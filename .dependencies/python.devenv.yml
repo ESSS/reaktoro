@@ -3,6 +3,7 @@
 dependencies:
   - numpy
   - pandas
+  - matplotlib
   - pip
   - tabulate
   - colorama
