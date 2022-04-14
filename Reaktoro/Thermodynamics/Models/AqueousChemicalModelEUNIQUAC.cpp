@@ -1447,6 +1447,21 @@ auto EUNIQUACParams::speciesIdsMap() const -> std::map<std::string, int>
     return pimpl->euniquac_species_id_map;
 }
 
+auto EUNIQUACParams::getAvailableSpeciesNames() const -> std::vector<std::string>
+{
+    Assert(!pimpl->euniquac_species_id_map.empty(),
+           "Energy BIPs uij_0 cannot be set.",
+           "The species id map should be provided before the BIPs initialization.");
+
+    const auto& species_id_map = pimpl->euniquac_species_id_map;
+    std::vector<std::string> species_names;
+    for (const auto& [species_name, _]: species_id_map)
+    {
+        species_names.push_back(species_name);
+    }
+    return species_names;
+}
+
 auto EUNIQUACParams::uij_0(
     const std::string& first_species_name,
     const std::string& second_species_name,
