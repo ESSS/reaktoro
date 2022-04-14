@@ -90,9 +90,11 @@ public:
     /// Set E-UNIQUAC parameters values according to Villafáfila-García et al. (2006) values
     auto setVillafafilaGarcia2006() -> void;
 
-    auto bips_species_id_map() const -> std::map<std::string, int>;
+    auto speciesIdsMap() const -> std::map<std::string, int>;
 
-    auto bips_species_id_map(const std::map<std::string, int>& species_id_map) -> void;
+    auto speciesIdsMap(const std::map<std::string, int>& species_id_map) -> void;
+
+    auto getAvailableSpeciesNames() const -> std::vector<std::string>;
 
     /// Set if the Debye-Huckel term should use the generic expression for solvent A-parameter.
     auto setDebyeHuckelGenericParameterA() -> void;

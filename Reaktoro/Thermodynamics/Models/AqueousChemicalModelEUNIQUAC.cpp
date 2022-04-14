@@ -366,7 +366,7 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
 struct EUNIQUACParams::Impl
 {
     /// A map to identify species indices in entalphic BIP matrices
-    std::map<std::string, int> bips_species_id_map;
+    std::map<std::string, int> euniquac_species_id_map;
 
     /// The volume fraction parameters `r_i` of the chemical species.
     std::map<std::string, double> ri_values;
@@ -398,7 +398,7 @@ EUNIQUACParams::EUNIQUACParams()
 auto EUNIQUACParams::setDTUvalues() -> void
 {
     // Define the species id map to retrieve species indices in BIP matrices
-    pimpl->bips_species_id_map = {
+    pimpl->euniquac_species_id_map = {
         {"H2O(l)", 0},
         {"H+", 1},
         {"Na+", 2},
@@ -493,7 +493,7 @@ auto EUNIQUACParams::setDTUvalues() -> void
 auto EUNIQUACParams::setVillafafilaGarcia2006() -> void
 {
     // Define the species id map to retrieve species indices in BIP matrices
-    pimpl->bips_species_id_map = {
+    pimpl->euniquac_species_id_map = {
         {"H2O(l)", 0},
         {"CO2(aq)", 1},
         {"Na+", 2},
@@ -544,8 +544,8 @@ auto EUNIQUACParams::setVillafafilaGarcia2006() -> void
     };
 
     // Initialize the BIPs as zero matrices to be filled
-    const auto& id_map = pimpl->bips_species_id_map;
-    auto num_species = pimpl->bips_species_id_map.size();
+    const auto& id_map = pimpl->euniquac_species_id_map;
+    auto num_species = pimpl->euniquac_species_id_map.size();
     MatrixXd uij_0;
     MatrixXd uij_T;
     uij_0.setZero(num_species, num_species);
@@ -1350,8 +1350,8 @@ auto EUNIQUACParams::uij_0(
     const std::string& second_species_name) const -> double
 {
     // TODO: implement exception handling when species names are unavailable
-    const auto first_species_id = pimpl->bips_species_id_map.at(first_species_name);
-    const auto second_species_id = pimpl->bips_species_id_map.at(second_species_name);
+    const auto first_species_id = pimpl->euniquac_species_id_map.at(first_species_name);
+    const auto second_species_id = pimpl->euniquac_species_id_map.at(second_species_name);
     return pimpl->constant_coeff_bips(first_species_id, second_species_id);
 }
 
@@ -1360,8 +1360,8 @@ auto EUNIQUACParams::uij_T(
     const std::string& second_species_name) const -> double
 {
     // TODO: implement exception handling when species names are unavailable
-    const auto first_species_id = pimpl->bips_species_id_map.at(first_species_name);
-    const auto second_species_id = pimpl->bips_species_id_map.at(second_species_name);
+    const auto first_species_id = pimpl->euniquac_species_id_map.at(first_species_name);
+    const auto second_species_id = pimpl->euniquac_species_id_map.at(second_species_name);
     return pimpl->linear_coeff_bips(first_species_id, second_species_id);
 }
 
@@ -1403,7 +1403,7 @@ auto EUNIQUACParams::set_uij_bips(
     const std::map<std::string, int>& species_id_map) -> void
 {
     sanityCheckEnergyInteractionParams(uij_0_values, uij_T_values, species_id_map);
-    pimpl->bips_species_id_map = species_id_map;
+    pimpl->euniquac_species_id_map = species_id_map;
     pimpl->constant_coeff_bips = uij_0_values;
     pimpl->linear_coeff_bips = uij_T_values;
 
@@ -1442,9 +1442,9 @@ auto EUNIQUACParams::uij_T() const -> MatrixXd
     return pimpl->linear_coeff_bips;
 }
 
-auto EUNIQUACParams::bips_species_id_map() const -> std::map<std::string, int>
+auto EUNIQUACParams::speciesIdsMap() const -> std::map<std::string, int>
 {
-    return pimpl->bips_species_id_map;
+    return pimpl->euniquac_species_id_map;
 }
 
 auto EUNIQUACParams::uij_0(
@@ -1452,13 +1452,13 @@ auto EUNIQUACParams::uij_0(
     const std::string& second_species_name,
     double value) -> void
 {
-    Assert(!pimpl->bips_species_id_map.empty(),
+    Assert(!pimpl->euniquac_species_id_map.empty(),
         "Energy BIPs uij_0 cannot be set.",
         "The species id map should be provided before the BIPs initialization.");
 
     // TODO: implement exception handling when species names are unavailable
-    const auto first_species_id = pimpl->bips_species_id_map.at(first_species_name);
-    const auto second_species_id = pimpl->bips_species_id_map.at(second_species_name);
+    const auto first_species_id = pimpl->euniquac_species_id_map.at(first_species_name);
+    const auto second_species_id = pimpl->euniquac_species_id_map.at(second_species_name);
     // Energy BIPs are symmetric in E-UNIQUAC
     pimpl->constant_coeff_bips(first_species_id, second_species_id) = value;
     pimpl->constant_coeff_bips(second_species_id, first_species_id) = value;
@@ -1469,21 +1469,21 @@ auto EUNIQUACParams::uij_T(
     const std::string& second_species_name,
     double value) -> void
 {
-    Assert(!pimpl->bips_species_id_map.empty(),
+    Assert(!pimpl->euniquac_species_id_map.empty(),
         "Energy BIPs uij_T cannot be set.",
         "The species id map should be provided before the BIPs initialization.");
 
     // TODO: implement exception handling when species names are unavailable
-    const auto first_species_id = pimpl->bips_species_id_map.at(first_species_name);
-    const auto second_species_id = pimpl->bips_species_id_map.at(second_species_name);
+    const auto first_species_id = pimpl->euniquac_species_id_map.at(first_species_name);
+    const auto second_species_id = pimpl->euniquac_species_id_map.at(second_species_name);
     // Energy BIPs are symmetric in E-UNIQUAC
     pimpl->linear_coeff_bips(first_species_id, second_species_id) = value;
     pimpl->linear_coeff_bips(second_species_id, first_species_id) = value;
 }
 
-auto EUNIQUACParams::bips_species_id_map(const std::map<std::string, int>& species_id_map) -> void
+auto EUNIQUACParams::speciesIdsMap(const std::map<std::string, int>& species_id_map) -> void
 {
-    pimpl->bips_species_id_map = species_id_map;
+    pimpl->euniquac_species_id_map = species_id_map;
 }
 
 auto EUNIQUACParams::setDebyeHuckelGenericParameterA() -> void
@@ -1498,7 +1498,7 @@ auto EUNIQUACParams::addNewSpeciesParameters(
     const std::map<std::string, double>& u_0_values,
     const std::map<std::string, double>& u_T_values) -> void
 {
-    auto& species_id_map = pimpl->bips_species_id_map;
+    auto& species_id_map = pimpl->euniquac_species_id_map;
     auto& qi_map = pimpl->qi_values;
     auto& ri_map = pimpl->ri_values;
 

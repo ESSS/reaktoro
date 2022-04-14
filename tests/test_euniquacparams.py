@@ -111,8 +111,8 @@ def test_species_id_map_setup():
     }
 
     uniquac_params = rkt.EUNIQUACParams()
-    uniquac_params.bipsSpeciesIds(bips_species_id_map)
-    assert uniquac_params.bipsSpeciesIds() == bips_species_id_map
+    uniquac_params.speciesIdsMap(bips_species_id_map)
+    assert uniquac_params.speciesIdsMap() == bips_species_id_map
 
 
 def test_euniquac_params_DTU_values_initialization(ri_values_dtu, qi_values_dtu):
@@ -148,7 +148,7 @@ def test_euniquac_params_DTU_values_initialization(ri_values_dtu, qi_values_dtu)
         "CO3--": 10,
         "HCO3-": 11,
     }
-    species_id_stored = euniquac_params.bipsSpeciesIds()
+    species_id_stored = euniquac_params.speciesIdsMap()
     assert species_id_stored == bips_species_id_map_dtu
 
     uij_0_dtu = np.array([
@@ -243,7 +243,7 @@ def test_uij_bips_setup():
 
     uij_0_stored = euniquac_params.uij_0()
     uij_T_stored = euniquac_params.uij_T()
-    assert euniquac_params.bipsSpeciesIds() == bips_species_id_map
+    assert euniquac_params.speciesIdsMap() == bips_species_id_map
     assert np.allclose(uij_0_stored, uij_0_custom)
     assert np.allclose(uij_T_stored, uij_T_custom)
     assert euniquac_params.uij_0("Na+", "Na+") == 1.0

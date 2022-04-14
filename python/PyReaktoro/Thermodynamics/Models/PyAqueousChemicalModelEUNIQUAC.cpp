@@ -47,8 +47,8 @@ void exportAqueousChemicalModelEUNIQUAC(py::module& m)
 
     auto uij_1 = static_cast<void(EUNIQUACParams::*)(const MatrixXd&, const MatrixXd&, const std::map<std::string, int>&)>(&EUNIQUACParams::set_uij_bips);
 
-    auto bips_id_map_1 = static_cast<std::map<std::string, int>(EUNIQUACParams::*)() const>(&EUNIQUACParams::bips_species_id_map);
-    auto bips_id_map_2 = static_cast<void(EUNIQUACParams::*)(const std::map<std::string, int>&)>(&EUNIQUACParams::bips_species_id_map);
+    auto species_id_map_1 = static_cast<std::map<std::string, int>(EUNIQUACParams::*)() const>(&EUNIQUACParams::speciesIdsMap);
+    auto species_id_map_2 = static_cast<void(EUNIQUACParams::*)(const std::map<std::string, int>&)>(&EUNIQUACParams::speciesIdsMap);
 
     py::class_<EUNIQUACParams>(m, "EUNIQUACParams")
         .def(py::init<>())
@@ -67,8 +67,8 @@ void exportAqueousChemicalModelEUNIQUAC(py::module& m)
         .def("uij_T", uij_T_2)
         .def("uij_T", uij_T_3)
         .def("set_uij_bips", uij_1)
-        .def("bipsSpeciesIds", bips_id_map_1)
-        .def("bipsSpeciesIds", bips_id_map_2)
+        .def("speciesIdsMap", species_id_map_1)
+        .def("speciesIdsMap", species_id_map_2)
         .def("addNewSpeciesParameters", &EUNIQUACParams::addNewSpeciesParameters)
         .def("setDebyeHuckelGenericParameterA", &EUNIQUACParams::setDebyeHuckelGenericParameterA)
         .def("setDTUvalues", &EUNIQUACParams::setDTUvalues)
