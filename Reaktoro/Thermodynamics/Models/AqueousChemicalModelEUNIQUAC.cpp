@@ -1450,8 +1450,8 @@ auto EUNIQUACParams::speciesIdsMap() const -> std::map<std::string, int>
 auto EUNIQUACParams::getAvailableSpeciesNames() const -> std::vector<std::string>
 {
     Assert(!pimpl->euniquac_species_id_map.empty(),
-           "Energy BIPs uij_0 cannot be set.",
-           "The species id map should be provided before the BIPs initialization.");
+           "Species map in E-UNIQUAC is unable to be used.",
+           "The species id map should be provided before any E-UNIQUAC usage.");
 
     const auto& species_id_map = pimpl->euniquac_species_id_map;
     std::vector<std::string> species_names;
