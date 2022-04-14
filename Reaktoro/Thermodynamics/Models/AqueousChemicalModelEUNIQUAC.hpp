@@ -110,6 +110,11 @@ public:
         const std::map<std::string, double>& u_0_values,
         const std::map<std::string, double>& u_T_values) -> void;
 
+    /// Set if the Debye-Huckel B-dot should be used for species that lack E-UNIQUAC parameters
+    auto setDebyeHuckelModelAsFallback() -> void;
+
+    auto isDebyeHuckelFallbackEnabled() const -> bool;
+
 private:
     struct Impl;
 

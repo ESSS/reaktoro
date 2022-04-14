@@ -383,6 +383,9 @@ struct EUNIQUACParams::Impl
     /// Set if Debye-Huckel solvent A-parameter is the fitted expression or the general is used instead.
     bool useGeneralDebyeHuckelParameterA;
 
+    /// Set if Debye-Huckel should be used as fallback model.
+    bool useDebyeHuckelFallbackModel;
+
     Impl()
     {
     }
@@ -393,6 +396,7 @@ EUNIQUACParams::EUNIQUACParams()
 {
     setDTUvalues();
     pimpl->useGeneralDebyeHuckelParameterA = false;
+    pimpl->useDebyeHuckelFallbackModel = false;
 }
 
 auto EUNIQUACParams::setDTUvalues() -> void
@@ -1504,6 +1508,16 @@ auto EUNIQUACParams::speciesIdsMap(const std::map<std::string, int>& species_id_
 auto EUNIQUACParams::setDebyeHuckelGenericParameterA() -> void
 {
     pimpl->useGeneralDebyeHuckelParameterA = true;
+}
+
+auto EUNIQUACParams::setDebyeHuckelModelAsFallback() -> void
+{
+    pimpl->useDebyeHuckelFallbackModel = true;
+}
+
+auto EUNIQUACParams::isDebyeHuckelFallbackEnabled() const -> bool
+{
+    return pimpl->useDebyeHuckelFallbackModel;
 }
 
 auto EUNIQUACParams::addNewSpeciesParameters(
