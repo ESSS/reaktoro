@@ -115,6 +115,21 @@ def test_species_id_map_setup():
     assert uniquac_params.speciesIdsMap() == bips_species_id_map
 
 
+def test_species_names_available_for_euniquac():
+    """
+    Test if the species id map can be properly set and the species names can be retrieved.
+    """
+    bips_species_id_map = {
+        "Na+": 0,
+        "Cl-": 1,
+    }
+    species_names_expected = list(bips_species_id_map.keys())
+
+    uniquac_params = rkt.EUNIQUACParams()
+    uniquac_params.speciesIdsMap(bips_species_id_map)
+    assert set(uniquac_params.getAvailableSpeciesNames()) == set(species_names_expected)
+
+
 def test_euniquac_params_DTU_values_initialization(ri_values_dtu, qi_values_dtu):
     """
     Test if ri and qi DTU default parameters are properly initialized and stored.
