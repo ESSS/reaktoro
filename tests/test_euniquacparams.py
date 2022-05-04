@@ -351,7 +351,7 @@ def test_euniquac_longrange_model_options():
 
     euniquac_params = rkt.EUNIQUACParams()
     euniquac_params.setLongRangeModelType(rkt.LongRangeModelType.DH_Phreeqc)
-    assert True  # As the interval value (not necessary) is not exposed in the API I cannot assert
+    assert True  # As the internal value (not necessary) is not exposed in the API I cannot assert
 
 
 def test_euniquac_fallback_all_species_are_known_match_previous_results():
@@ -491,10 +491,21 @@ def test_euniquac_fallback_add_aqueous_phase_with_elements():
     mol_species = state.speciesAmounts()
     # Question: No assert here is needed, just want to run without raising exception (due to convergence)
 
-
-def test_euniquac_with_longrange_as_bdot_equals_bdot_when_only_unknown_species():
+@pytest.mark.parametrize(
+    'calculation_type,solubility_expected',
+    [
+        ['DH_Phreeqc', 0.10016713283821646],
+        ['HKF', 0.10016713283821646],
+    ],
+)
+def test_euniquac_with_longrange_as_bdot_equals_bdot_when_only_unknown_species(
+    calculation_type, solubility_expected
+):
     """
-    Test if output of euniquac with long range as B-dot is equal to the
+    (1) Test if output of euniquac with long range as B-dot is equal to the
+    original B-dot (DebyeHuckel) output when the species are all unkowns for e-uniquac
+
+    (2) Test if output of euniquac with long range as B-dot is equal to the
     original B-dot (DebyeHuckel) output when the species are all unkowns for e-uniquac
     """
 
@@ -512,7 +523,8 @@ def test_euniquac_with_longrange_as_bdot_equals_bdot_when_only_unknown_species()
     aqueous_phase = editor.addAqueousPhase(list_aqueous_species)
 
     euniquac_params = rkt.EUNIQUACParams()
-    euniquac_params.setLongRangeModelType(rkt.LongRangeModelType.DH_Phreeqc)
+    calc_type_from_enum = getattr(rkt.LongRangeModelType, calculation_type)
+    euniquac_params.setLongRangeModelType(calc_type_from_enum)
 
     editor.aqueousPhase().setChemicalModelEUNIQUAC(euniquac_params)
     system_euniquac = rkt.ChemicalSystem(editor)
@@ -529,6 +541,6 @@ def test_euniquac_with_longrange_as_bdot_equals_bdot_when_only_unknown_species()
     solubility = state.elementAmountInPhase('Si', 'Aqueous') * 1e3
     mol_species = state.speciesAmounts()
 
-    assert(np.isclose(solubility, 0.10016713283821646))
+    assert(np.isclose(solubility, solubility_expected))
     expected_mols = [5.55084351e+01, 1.00000000e-20, 1.00167133e-04, 9.99989983e+00]
     np.testing.assert_array_almost_equal(mol_species, expected_mols, decimal=6)

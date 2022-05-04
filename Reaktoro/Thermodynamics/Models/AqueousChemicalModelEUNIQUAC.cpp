@@ -24,6 +24,7 @@
 #include <Reaktoro/Thermodynamics/Water/WaterConstants.hpp>
 
 #include <Reaktoro/Thermodynamics/Models/AqueousChemicalModelDebyeHuckel.hpp>
+#include <Reaktoro/Thermodynamics/Models/AqueousChemicalModelHKF.hpp>
 
 namespace Reaktoro {
 
@@ -259,9 +260,16 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
         modelLongRange = modelLongRangeThomsen;
         break;
     case LongRangeModelType::DH_Phreeqc:
-        const auto bdotParams = DebyeHuckelParams();
-        modelLongRange = aqueousChemicalModelDebyeHuckel(mixture, bdotParams);
+        {
+            const auto bdotParams = DebyeHuckelParams();
+            modelLongRange = aqueousChemicalModelDebyeHuckel(mixture, bdotParams);
+        }
         break;
+    case LongRangeModelType::HKF:
+        {
+            modelLongRange = aqueousChemicalModelHKF(mixture);
+            break;
+        }
     }
 
     // Define the intermediate chemical model function of the aqueous mixture
@@ -1700,6 +1708,7 @@ auto EUNIQUACParams::setLongRangeModelType(const LongRangeModelType& _longRangeM
         pimpl->convertLongRangeToMolScale = false;
         break;
     case LongRangeModelType::DH_Phreeqc:
+    case LongRangeModelType::HKF:
         pimpl->convertLongRangeToMolScale = true;
         break;
     }
