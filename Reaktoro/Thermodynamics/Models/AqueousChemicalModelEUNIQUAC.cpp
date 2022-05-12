@@ -129,8 +129,7 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
     // Get index of species with known parameters
     Index waterIndexInKnowns;
     Indices indexSpeciesWithParams;  // Index of Species with known parameters
-    // std::vector<AqueousSpecies> speciesWithParams;
-    std::vector<std::string> speciesNames = mixture.namesSpecies();
+    const auto& speciesNames = mixture.namesSpecies();
     auto idMaps = params.bips_species_id_map();
     Assert(idMaps.find(water_species_name) != idMaps.end(),
             "The e-uniquac parameter set is missing Water.",
@@ -138,11 +137,10 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
 
     Index countKnowns = 0;
     for ( const auto &name : speciesNames ) {
-        // std::cout << pairsBips.first << "\n";
+        // Since idMaps is a map container, this checks if 'name' occurs in there.
         if (idMaps.count(name)) {
             const auto indexKnownSpecies = mixture.indexSpecies(name);
             indexSpeciesWithParams.push_back(indexKnownSpecies);
-            // speciesWithParams.push_back(mixture.species(indexKnownSpecies));
             if (name == water_species_name)
                 waterIndexInKnowns = countKnowns;
             countKnowns++; 
@@ -151,7 +149,6 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
     const Index num_species_known = indexSpeciesWithParams.size();
 
     // Collect the UNIQUAC parameters r_i and q_i of the all species
-    // for (Index i = 0; i < num_species; ++i)
     for (const auto& index : indexSpeciesWithParams)
     {
         const AqueousSpecies& species = mixture.species(index);
@@ -162,14 +159,11 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
     // Build enthalpic BIP matrices for mixture species in the phase
     MatrixXd u_0(num_species_known, num_species_known);  // constant enthalpic BIPs term
     MatrixXd u_T(num_species_known, num_species_known);  // linear enthalpic BIPs term
-    // for (Index i = 0; i < num_species; ++i)
-    // for (const auto& i : indexSpeciesWithParams)
     for (Index i = 0; i < num_species_known; ++i)
     {
         const auto i_index = indexSpeciesWithParams[i];
         const AqueousSpecies& ispecies = mixture.species(i_index);
         const auto& ispecies_name = ispecies.name();
-        // for (Index j = 0; j < num_species; ++j)
         for (Index j = 0; j < num_species_known; ++j)
         {
             const auto j_index = indexSpeciesWithParams[j];
@@ -251,7 +245,7 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
     };
 
     PhaseChemicalModel modelLongRange;
-    const auto longRangeModelType = params.useLongRangeModelType();
+    const auto longRangeModelType = params.longRangeModelType();
 
     // Set the long range model to calculate the long range contribution in the final ln γ
     switch(longRangeModelType)
@@ -325,8 +319,6 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
         // First, the auxiliary denominator of phi and theta are computed
         double phi_denominator = 0.0;
         double theta_denominator = 0.0;
-        // for (Index i = 0; i < num_species; ++i)
-        // for (const auto& i : indexSpeciesWithParams)
         for (Index i = 0; i < num_species_known; ++i)
         {
             const auto i_index = indexSpeciesWithParams[i];
@@ -344,8 +336,6 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
         // Compute UNIQUAC combinatorial contribution to all species
         std::vector<double> theta;  // to store theta_i values
         std::vector<double> phi;  // to store phi_i values
-        // for(Index i = 0; i < num_species; ++i)
-        // for(const auto& i : indexSpeciesWithParams)
         for(Index i = 0; i < num_species_known; ++i)
         {
             const auto i_index = indexSpeciesWithParams[i];
@@ -395,8 +385,6 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
         // Note that the temperature T must be given in Kelvin
         const double T_ref = 298.15;
 
-        // for (Index i = 0; i < num_species; ++i)
-        //     for (Index j = 0; j < num_species; ++j)
         for (Index i = 0; i < num_species_known; ++i)
             for (Index j = 0; j < num_species_known; ++j)
             {
@@ -412,7 +400,6 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
                 psi(i, j) = std::exp(-(u(i, j) - u(j, j)) / T.val);
 
         // Calculate UNIQUAC residual contributions to all species
-        // for (Index i = 0; i < num_species; ++i)
         for (Index i = 0; i < num_species_known; ++i)
         {
 
@@ -1714,7 +1701,7 @@ auto EUNIQUACParams::setLongRangeModelType(const LongRangeModelType& _longRangeM
     }
 }
 
-auto EUNIQUACParams::useLongRangeModelType() const -> LongRangeModelType
+auto EUNIQUACParams::longRangeModelType() const -> LongRangeModelType
 {
     return pimpl->longRangeModelType;
 }

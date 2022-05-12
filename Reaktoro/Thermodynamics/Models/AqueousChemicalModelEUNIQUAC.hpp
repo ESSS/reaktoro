@@ -107,7 +107,7 @@ public:
 
     auto setLongRangeModelType(const LongRangeModelType& longRangeModelType) -> void;
 
-    auto useLongRangeModelType() const -> LongRangeModelType;
+    auto longRangeModelType() const -> LongRangeModelType;
 
     auto setConvertLongRangeToMolScale() -> void;
 

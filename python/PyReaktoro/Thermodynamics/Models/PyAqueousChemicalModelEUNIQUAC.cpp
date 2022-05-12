@@ -79,6 +79,7 @@ void exportAqueousChemicalModelEUNIQUAC(py::module& m)
         .def("addNewSpeciesParameters", &EUNIQUACParams::addNewSpeciesParameters)
         .def("setDebyeHuckelGenericParameterA", &EUNIQUACParams::setDebyeHuckelGenericParameterA)
         .def("setLongRangeModelType", &EUNIQUACParams::setLongRangeModelType)
+        .def("longRangeModelType", &EUNIQUACParams::longRangeModelType)
         .def("setDTUvalues", &EUNIQUACParams::setDTUvalues)
         .def("setVillafafilaGarcia2006", &EUNIQUACParams::setVillafafilaGarcia2006)
         ;
