@@ -15,8 +15,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+from typing import List, Optional
 import numpy as np
 import pytest
+from pytest import approx
 
 import reaktoro as rkt
 
@@ -24,8 +26,6 @@ import reaktoro as rkt
 def test_euniquac_longrange_model_options():
     """
     Test if the option for long range model is working properly
-
-    Test will pass if no error occurs.
     """
 
     euniquac_params = rkt.EUNIQUACParams()
@@ -36,8 +36,8 @@ def test_euniquac_longrange_model_options():
 
 def test_euniquac_fallback_all_species_are_known_match_previous_results():
     """
-    Test if the E-UNIQUAC with fallback modifications but with all species
-    with known q, r and bips match the previous results
+    Test if the E-UNIQUAC with fallback modifications, but with all species
+    with known q, r and bips, match the previous results.
     """
 
     list_aqueous_species = [
@@ -47,24 +47,12 @@ def test_euniquac_fallback_all_species_are_known_match_previous_results():
         "Na+",
         'Cl-',
     ]
-    gas_species = []
 
     mineral_name = 'Halite'
 
-    # Create Euniquac
-    editor = rkt.ChemicalEditor()
-    editor.addMineralPhase(mineral_name)
-    aqueous_phase = editor.addAqueousPhase(list_aqueous_species)
-
-    if len(gas_species):
-        gas_phase = editor.addGaseousPhase(gas_species)
-        gas_phase.setChemicalModelSoaveRedlichKwong()
-
-    euniquac_params = rkt.EUNIQUACParams()
-    editor.aqueousPhase().setChemicalModelEUNIQUAC(euniquac_params)
-    system_euniquac = rkt.ChemicalSystem(editor)
-
+    system_euniquac = _create_euniquac_system_for_testing(mineral_name, list_aqueous_species)
     problem = rkt.EquilibriumProblem(system_euniquac)
+
     problem.setTemperature(25.0, "celsius")
     problem.setPressure(1.0, "atm")
 
@@ -73,19 +61,63 @@ def test_euniquac_fallback_all_species_are_known_match_previous_results():
 
     state = rkt.equilibrate(problem)
 
-    solubility = state.elementAmountInPhase('Na', 'Aqueous') * 1e3
+    solubility = state.elementAmountInPhase('Na', 'Aqueous') #mol/kgW
     pH = rkt.ChemicalProperty.pH(system_euniquac)(state.properties()).val
-    mol_species = state.speciesAmounts()
+    mol_species = state.speciesAmounts() #mols
 
-    assert np.isclose(solubility, 6189.990199851658)
-    assert np.isclose(pH, 8.001947880191114)
+    assert solubility == approx(6.189990)
+    assert pH == approx(8.001948)
     expected_mols = [5.55084350e+01, 5.20522014e-08, 5.20522014e-08, 6.18999020e+00, 6.18999020e+00, 9.38100098e+01]
-    np.testing.assert_array_almost_equal(mol_species, expected_mols)
+    assert mol_species == approx(expected_mols)
 
+
+def test_euniquac_fallback_all_species_are_known_match_previous_results_bdot():
+    """
+    Test if the E-UNIQUAC with fallback modifications, but with all species
+    with known q, r and bips, match the previous results.
+    """
+
+    list_aqueous_species = [
+        "H2O(l)",
+        "H+",
+        "OH-",
+        "Na+",
+        'Cl-',
+    ]
+
+    mineral_name = 'Halite'
+
+    euniquac_params = rkt.EUNIQUACParams()
+    # euniquac_params.setVillafafilaGarcia2006()  # very important!
+    calc_type_from_enum = getattr(rkt.LongRangeModelType, 'DH_Phreeqc')
+    # euniquac_params.setLongRangeModelType(calc_type_from_enum)
+
+    system_euniquac = _create_euniquac_system_for_testing(mineral_name, list_aqueous_species, 
+        euniquac_params=euniquac_params
+    )
+
+    problem = rkt.EquilibriumProblem(system_euniquac)
+
+    problem.setTemperature(25.0, "celsius")
+    problem.setPressure(1.0, "atm")
+
+    problem.add("H2O", 1, "kg")
+    problem.add(mineral_name, 100, "mol")  # excess quantity
+
+    state = rkt.equilibrate(problem)
+
+    solubility = state.elementAmountInPhase('Na', 'Aqueous') #mol/kgW
+    pH = rkt.ChemicalProperty.pH(system_euniquac)(state.properties()).val
+    mol_species = state.speciesAmounts() #mols
+
+    assert solubility == approx(6.189990)
+    assert pH == approx(8.001948)
+    expected_mols = [5.55084350e+01, 5.20522014e-08, 5.20522014e-08, 6.18999020e+00, 6.18999020e+00, 9.38100098e+01]
+    assert mol_species == approx(expected_mols)
 
 def test_euniquac_fallback_missing_species_fallback():
     """
-    Test if the E-UNIQUAC with fallback modifications with missing species case Quartz
+    Test the E-UNIQUAC with fallback modifications with missing species, Quartz case.
     """
 
     list_aqueous_species = [
@@ -97,22 +129,10 @@ def test_euniquac_fallback_missing_species_fallback():
         'HSiO3-',
         'SiO2(aq)',
     ]
-    gas_species = []
 
     mineral_name = 'Quartz'
 
-    # Create Euniquac
-    editor = rkt.ChemicalEditor()
-    editor.addMineralPhase(mineral_name)
-    aqueous_phase = editor.addAqueousPhase(list_aqueous_species)
-
-    if len(gas_species):
-        gas_phase = editor.addGaseousPhase(gas_species)
-        gas_phase.setChemicalModelSoaveRedlichKwong()
-
-    euniquac_params = rkt.EUNIQUACParams()
-    editor.aqueousPhase().setChemicalModelEUNIQUAC(euniquac_params)
-    system_euniquac = rkt.ChemicalSystem(editor)
+    system_euniquac = _create_euniquac_system_for_testing(mineral_name, list_aqueous_species)
 
     problem = rkt.EquilibriumProblem(system_euniquac)
     problem.setTemperature(25.0, "celsius")
@@ -139,21 +159,21 @@ def test_euniquac_fallback_missing_species_fallback():
 
 def test_euniquac_fallback_add_aqueous_phase_with_elements():
     """
-    Test if the E-UNIQUAC with fallback modifications with missing species case Barite
-    with many species
+    Test if the E-UNIQUAC system converges with the fallback modifications when adding
+    many species using the `addAqueousPhaseWithElementsOf` funcion
     """
 
     mineral_name = 'Barite'
-
-    # Create Euniquac
-    editor = rkt.ChemicalEditor()
-    editor.addMineralPhase(mineral_name)
-    aqueous_phase = editor.addAqueousPhaseWithElementsOf("H O Na Ca K Sr Mg Ba Cl S")
+    string_of_elements = "H O Na Ca K Sr Mg Ba Cl S"
 
     euniquac_params = rkt.EUNIQUACParams()
     euniquac_params.setVillafafilaGarcia2006()  # very important!
-    editor.aqueousPhase().setChemicalModelEUNIQUAC(euniquac_params)
-    system_euniquac = rkt.ChemicalSystem(editor)
+
+    system_euniquac = _create_euniquac_system_for_testing(
+        mineral_name, 
+        string_of_elements=string_of_elements, 
+        euniquac_params=euniquac_params
+    )
 
     problem = rkt.EquilibriumProblem(system_euniquac)
     problem.setTemperature(25.0, "celsius")
@@ -165,28 +185,37 @@ def test_euniquac_fallback_add_aqueous_phase_with_elements():
 
     state = rkt.equilibrate(problem)
 
-    solubility = state.elementAmountInPhase('Ba', 'Aqueous') * 1e3
-    pH = rkt.ChemicalProperty.pH(system_euniquac)(state.properties()).val
-    mol_species = state.speciesAmounts()
-    # Question: No assert here is needed, just want to run without raising exception (due to convergence)
+    equilibrium_result = rkt.equilibrate(state)
+    succeeded = equilibrium_result.optimum.succeeded
+
+    assert succeeded
 
 
+# @pytest.mark.parametrize(
+#     'calculation_type,solubility_expected',
+#     [
+#         ['DH_Phreeqc', 0.10016713283821646],
+#         ['HKF', 0.10016713283821646],
+#     ],
+# )
 @pytest.mark.parametrize(
-    'calculation_type,solubility_expected',
+    'calculation_type',
     [
-        ['DH_Phreeqc', 0.10016713283821646],
-        ['HKF', 0.10016713283821646],
+        'DH_Phreeqc',
+        'HKF',
     ],
 )
 def test_euniquac_with_longrange_as_bdot_equals_bdot_when_only_unknown_species(
-    calculation_type, solubility_expected
+    calculation_type
 ):
     """
     (1) Test if output of euniquac with long range as B-dot is equal to the
     original B-dot (DebyeHuckel) output when the species are all unkowns for e-uniquac
 
-    (2) Test if output of euniquac with long range as B-dot is equal to the
-    original B-dot (DebyeHuckel) output when the species are all unkowns for e-uniquac
+    (2) Test if output of euniquac with long range as HKF is equal to the
+    HKF output when the species are all unkowns for e-uniquac
+
+    Obs: HKF and B-dot results are equal
     """
 
     list_aqueous_species = [
@@ -197,17 +226,15 @@ def test_euniquac_with_longrange_as_bdot_equals_bdot_when_only_unknown_species(
 
     mineral_name = 'Quartz'
 
-    # Create Euniquac
-    editor = rkt.ChemicalEditor()
-    editor.addMineralPhase(mineral_name)
-    aqueous_phase = editor.addAqueousPhase(list_aqueous_species)
-
     euniquac_params = rkt.EUNIQUACParams()
     calc_type_from_enum = getattr(rkt.LongRangeModelType, calculation_type)
     euniquac_params.setLongRangeModelType(calc_type_from_enum)
 
-    editor.aqueousPhase().setChemicalModelEUNIQUAC(euniquac_params)
-    system_euniquac = rkt.ChemicalSystem(editor)
+    system_euniquac = _create_euniquac_system_for_testing(
+        mineral_name,
+        list_aqueous_species,
+        euniquac_params=euniquac_params
+    )
 
     problem = rkt.EquilibriumProblem(system_euniquac)
     problem.setTemperature(25.0, "celsius")
@@ -221,6 +248,33 @@ def test_euniquac_with_longrange_as_bdot_equals_bdot_when_only_unknown_species(
     solubility = state.elementAmountInPhase('Si', 'Aqueous') * 1e3
     mol_species = state.speciesAmounts()
 
-    assert(np.isclose(solubility, solubility_expected))
+    assert solubility == approx(0.10016713283821646)
     expected_mols = [5.55084351e+01, 1.00000000e-20, 1.00167133e-04, 9.99989983e+00]
-    np.testing.assert_array_almost_equal(mol_species, expected_mols, decimal=6)
+    assert mol_species == approx(expected_mols)
+
+
+def _create_euniquac_system_for_testing(
+    mineral_name: str, 
+    list_aqueous_species: List[str]=None, 
+    gas_species: List[str]=[], 
+    euniquac_params: Optional[rkt.EUNIQUACParams]=None,
+    string_of_elements: str=None,
+) -> rkt.ChemicalSystem:
+    editor = rkt.ChemicalEditor()
+    editor.addMineralPhase(mineral_name)
+    if string_of_elements is None:
+        aqueous_phase = editor.addAqueousPhase(list_aqueous_species)
+    else:
+        aqueous_phase = editor.addAqueousPhaseWithElementsOf(string_of_elements)
+
+    if len(gas_species):
+        gas_phase = editor.addGaseousPhase(gas_species)
+        gas_phase.setChemicalModelSoaveRedlichKwong()
+
+    if euniquac_params is None:
+        euniquac_params = rkt.EUNIQUACParams()
+    editor.aqueousPhase().setChemicalModelEUNIQUAC(euniquac_params)
+
+    system_euniquac = rkt.ChemicalSystem(editor)
+
+    return system_euniquac

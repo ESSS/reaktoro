@@ -105,13 +105,11 @@ public:
 
     auto useDebyeHuckelGenericParameterA() const -> bool;
 
-    auto setLongRangeModelType(const LongRangeModelType& longRangeModelType) -> void;
+    auto setLongRangeModelType(const LongRangeModelType& _long_range_model_type) -> void;
 
     auto longRangeModelType() const -> LongRangeModelType;
 
-    auto setConvertLongRangeToMolScale() -> void;
-
-    auto useConvertLongRangeToMolScale() const -> bool;
+    // auto isConvertingLongRangeToMolScale() const -> bool;
 
     /// Add E-UNIQUAC parameters for a new species. This is a convenient function the expand the
     /// built-in E-UNIQUAC parameters setup.

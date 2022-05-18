@@ -114,7 +114,6 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
     const Indices icharged_species = mixture.indicesChargedSpecies();
     const Indices ineutral_species = mixture.indicesNeutralSpecies();
 
-    // The index of the water species
     const Index iwater = mixture.indexWater();
     const AqueousSpecies& water_species = mixture.species(iwater);
     const auto water_species_name = water_species.name();
@@ -126,30 +125,30 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
     std::vector<double> ri_values;  // Volume fraction parameter
     std::vector<double> qi_values;  // Surface area parameter
 
+    const auto& species_names = mixture.namesSpecies();
+    const auto& id_maps = params.bips_species_id_map();
+
     // Get index of species with known parameters
-    Index waterIndexInKnowns;
-    Indices indexSpeciesWithParams;  // Index of Species with known parameters
-    const auto& speciesNames = mixture.namesSpecies();
-    auto idMaps = params.bips_species_id_map();
-    Assert(idMaps.find(water_species_name) != idMaps.end(),
+    Index water_index_in_knowns = -1;
+    Indices index_of_species_with_params;
+    Index count_knowns = 0;
+    for ( const auto &name : species_names ) {
+        // Since idMaps is a map container, this checks if 'name' occurs in there.
+        if (id_maps.count(name)) {
+            const auto index_known_species = mixture.indexSpecies(name);
+            index_of_species_with_params.push_back(index_known_species);
+            if (name == water_species_name)
+                water_index_in_knowns = count_knowns;
+            count_knowns++; 
+        }
+    }
+    const Index num_species_known = index_of_species_with_params.size();
+    Assert(water_index_in_knowns != -1, 
             "The e-uniquac parameter set is missing Water.",
             "Water is required in e-uniquac parameter set");
 
-    Index countKnowns = 0;
-    for ( const auto &name : speciesNames ) {
-        // Since idMaps is a map container, this checks if 'name' occurs in there.
-        if (idMaps.count(name)) {
-            const auto indexKnownSpecies = mixture.indexSpecies(name);
-            indexSpeciesWithParams.push_back(indexKnownSpecies);
-            if (name == water_species_name)
-                waterIndexInKnowns = countKnowns;
-            countKnowns++; 
-        }
-    }
-    const Index num_species_known = indexSpeciesWithParams.size();
-
-    // Collect the UNIQUAC parameters r_i and q_i of the all species
-    for (const auto& index : indexSpeciesWithParams)
+    // Collect UNIQUAC parameters `r_i` and `q_i` of all species with known parameters.
+    for (const auto& index : index_of_species_with_params)
     {
         const AqueousSpecies& species = mixture.species(index);
         ri_values.push_back(params.ri(species.name()));
@@ -161,12 +160,12 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
     MatrixXd u_T(num_species_known, num_species_known);  // linear enthalpic BIPs term
     for (Index i = 0; i < num_species_known; ++i)
     {
-        const auto i_index = indexSpeciesWithParams[i];
-        const AqueousSpecies& ispecies = mixture.species(i_index);
+        const auto mixture_index = index_of_species_with_params[i];
+        const AqueousSpecies& ispecies = mixture.species(mixture_index);
         const auto& ispecies_name = ispecies.name();
         for (Index j = 0; j < num_species_known; ++j)
         {
-            const auto j_index = indexSpeciesWithParams[j];
+            const auto j_index = index_of_species_with_params[j];
             const AqueousSpecies& jspecies = mixture.species(j_index);
             const auto& jspecies_name = jspecies.name();
             const auto& u_ij_0 = params.uij_0(ispecies_name, jspecies_name);
@@ -181,9 +180,7 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
     ChemicalVector ln_m;
 
     // Define the Long range chemical model accordingly to Thomsen's e-uniquac formulation
-    // TODO: Place in separated file as a regular factory of model function? 
-    // (similar to aqueousChemicalModelEUNIQUAC or aqueousChemicalModelDebyeHuckel)
-    PhaseChemicalModel modelLongRangeThomsen = [=](PhaseChemicalModelResult& res, Temperature T, Pressure P, VectorConstRef n) mutable
+    PhaseChemicalModel longRangeModelThomsen = [=](PhaseChemicalModelResult& res, Temperature T, Pressure P, VectorConstRef n) mutable
     {
         // Evaluate the state of the aqueous mixture
         auto state = mixture.state(T, P, n);
@@ -225,6 +222,9 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
             auto numerator = -z * z * A_parameter * sqrtI;
             auto denominator = 1.0 + b * sqrtI;
             ln_g[ispecies] = numerator / denominator;
+
+            // Converting to molal scale
+            ln_g[ispecies] += ln_xw;
         }
 
         // Loop over all neutral species in the mixture
@@ -235,6 +235,9 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
 
             // Calculate the DH ln activity coefficient of the current neutral species
             ln_g[ispecies] = 0.0;
+
+            // Converting to molal scale
+            ln_g[ispecies] += ln_xw;
         }
 
         // Computing the water activity coefficient
@@ -244,26 +247,28 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
         ln_g[iwater] = constant_term * inner_term;
     };
 
-    PhaseChemicalModel modelLongRange;
-    const auto longRangeModelType = params.longRangeModelType();
+    PhaseChemicalModel longRangeModel;
+    const auto long_range_model_type = params.longRangeModelType();
 
     // Set the long range model to calculate the long range contribution in the final ln γ
-    switch(longRangeModelType)
+    switch(long_range_model_type)
     {
-    case LongRangeModelType::DH_Thomsen:
-        modelLongRange = modelLongRangeThomsen;
-        break;
-    case LongRangeModelType::DH_Phreeqc:
-        {
-            const auto bdotParams = DebyeHuckelParams();
-            modelLongRange = aqueousChemicalModelDebyeHuckel(mixture, bdotParams);
-        }
-        break;
-    case LongRangeModelType::HKF:
-        {
-            modelLongRange = aqueousChemicalModelHKF(mixture);
+        case LongRangeModelType::DH_Thomsen:
+            longRangeModel = longRangeModelThomsen;
             break;
-        }
+        case LongRangeModelType::DH_Phreeqc:
+            {
+                const auto bdotParams = DebyeHuckelParams();
+                longRangeModel = aqueousChemicalModelDebyeHuckel(mixture, bdotParams);
+            }
+            break;
+        case LongRangeModelType::HKF:
+            {
+                longRangeModel = aqueousChemicalModelHKF(mixture);
+                break;
+            }
+        default:
+            throw std::logic_error("EUNIQUAC model with invalid long-range model type.");
     }
 
     // Define the intermediate chemical model function of the aqueous mixture
@@ -289,24 +294,8 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
         ln_xw = log(xw);
         ln_m = log(m);
 
-        // Calculate long range contribution
-        modelLongRange(res, T, P, n);
-
-        if (params.useConvertLongRangeToMolScale()) {
-            // Convert activity coefficients to molality scale
-            // Activities will be recalculated later
-            for (Index i = 0; i < num_charged_species; ++i)
-            {
-                const Index ispecies = icharged_species[i];
-                ln_g[ispecies] = ln_g[ispecies] - ln_xw;
-            }
-
-            for (Index i = 0; i < num_neutral_species; ++i)
-            {
-                const Index ispecies = ineutral_species[i];
-                ln_g[ispecies] = ln_g[ispecies] - ln_xw;
-            }
-        }
+        // Calculate long range contribution (molal scale expected)
+        longRangeModel(res, T, P, n);
 
         // ==============================================================================
         // ================ Combinatorial contribution ==================================
@@ -321,7 +310,7 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
         double theta_denominator = 0.0;
         for (Index i = 0; i < num_species_known; ++i)
         {
-            const auto i_index = indexSpeciesWithParams[i];
+            const auto i_index = index_of_species_with_params[i];
 
             // Retrieve UNIQUAC species parameters
             const auto r_i = ri_values[i];
@@ -338,7 +327,7 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
         std::vector<double> phi;  // to store phi_i values
         for(Index i = 0; i < num_species_known; ++i)
         {
-            const auto i_index = indexSpeciesWithParams[i];
+            const auto i_index = index_of_species_with_params[i];
 
             // Get species mol fraction
             const auto xi = x[i_index];
@@ -373,7 +362,9 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
             ln_g_combinatorial_inf += -5.0 * q_i * (std::log(ri_rw / qi_qw) + 1.0 - ri_rw / qi_qw);
 
             // Finally, the unsymmetrical combinatorial UNIQUAC contribution
-            ln_g[i_index] += ln_g_combinatorial_sym - ln_g_combinatorial_inf;
+            // Obs: for water species ln_g_combinatorial_inf is zero (water is in symmetrical convenction)
+            auto ln_g_i_mol_scale = ln_g_combinatorial_sym - ln_g_combinatorial_inf;
+            ln_g[i_index] += ln_g_i_mol_scale;
         }
 
         // ==============================================================================
@@ -403,7 +394,7 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
         for (Index i = 0; i < num_species_known; ++i)
         {
 
-            const auto i_index = indexSpeciesWithParams[i];
+            const auto i_index = index_of_species_with_params[i];
 
             // Retrieve UNIQUAC species q_i parameter
             const auto q_i = qi_values[i];
@@ -429,31 +420,37 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
             // Calculate species residual UNIQUAC activity coeff at infinite dilution.
             // This is necessary to convert the residual contribution to unsymmetrical
             // convention.
-            auto ln_g_residual_inf = q_i * (1.0 - std::log(psi(waterIndexInKnowns, i)) - psi(i, waterIndexInKnowns));
+            auto ln_g_residual_inf = q_i * (1.0 - std::log(psi(water_index_in_knowns, i)) - psi(i, water_index_in_knowns));
 
             // Assemble the unsymmetrical residual UNIQUAC contribution
-            ln_g[i_index] += ln_g_residual_sym - ln_g_residual_inf;
+            // Obs: for water species ln_g_residual_inf is zero (water is in symmetrical convenction)
+            auto ln_g_i_mol_scale = ln_g_residual_sym - ln_g_residual_inf;
+            ln_g[i_index] += ln_g_i_mol_scale;
         }
 
         // ==============================================================================
         // ========== Calculate activities from activities coefficients =================
         // ==============================================================================
 
+        // Note about the γ scale:
+        // The long-range model is expected to be in molal scale (reaktoro convention) for aqueous species
+        // The output of the aqueous species should also be in molal scale.
+        // The original E-uniquac formulation uses:
+        // $$\ln \gamma^{*}_i = \ln \gamma^{C,*}_i + \ln \gamma^{R, *}_i + \ln \gamma^{*, LR}_i$$
+        // in which * indicates mol fraction scale. Converting $\ln \gamma^{*}_i$ and $\ln \gamma^{*, LR}_i$
+        // to molal scale one get:
+        // $$\ln \gamma^{m}_i = \ln \gamma^{C,*}_i + \ln \gamma^{R, *}_i + \ln \gamma^{m, LR}_i $$
+        // Water species is expected to be in symmetrical mol fraction scale.
+
+        // Activities in molality scale
         for (Index i = 0; i < num_charged_species; ++i)
         {
             const Index ispecies = icharged_species[i];
-            // Convert activity coefficients to molality scale
-            ln_g[ispecies] = ln_g[ispecies] + ln_xw;
-            // Activities in molality scale
             ln_a[ispecies] = ln_g[ispecies] + ln_m[ispecies];
         }
-
         for (Index i = 0; i < num_neutral_species; ++i)
         {
             const Index ispecies = ineutral_species[i];
-            // Convert activity coefficients to molality scale
-            ln_g[ispecies] = ln_g[ispecies] + ln_xw;
-            // Activities in molality scale
             ln_a[ispecies] = ln_g[ispecies] + ln_m[ispecies];
         }
 
@@ -485,14 +482,14 @@ struct EUNIQUACParams::Impl
     /// Set if Debye-Huckel solvent A-parameter is the fitted expression or the general is used instead.
     bool useGeneralDebyeHuckelParameterA;
 
-    /// Set the long range model for e-uniquac model
-    LongRangeModelType longRangeModelType;
+    /// Set the long-range model for E-UNIQUAC model.
+    LongRangeModelType long_range_model_type;
 
     /// Internal Flag to indicate if the long range model output is in already molality scale
     /// To reuse the reaktoro activity model structure, the γ calculated by DH_Phreeqc model, for instance,
     /// will be converted to mol fraction scale. This is because the E-UNIQUAC model will convert from mol scale
     /// to molality scale at the end.
-    bool convertLongRangeToMolScale = false;
+    // bool convert_long_range_to_mol_scale = false;
 
     Impl()
     {
@@ -1686,34 +1683,29 @@ auto EUNIQUACParams::addNewSpeciesParameters(
     }
 }
 
-auto EUNIQUACParams::setLongRangeModelType(const LongRangeModelType& _longRangeModelType) -> void
+auto EUNIQUACParams::setLongRangeModelType(const LongRangeModelType& _long_range_model_type) -> void
 {
-    pimpl->longRangeModelType = _longRangeModelType;
-    switch(_longRangeModelType)
-    {
-    case LongRangeModelType::DH_Thomsen:
-        pimpl->convertLongRangeToMolScale = false;
-        break;
-    case LongRangeModelType::DH_Phreeqc:
-    case LongRangeModelType::HKF:
-        pimpl->convertLongRangeToMolScale = true;
-        break;
-    }
+    pimpl->long_range_model_type = _long_range_model_type;
+    // switch(_long_range_model_type)
+    // {
+    // case LongRangeModelType::DH_Thomsen:
+    //     // pimpl->convert_long_range_to_mol_scale = false;
+    //     break;
+    // case LongRangeModelType::DH_Phreeqc:
+    // case LongRangeModelType::HKF:
+    //     // pimpl->convert_long_range_to_mol_scale = true;
+    //     break;
+    // }
 }
 
 auto EUNIQUACParams::longRangeModelType() const -> LongRangeModelType
 {
-    return pimpl->longRangeModelType;
+    return pimpl->long_range_model_type;
 }
 
-auto EUNIQUACParams::setConvertLongRangeToMolScale() -> void
-{
-    pimpl->convertLongRangeToMolScale = true;
-}
-
-auto EUNIQUACParams::useConvertLongRangeToMolScale() const -> bool
-{
-    return pimpl->convertLongRangeToMolScale;
-}
+// auto EUNIQUACParams::isConvertingLongRangeToMolScale() const -> bool
+// {
+//     return pimpl->convert_long_range_to_mol_scale;
+// }
 
 }  // namespace Reaktoro
