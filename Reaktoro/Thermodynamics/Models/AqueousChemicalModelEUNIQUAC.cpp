@@ -485,12 +485,6 @@ struct EUNIQUACParams::Impl
     /// Set the long-range model for E-UNIQUAC model.
     LongRangeModelType long_range_model_type;
 
-    /// Internal Flag to indicate if the long range model output is in already molality scale
-    /// To reuse the reaktoro activity model structure, the γ calculated by DH_Phreeqc model, for instance,
-    /// will be converted to mol fraction scale. This is because the E-UNIQUAC model will convert from mol scale
-    /// to molality scale at the end.
-    // bool convert_long_range_to_mol_scale = false;
-
     Impl()
     {
     }
@@ -1686,26 +1680,11 @@ auto EUNIQUACParams::addNewSpeciesParameters(
 auto EUNIQUACParams::setLongRangeModelType(const LongRangeModelType& _long_range_model_type) -> void
 {
     pimpl->long_range_model_type = _long_range_model_type;
-    // switch(_long_range_model_type)
-    // {
-    // case LongRangeModelType::DH_Thomsen:
-    //     // pimpl->convert_long_range_to_mol_scale = false;
-    //     break;
-    // case LongRangeModelType::DH_Phreeqc:
-    // case LongRangeModelType::HKF:
-    //     // pimpl->convert_long_range_to_mol_scale = true;
-    //     break;
-    // }
 }
 
 auto EUNIQUACParams::longRangeModelType() const -> LongRangeModelType
 {
     return pimpl->long_range_model_type;
 }
-
-// auto EUNIQUACParams::isConvertingLongRangeToMolScale() const -> bool
-// {
-//     return pimpl->convert_long_range_to_mol_scale;
-// }
 
 }  // namespace Reaktoro

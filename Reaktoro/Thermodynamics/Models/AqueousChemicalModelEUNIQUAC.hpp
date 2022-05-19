@@ -109,8 +109,6 @@ public:
 
     auto longRangeModelType() const -> LongRangeModelType;
 
-    // auto isConvertingLongRangeToMolScale() const -> bool;
-
     /// Add E-UNIQUAC parameters for a new species. This is a convenient function the expand the
     /// built-in E-UNIQUAC parameters setup.
     auto addNewSpeciesParameters(

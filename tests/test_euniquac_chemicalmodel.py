@@ -71,50 +71,6 @@ def test_euniquac_fallback_all_species_are_known_match_previous_results():
     assert mol_species == approx(expected_mols)
 
 
-def test_euniquac_fallback_all_species_are_known_match_previous_results_bdot():
-    """
-    Test if the E-UNIQUAC with fallback modifications, but with all species
-    with known q, r and bips, match the previous results.
-    """
-
-    list_aqueous_species = [
-        "H2O(l)",
-        "H+",
-        "OH-",
-        "Na+",
-        'Cl-',
-    ]
-
-    mineral_name = 'Halite'
-
-    euniquac_params = rkt.EUNIQUACParams()
-    # euniquac_params.setVillafafilaGarcia2006()  # very important!
-    calc_type_from_enum = getattr(rkt.LongRangeModelType, 'DH_Phreeqc')
-    # euniquac_params.setLongRangeModelType(calc_type_from_enum)
-
-    system_euniquac = _create_euniquac_system_for_testing(mineral_name, list_aqueous_species, 
-        euniquac_params=euniquac_params
-    )
-
-    problem = rkt.EquilibriumProblem(system_euniquac)
-
-    problem.setTemperature(25.0, "celsius")
-    problem.setPressure(1.0, "atm")
-
-    problem.add("H2O", 1, "kg")
-    problem.add(mineral_name, 100, "mol")  # excess quantity
-
-    state = rkt.equilibrate(problem)
-
-    solubility = state.elementAmountInPhase('Na', 'Aqueous') #mol/kgW
-    pH = rkt.ChemicalProperty.pH(system_euniquac)(state.properties()).val
-    mol_species = state.speciesAmounts() #mols
-
-    assert solubility == approx(6.189990)
-    assert pH == approx(8.001948)
-    expected_mols = [5.55084350e+01, 5.20522014e-08, 5.20522014e-08, 6.18999020e+00, 6.18999020e+00, 9.38100098e+01]
-    assert mol_species == approx(expected_mols)
-
 def test_euniquac_fallback_missing_species_fallback():
     """
     Test the E-UNIQUAC with fallback modifications with missing species, Quartz case.
@@ -191,13 +147,6 @@ def test_euniquac_fallback_add_aqueous_phase_with_elements():
     assert succeeded
 
 
-# @pytest.mark.parametrize(
-#     'calculation_type,solubility_expected',
-#     [
-#         ['DH_Phreeqc', 0.10016713283821646],
-#         ['HKF', 0.10016713283821646],
-#     ],
-# )
 @pytest.mark.parametrize(
     'calculation_type',
     [
