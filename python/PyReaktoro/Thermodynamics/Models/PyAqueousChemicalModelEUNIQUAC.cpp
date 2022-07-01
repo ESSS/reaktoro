@@ -27,6 +27,13 @@ namespace Reaktoro {
 
 void exportAqueousChemicalModelEUNIQUAC(py::module& m)
 {
+
+    py::enum_<LongRangeModelType>(m, "LongRangeModelType")
+    .value("DH_Thomsen", LongRangeModelType::DH_Thomsen)
+    .value("DH_Phreeqc", LongRangeModelType::DH_Phreeqc)
+    .value("HKF", LongRangeModelType::HKF)
+    ;
+    
     auto ri1 = static_cast<void(EUNIQUACParams::*)(const std::string&, double)>(&EUNIQUACParams::ri);
     auto ri2 = static_cast<void(EUNIQUACParams::*)(const std::map<std::string, double>&)>(&EUNIQUACParams::ri);
     auto ri3 = static_cast<double(EUNIQUACParams::*)(const std::string&) const>(&EUNIQUACParams::ri);
@@ -71,6 +78,8 @@ void exportAqueousChemicalModelEUNIQUAC(py::module& m)
         .def("bipsSpeciesIds", bips_id_map_2)
         .def("addNewSpeciesParameters", &EUNIQUACParams::addNewSpeciesParameters)
         .def("setDebyeHuckelGenericParameterA", &EUNIQUACParams::setDebyeHuckelGenericParameterA)
+        .def("setLongRangeModelType", &EUNIQUACParams::setLongRangeModelType)
+        .def("longRangeModelType", &EUNIQUACParams::longRangeModelType)
         .def("setDTUvalues", &EUNIQUACParams::setDTUvalues)
         .def("setVillafafilaGarcia2006", &EUNIQUACParams::setVillafafilaGarcia2006)
         ;

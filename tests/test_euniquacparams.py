@@ -310,7 +310,7 @@ def test_add_new_species_params():
     q_value = 2.0
     r_value = 1.0
     new_uij_0_values = {"Na+": 3.5}
-    new_uij_T_values = {"Cl-": -2.5}
+    new_uij_T_values = {"Cl-":-2.5}
     euniquac_params.addNewSpeciesParameters(
         new_species_name,
         q_value,
@@ -342,3 +342,4 @@ def test_add_new_species_params():
     assert euniquac_params.uij_T("Na+", new_species_name) == default_uT_value
     assert euniquac_params.uij_T(new_species_name, "Na+") == default_uT_value
     assert euniquac_params.uij_T(new_species_name, new_species_name) == default_uT_value
+
