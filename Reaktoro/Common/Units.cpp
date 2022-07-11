@@ -643,6 +643,9 @@ inline void checkConvertibleUnits(const DerivedUnit& from, const DerivedUnit& to
 
 double convert(double value, const string& from, const string& to)
 {
+    if (from == to) {
+        return value;
+    }
     if(internal::temperatureUnitsMap.count(from) && internal::temperatureUnitsMap.count(to))
         return internal::convertTemperature(value, from, to);
     auto parsed_from = internal::parseUnit(from);
