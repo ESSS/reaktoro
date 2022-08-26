@@ -252,6 +252,9 @@ struct AqueousSpeciesThermoData : SpeciesThermoData
 {
     /// The thermodynamic parameters of the HKF model for an aqueous species
     std::optional<AqueousSpeciesThermoParamsHKF> hkf;
+
+    /// The thermodynamic parameters of the HKF model for an aqueous species
+    std::optional<AqueousSpeciesThermoParamsNIST> nist;
 };
 
 /// A type for storing the thermodynamic data of fluid (gaseous or liquid) species
