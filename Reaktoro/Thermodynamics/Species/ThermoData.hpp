@@ -105,6 +105,34 @@ struct AqueousSpeciesThermoParamsHKF
     double wref;
 };
 
+/// A type for storing the parameters of the NIST/NBS tables for std thermo properties
+struct AqueousSpeciesThermoParamsNIST
+{
+    /// TODO: docs
+    double G0;
+
+    /// TODO: docs
+    double H0;
+
+    /// TODO: docs
+    double H00;
+
+    /// TODO: docs
+    double S0;
+
+    /// TODO: docs
+    double Cp;
+
+    /// TODO: docs
+    double Cp_a;
+
+    /// TODO: docs
+    double Cp_b;
+
+    /// TODO: docs
+    double Cp_c;
+};
+
 /// A type for storing the parameters of the HKF equation of state for a fluid (gaseous or liquid) species
 struct FluidSpeciesThermoParamsHKF
 {
