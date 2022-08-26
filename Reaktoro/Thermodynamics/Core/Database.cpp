@@ -336,6 +336,9 @@ auto parseAqueousSpeciesThermoData(const xml_node& node) -> AqueousSpeciesThermo
     if(!node.child("HKF").empty())
         thermo.hkf = parseAqueousSpeciesThermoParamsHKF(node.child("HKF"));
 
+    if(!node.child("NIST").empty())
+        thermo.nist = parseAqueousSpeciesThermoParamsNIST(node.child("NIST"));
+
     return thermo;
 }
 
