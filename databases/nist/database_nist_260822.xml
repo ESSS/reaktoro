@@ -1153,7 +1153,7 @@
     <Species>
         <Name>Celestite</Name>
         <Formula>SrSO4</Formula>
-        <Elements><Sr(1)S(1)O(4)/Elements>
+        <Elements>Sr(1)S(1)O(4)</Elements>
         <Type>Mineral</Type>
         <MolarMass units="g/mol">183.6816</MolarMass>
         <Charge>0</Charge>
