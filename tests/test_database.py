@@ -287,3 +287,14 @@ def test_database_looking_for_species_with_element():
     assert liquid_species_with_H_or_Fe[0].name() == "H2S(liq)"
     assert mineral_species_with_H_or_Fe[0].name() == "Pyrrhotite"
 
+
+def test_nist_database_looking_for_species_with_element():
+    database = Database(str(get_test_data_dir() / "database_nist_simplified.xml"))
+
+    aqueous_species_with_C_or_O = database.aqueousSpeciesWithElements(["C", "O"])
+    gaseous_species_with_C_or_O = database.gaseousSpeciesWithElements(["C", "O"])
+    mineral_species_with_Na_or_Cl = database.mineralSpeciesWithElements(["Na", "Cl"])
+
+    assert aqueous_species_with_C_or_O[0].name() == "CO2(aq)"
+    assert gaseous_species_with_C_or_O[0].name() == "CO2(g)"
+    assert mineral_species_with_Na_or_Cl[0].name() == "Halite"
