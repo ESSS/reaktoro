@@ -915,7 +915,7 @@
     <Species>
         <Name>Mg(OH)2</Name>
         <Formula>Mg(OH)2</Formula>
-        <Elements>Mg(1)(H)2O(2)</Elements>
+        <Elements>Mg(1)H(2)O(2)</Elements>
         <Type>Mineral</Type>
         <MolarMass units="g/mol">58.3268</MolarMass>
         <Charge>0</Charge>
