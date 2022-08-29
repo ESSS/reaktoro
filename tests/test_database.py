@@ -168,6 +168,28 @@ def test_adding_and_getting_database_elements():
     assert elements[3].molarMass() == pytest.approx(32.065e-3)
 
 
+def test_getting_database_elements_nist():
+    database = Database(str(get_test_data_dir() / "database_nist_simplified.xml"))
+
+    new_element = Element()
+    new_element.setName("Ag")
+    new_element.setMolarMass(1.0)
+
+    database.addElement(new_element)
+
+    elements = database.elements()
+
+    assert elements[0].name() == "Ac"
+    assert elements[0].molarMass() == pytest.approx(227.0e-3)
+    assert elements[1].name() == "Ag"
+    assert elements[1].molarMass() == pytest.approx(107.8682e-3)
+    assert elements[2].name() == "Al"
+    assert elements[2].molarMass() == pytest.approx(26.981538e-3)
+    assert elements[3].name() == "Am"
+    assert elements[3].molarMass() == pytest.approx(243.0e-3)
+
+
+
 def test_database_parse():
     """
     Test the fact that species should be added as
@@ -227,6 +249,29 @@ def test_database_contains():
     assert database.containsGaseousSpecies(gaseous_species[0].name())
     assert database.containsLiquidSpecies(liquid_species[0].name())
     assert database.containsMineralSpecies(mineral_species[0].name())
+
+
+def test_nist_database_species(data_regression):
+    database = Database(str(get_test_data_dir() / "database_nist_simplified.xml"))
+
+    aqueous_species = database.aqueousSpecies()
+    gaseous_species = database.gaseousSpecies()
+    mineral_species = database.mineralSpecies()
+
+    assert database.containsAqueousSpecies(aqueous_species[0].name())
+    assert database.containsGaseousSpecies(gaseous_species[0].name())
+    assert database.containsMineralSpecies(mineral_species[0].name())
+
+    all_aqueous_species = [species.name() for species in aqueous_species]
+    all_gaseous_species = [species.name() for species in gaseous_species]
+    all_mineral_species = [species.name() for species in mineral_species]
+
+    all_species_names = {
+        "Aqueous": all_aqueous_species,
+        "Gaseous": all_gaseous_species,
+        "Mineral": all_mineral_species,
+    }
+    data_regression.check(all_species_names)
 
 
 def test_database_looking_for_species_with_element():
