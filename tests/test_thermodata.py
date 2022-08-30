@@ -108,17 +108,23 @@ def test_SpeciesThermoParamsNIST_getter_and_setters():
     assert nist.G0 == 2
 
 
-def test_SpeciesThermoParamsNIST_in_aqueous_species_thermodata():
-    thermo_data = AqueousSpeciesThermoData()
-    assert thermo_data.nist is None
-    thermo_data.nist = SpeciesThermoParamsNIST()
-    assert thermo_data.nist is not None
+@pytest.mark.parametrize(
+    "thermodata",
+    [
+        GaseousSpeciesThermoData, AqueousSpeciesThermoData, MineralSpeciesThermoData
+    ]
+)
+def test_SpeciesThermoParamsNIST_in_aqueous_species_thermodata(thermodata):
+    species_thermo_data = thermodata()
+    assert species_thermo_data.nist is None
+    species_thermo_data.nist = SpeciesThermoParamsNIST()
+    assert species_thermo_data.nist is not None
 
-    nist = thermo_data.nist
-    thermo_data.nist.G0 = 1.0
+    nist = species_thermo_data.nist
+    species_thermo_data.nist.G0 = 1.0
     assert nist.G0 == 1.0
 
-    del thermo_data
+    del species_thermo_data
     assert nist.G0 == 1.0
 
 
