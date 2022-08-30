@@ -105,31 +105,32 @@ struct AqueousSpeciesThermoParamsHKF
     double wref;
 };
 
-/// A type for storing the parameters of the NIST/NBS tables for std thermo properties
+/// A type for storing the parameters of the NIST/NBS tables for std thermo properties.
+/// For further information, check here: https://data.nist.gov/od/id/mds2-2124.
 struct SpeciesThermoParamsNIST
 {
-    /// TODO: docs
+    /// The Gibbs energy of formation at 25 degC (in units of kJ/mol).
     double G0;
 
-    /// TODO: docs
+    /// The enthalpy of formation at 25 degC (in units of kJ/mol).
     double H0;
 
-    /// TODO: docs
+    /// The enthalpy different H0(T) - H0(0) with T in degC (in units of kJ/mol).
     double H00;
 
-    /// TODO: docs
+    /// The entropy at T = 25 degC (in units of J/(mol*K)).
     double S0;
 
-    /// TODO: docs
+    /// Heat capacity at T = 25 degC (in units of J/(mol*K)).
     double Cp;
 
-    /// TODO: docs
+    /// Heat capacity coefficient to compute Cp as function of T, when available.
     double Cp_a;
 
-    /// TODO: docs
+    /// Heat capacity coefficient to compute Cp as function of T, when available.
     double Cp_b;
 
-    /// TODO: docs
+    /// Heat capacity coefficient to compute Cp as function of T, when available.
     double Cp_c;
 };
 
