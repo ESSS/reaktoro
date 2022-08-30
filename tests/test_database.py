@@ -31,7 +31,7 @@ def get_test_data_dir():
     return Path(os.path.abspath(__file__)).parents[0] / "data"
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def get_databases_dir():
     return Path(os.path.abspath(__file__)).parents[1] / "databases"
 
@@ -73,7 +73,7 @@ def guard_locale():
     locale.setlocale(locale.LC_NUMERIC, old_locale)
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def nist_database(get_databases_dir):
     database = Database(str(get_databases_dir / "nist" / "database_nist_260822.xml"))
     return database
