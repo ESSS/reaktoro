@@ -14,7 +14,7 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with this library. If not, see <http://www.gnu.org/licenses/>.
-
+import pytest
 from reaktoro import *
 
 def test_ReactionParams():
@@ -63,6 +63,19 @@ def test_GaseousSpeciesThermoData():
     assert gaseous_species.hkf is None
     gaseous_species.hkf = GaseousSpeciesThermoParamsHKF()
     assert gaseous_species.hkf is not None
+
+
+@pytest.mark.parametrize(
+    "thermodata",
+    [
+        GaseousSpeciesThermoData, AqueousSpeciesThermoData, MineralSpeciesThermoData
+    ]
+)
+def test_SpeciesThermoParamsNIST(thermodata):
+    species_thermodata = thermodata()
+    assert species_thermodata.nist is None
+    species_thermodata.nist = SpeciesThermoParamsNIST()
+    assert species_thermodata.nist is not None
 
 
 def test_MineralSpeciesThermoParamsHKF():
