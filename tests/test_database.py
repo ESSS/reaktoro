@@ -31,6 +31,11 @@ def get_test_data_dir():
     return Path(os.path.abspath(__file__)).parents[0] / "data"
 
 
+@pytest.fixture
+def get_databases_dir():
+    return Path(os.path.abspath(__file__)).parents[1] / "databases"
+
+
 LANGUAGES = {
     'bg_BG': 'Bulgarian',
     'cs_CZ': 'Czech',
@@ -69,9 +74,10 @@ def guard_locale():
 
 
 @pytest.fixture
-def nist_database():
-    database = Database(str(get_test_data_dir() / "database_nist_simplified.xml"))
+def nist_database(get_databases_dir):
+    database = Database(str(get_databases_dir / "nist" / "database_nist_260822.xml"))
     return database
+
 
 def try_set_locale(loc):
     try:
