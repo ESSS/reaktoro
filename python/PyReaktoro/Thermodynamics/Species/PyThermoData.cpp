@@ -146,6 +146,18 @@ void exportThermoDataProperties(py::module& m)
         .def_readwrite("dPdTtr", &MineralSpeciesThermoParamsHKF::dPdTtr)
         .def_readwrite("Tmax", &MineralSpeciesThermoParamsHKF::Tmax)
         ;
+
+    py::class_<SpeciesThermoParamsNIST>(m, "SpeciesThermoParamsNIST")
+        .def(py::init<>())
+        .def_readwrite("G0", &SpeciesThermoParamsNIST::G0)
+        .def_readwrite("H0", &SpeciesThermoParamsNIST::H0)
+        .def_readwrite("H00", &SpeciesThermoParamsNIST::H00)
+        .def_readwrite("S0", &SpeciesThermoParamsNIST::S0)
+        .def_readwrite("Cp", &SpeciesThermoParamsNIST::Cp)
+        .def_readwrite("Cp_a", &SpeciesThermoParamsNIST::Cp_a)
+        .def_readwrite("Cp_b", &SpeciesThermoParamsNIST::Cp_b)
+        .def_readwrite("Cp_c", &SpeciesThermoParamsNIST::Cp_c)
+        ;
 }
 
 } // namespace Reaktoro
