@@ -68,6 +68,11 @@ def guard_locale():
     locale.setlocale(locale.LC_NUMERIC, old_locale)
 
 
+@pytest.fixture
+def nist_database():
+    database = Database(str(get_test_data_dir() / "database_nist_simplified.xml"))
+    return database
+
 def try_set_locale(loc):
     try:
         locale.setlocale(locale.LC_NUMERIC, loc)
@@ -168,8 +173,8 @@ def test_adding_and_getting_database_elements():
     assert elements[3].molarMass() == pytest.approx(32.065e-3)
 
 
-def test_getting_database_elements_nist():
-    database = Database(str(get_test_data_dir() / "database_nist_simplified.xml"))
+def test_getting_database_elements_nist(nist_database):
+    database = nist_database
 
     new_element = Element()
     new_element.setName("Ag")
@@ -205,7 +210,6 @@ def test_database_parse():
 
     assert gaseous_species[0].name() == "H2S(g)"
     assert liquid_species[0].name() == "H2S(liq)"
-
 
 
 def test_database_species_adding_and_getting():
@@ -251,8 +255,8 @@ def test_database_contains():
     assert database.containsMineralSpecies(mineral_species[0].name())
 
 
-def test_nist_database_species(data_regression):
-    database = Database(str(get_test_data_dir() / "database_nist_simplified.xml"))
+def test_nist_database_species(data_regression, nist_database):
+    database = nist_database
 
     aqueous_species = database.aqueousSpecies()
     gaseous_species = database.gaseousSpecies()
@@ -288,8 +292,8 @@ def test_database_looking_for_species_with_element():
     assert mineral_species_with_H_or_Fe[0].name() == "Pyrrhotite"
 
 
-def test_nist_database_looking_for_species_with_element():
-    database = Database(str(get_test_data_dir() / "database_nist_simplified.xml"))
+def test_nist_database_looking_for_species_with_element(nist_database):
+    database = nist_database
 
     aqueous_species_with_C_or_O = database.aqueousSpeciesWithElements(["C", "O"])
     gaseous_species_with_C_or_O = database.gaseousSpeciesWithElements(["C", "O"])
