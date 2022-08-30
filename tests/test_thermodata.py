@@ -98,6 +98,30 @@ def test_MineralSpeciesThermoParamsHKF():
     assert a[0] == 3
 
 
+def test_SpeciesThermoParamsNIST_getter_and_setters():
+    nist = SpeciesThermoParamsNIST()
+
+    G0 = nist.G0
+    assert G0 == 0  # default
+
+    nist.G0 = 2
+    assert nist.G0 == 2
+
+
+def test_SpeciesThermoParamsNIST_in_aqueous_species_thermodata():
+    thermo_data = AqueousSpeciesThermoData()
+    assert thermo_data.nist is None
+    thermo_data.nist = SpeciesThermoParamsNIST()
+    assert thermo_data.nist is not None
+
+    nist = thermo_data.nist
+    thermo_data.nist.G0 = 1.0
+    assert nist.G0 == 1.0
+
+    del thermo_data
+    assert nist.G0 == 1.0
+
+
 def test_MineralSpeciesThermoData():
     thermo_data = MineralSpeciesThermoData()
 
