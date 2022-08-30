@@ -266,14 +266,14 @@ def test_nist_database_species(data_regression, nist_database):
     assert database.containsGaseousSpecies(gaseous_species[0].name())
     assert database.containsMineralSpecies(mineral_species[0].name())
 
-    all_aqueous_species = [species.name() for species in aqueous_species]
-    all_gaseous_species = [species.name() for species in gaseous_species]
-    all_mineral_species = [species.name() for species in mineral_species]
+    all_aqueous_species_names = [species.name() for species in aqueous_species]
+    all_gaseous_species_names = [species.name() for species in gaseous_species]
+    all_mineral_species_names = [species.name() for species in mineral_species]
 
     all_species_names = {
-        "Aqueous": all_aqueous_species,
-        "Gaseous": all_gaseous_species,
-        "Mineral": all_mineral_species,
+        "Aqueous": all_aqueous_species_names,
+        "Gaseous": all_gaseous_species_names,
+        "Mineral": all_mineral_species_names,
     }
     data_regression.check(all_species_names)
 
