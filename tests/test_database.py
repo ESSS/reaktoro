@@ -204,7 +204,6 @@ def test_adding_and_getting_database_elements_nist(nist_database):
     assert elements[3].molarMass() == pytest.approx(243.0e-3)
 
 
-
 def test_database_parse():
     """
     Test the fact that species should be added as
