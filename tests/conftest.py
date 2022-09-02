@@ -383,3 +383,12 @@ def get_databases_dir():
 def nist_database(get_databases_dir):
     database = Database(str(get_databases_dir / "nist" / "database_nist_260822.xml"))
     return database
+
+
+@pytest.fixture
+def chemical_editor_nacl_nist(nist_database):
+    editor = ChemicalEditor(nist_database)
+    editor.addAqueousPhase("H2O(l) H+ OH- Na+ Cl-".split())
+    editor.addGaseousPhase("H2O(g)")
+    editor.addMineralPhase("Halite")
+    return editor
