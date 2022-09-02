@@ -488,6 +488,9 @@
         <Elements>H(2)O(1)</Elements>
         <Type>Gaseous</Type>
         <MolarMass units="g/mol">18.0154</MolarMass>
+        <CriticalTemperature units="K">647.1</CriticalTemperature>
+        <CriticalPressure units="bar">220.55</CriticalPressure>
+        <AcentricFactor>0.345</AcentricFactor>
         <Charge>0</Charge>
         <Thermo>
             <NIST>
