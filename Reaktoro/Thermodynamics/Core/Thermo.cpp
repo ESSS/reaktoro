@@ -68,6 +68,15 @@ auto errorNonExistentSpecies(const std::string& name) -> void
     RaiseError(exception);
 }
 
+auto errorInvalidReaktoroXmlDatabase() -> void
+{
+    Exception exception;
+    exception.error << "Invalid thermo database to compute std properties.";
+    exception.reason << "There is no such a database backend defined in Reaktoro. Currently only HKF and NIST are "
+                        "valid options.";
+    RaiseError(exception);
+}
+
 } // namespace
 
 struct Thermo::Impl
@@ -146,11 +155,30 @@ struct Thermo::Impl
 
         water_eletro_state_fn = memoize(water_eletro_state_fn);
 
+        // Workaround to retrieve a chemical species to determine if the model is HKF or NIST
+        std::string water_species_name = "H2O(l)";
+        const auto& water_species = database.aqueousSpecies(water_species_name);
+        const auto& hkf_thermo_data = water_species.thermoData().hkf;
+        const auto& nist_thermo_data = water_species.thermoData().nist;
+
         // Initialize the HKF equation of state for the thermodynamic state of aqueous, gas, liquid, fluid and mineral species
-        species_thermo_state_fn = [=](double T, double P, std::string species)
+        if (hkf_thermo_data.has_value())
         {
-            return speciesThermoStateHKF(T, P, species);
-        };
+            species_thermo_state_fn = [=](double T, double P, std::string species)
+            {
+                return speciesThermoStateHKF(T, P, species);
+            };
+        }
+        // Initialize the NIST values for the thermodynamic state of aqueous, gas, and mineral species
+        else if (nist_thermo_data.has_value())
+        {
+            species_thermo_state_fn = [=](double T, double P, std::string species)
+            {
+                return aqueousSpeciesThermoStateNIST(T, P, species);
+            };
+        }
+        else
+            errorInvalidReaktoroXmlDatabase();
 
         species_thermo_state_fn = memoize(species_thermo_state_fn);
     }
@@ -212,6 +240,79 @@ struct Thermo::Impl
         SpeciesElectroState aes = speciesElectroStateHKF(g, species);
 
         return speciesThermoStateSoluteHKF(T, P, species, aes, wes);
+    }
+
+    auto speciesThermoStateNIST(double T, double P, const std::string& species) const -> SpeciesThermoState
+    {
+        if(database.containsAqueousSpecies(species))
+            return aqueousSpeciesThermoStateNIST(T, P, species);
+        if(database.containsGaseousSpecies(species))
+            return gaseousSpeciesThermoStateNIST(T, P, species);
+        if(database.containsMineralSpecies(species))
+            return mineralSpeciesThermoStateNIST(T, P, species);
+        errorNonExistentSpecies(species);
+        return {};
+    }
+
+    auto aqueousSpeciesThermoStateNIST(double T, double P, std::string species) const -> SpeciesThermoState
+    {
+        const auto& aqueous_species = database.aqueousSpecies(std::move(species));
+        const auto& species_nist_data = aqueous_species.thermoData().nist;
+        assert(species_nist_data.has_value());
+
+        SpeciesThermoState sts;
+
+        sts.gibbs_energy = ThermoScalar{species_nist_data->G0};
+        sts.enthalpy = ThermoScalar{species_nist_data->H0};
+        sts.entropy = ThermoScalar{species_nist_data->S0};
+        sts.heat_capacity_cp = ThermoScalar{species_nist_data->Cp};
+        sts.heat_capacity_cv = ThermoScalar{species_nist_data->Cp};  // approximately the same except for gases
+        sts.volume = ThermoScalar{0.0};  // unavailable in NIST database
+        sts.helmholtz_energy = ThermoScalar{0.0};  // unavailable in NIST database
+        sts.internal_energy = ThermoScalar{0.0};  // unavailable in NIST database
+
+        return sts;
+    }
+
+    auto gaseousSpeciesThermoStateNIST(double T, double P, std::string species) const -> SpeciesThermoState
+    {
+        const auto& gaseous_species = database.gaseousSpecies(std::move(species));
+        const auto& species_nist_data = gaseous_species.thermoData().nist;
+        assert(species_nist_data.has_value());
+
+        SpeciesThermoState sts;
+
+        sts.gibbs_energy = ThermoScalar{species_nist_data->G0};
+        sts.enthalpy = ThermoScalar{species_nist_data->H0};
+        sts.entropy = ThermoScalar{species_nist_data->S0};
+        sts.heat_capacity_cp = ThermoScalar{species_nist_data->Cp};
+        const auto R = universalGasConstant;
+        sts.heat_capacity_cv = ThermoScalar{species_nist_data->Cp - R};
+        sts.volume = ThermoScalar{0.0};  // unavailable in NIST database
+        sts.helmholtz_energy = ThermoScalar{0.0};  // unavailable in NIST database
+        sts.internal_energy = ThermoScalar{0.0};  // unavailable in NIST database
+
+        return sts;
+    }
+
+    auto mineralSpeciesThermoStateNIST(double T, double P, std::string species) const -> SpeciesThermoState
+    {
+        const auto& mineral_species = database.mineralSpecies(std::move(species));
+        const auto& species_nist_data = mineral_species.thermoData().nist;
+        assert(species_nist_data.has_value());
+
+        SpeciesThermoState sts;
+
+        sts.gibbs_energy = ThermoScalar{species_nist_data->G0};
+        sts.enthalpy = ThermoScalar{species_nist_data->H0};
+        sts.entropy = ThermoScalar{species_nist_data->S0};
+        sts.heat_capacity_cp = ThermoScalar{species_nist_data->Cp};
+        sts.heat_capacity_cv = ThermoScalar{species_nist_data->Cp};  // approximately the same except for gases
+        sts.volume = ThermoScalar{0.0};  // unavailable in NIST database
+        sts.helmholtz_energy = ThermoScalar{0.0};  // unavailable in NIST database
+        sts.internal_energy = ThermoScalar{0.0};  // unavailable in NIST database
+
+        return sts;
     }
 
     auto standardPartialMolarGibbsEnergy(double T, double P, std::string species) -> ThermoScalar
