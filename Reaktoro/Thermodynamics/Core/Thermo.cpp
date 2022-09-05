@@ -94,7 +94,7 @@ struct Thermo::Impl
     WaterElectroStateFunction water_eletro_state_fn;
 
     /// The HKF equation of state for the thermodynamic state of aqueous, gaseous and mineral species
-    SpeciesThermoStateFunction species_thermo_state_hkf_fn;
+    SpeciesThermoStateFunction species_thermo_state_fn;
 
     Impl()
     : engine(ThermoFun::Database())
@@ -110,12 +110,12 @@ struct Thermo::Impl
         substances = fundatabase.getSubstances();
 
         // Initialize the HKF equation of state for the thermodynamic state of aqueous, gaseous and mineral species
-        species_thermo_state_hkf_fn = [=](double T, double P, std::string species)
+        species_thermo_state_fn = [=](double T, double P, std::string species)
         {
             return speciesThermoStateUsingThermoFun(T, P, species);
         };
 
-        species_thermo_state_hkf_fn = memoize(species_thermo_state_hkf_fn);
+        species_thermo_state_fn = memoize(species_thermo_state_fn);
     }
 
     Impl(const Database& database)
@@ -147,12 +147,12 @@ struct Thermo::Impl
         water_eletro_state_fn = memoize(water_eletro_state_fn);
 
         // Initialize the HKF equation of state for the thermodynamic state of aqueous, gas, liquid, fluid and mineral species
-        species_thermo_state_hkf_fn = [=](double T, double P, std::string species)
+        species_thermo_state_fn = [=](double T, double P, std::string species)
         {
             return speciesThermoStateHKF(T, P, species);
         };
 
-        species_thermo_state_hkf_fn = memoize(species_thermo_state_hkf_fn);
+        species_thermo_state_fn = memoize(species_thermo_state_fn);
     }
 
     auto convertScalar(Reaktoro_::ThermoScalar funscalar) -> ThermoScalar
@@ -229,7 +229,7 @@ struct Thermo::Impl
 			return standardGibbsEnergyFromPhreeqcReaction(T, P, species, *phreeqc_thermo_params);
 
         if(hasThermoParamsHKF(species) || substances.size() > 0)
-            return species_thermo_state_hkf_fn(T, P, species).gibbs_energy;
+            return species_thermo_state_fn(T, P, species).gibbs_energy;
 
         return {};
     }
@@ -245,7 +245,7 @@ struct Thermo::Impl
             return standardHelmholtzEnergyFromReaction(T, P, species, *reaction_thermo_properties);
 
         if(hasThermoParamsHKF(species) || substances.size() > 0)
-            return species_thermo_state_hkf_fn(T, P, species).helmholtz_energy;
+            return species_thermo_state_fn(T, P, species).helmholtz_energy;
 
         return {};
     }
@@ -261,7 +261,7 @@ struct Thermo::Impl
             return standardInternalEnergyFromReaction(T, P, species, *reaction_thermo_properties);
 
         if(hasThermoParamsHKF(species) || substances.size() > 0)
-            return species_thermo_state_hkf_fn(T, P, species).internal_energy;
+            return species_thermo_state_fn(T, P, species).internal_energy;
 
         return {};
     }
@@ -277,7 +277,7 @@ struct Thermo::Impl
             return standardEnthalpyFromReaction(T, P, species, *reaction_thermo_properties);
 
         if(hasThermoParamsHKF(species) || substances.size() > 0)
-            return species_thermo_state_hkf_fn(T, P, species).enthalpy;
+            return species_thermo_state_fn(T, P, species).enthalpy;
 
         return {};
     }
@@ -293,7 +293,7 @@ struct Thermo::Impl
             return standardEntropyFromReaction(T, P, species, *reaction_thermo_properties);
 
         if(hasThermoParamsHKF(species) || substances.size() > 0)
-            return species_thermo_state_hkf_fn(T, P, species).entropy;
+            return species_thermo_state_fn(T, P, species).entropy;
 
         return {};
     }
@@ -309,7 +309,7 @@ struct Thermo::Impl
             return standardVolumeFromReaction(T, P, species, *reaction_thermo_properties);
 
         if(hasThermoParamsHKF(species) || substances.size() > 0)
-            return species_thermo_state_hkf_fn(T, P, species).volume;
+            return species_thermo_state_fn(T, P, species).volume;
 
         return {};
     }
@@ -325,7 +325,7 @@ struct Thermo::Impl
             return standardHeatCapacityConstPFromReaction(T, P, species, *reaction_thermo_properties);
 
         if(hasThermoParamsHKF(species) || substances.size() > 0)
-            return species_thermo_state_hkf_fn(T, P, species).heat_capacity_cp;
+            return species_thermo_state_fn(T, P, species).heat_capacity_cp;
 
         return {};
     }
@@ -342,7 +342,7 @@ struct Thermo::Impl
             return standardHeatCapacityConstVFromReaction(T, P, species, *reaction_thermo_properties);
 
         if(hasThermoParamsHKF(species) || substances.size() > 0)
-            return species_thermo_state_hkf_fn(T, P, species).heat_capacity_cv;
+            return species_thermo_state_fn(T, P, species).heat_capacity_cv;
 
         return {};
     }
@@ -746,7 +746,7 @@ auto Thermo::hasStandardPartialMolarHeatCapacityConstV(std::string species) cons
 
 auto Thermo::speciesThermoStateHKF(double T, double P, std::string species) -> SpeciesThermoState
 {
-    return pimpl->species_thermo_state_hkf_fn(T, P, species);
+    return pimpl->species_thermo_state_fn(T, P, species);
 }
 
 auto Thermo::waterThermoStateHGK(double T, double P) -> WaterThermoState
