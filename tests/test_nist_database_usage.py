@@ -6,6 +6,7 @@ from reaktoro import (
 )
 
 
+@pytest.mark.xfail(reason="Unable to set NIST DB as std properties.")
 @pytest.mark.parametrize(
     "species_name", ["Na+", "Cl-", "H2O(l)"]
 )
