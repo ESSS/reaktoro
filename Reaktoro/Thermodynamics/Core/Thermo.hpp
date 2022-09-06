@@ -145,7 +145,7 @@ public:
     /// @param P The pressure value (in units of Pa)
     /// @param species The name of the species
     /// @see SpeciesThermoState
-    auto speciesThermoStateHKF(double T, double P, std::string species) -> SpeciesThermoState;
+    auto speciesThermoState(double T, double P, std::string species) -> SpeciesThermoState;
 
     /// Calculate the thermodynamic state of water using the Haar--Gallagher--Kell (1984) equation of state.
     /// @param T The temperature of water (in units of K)
