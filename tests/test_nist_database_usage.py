@@ -1,8 +1,8 @@
 import pytest
 from reaktoro import (
-    ChemicalEditor,
     ChemicalSystem,
     ChemicalProperties,
+    XmlDatabaseType
 )
 
 
@@ -24,3 +24,8 @@ def test_reaktoro_setup_with_nist_database(species_name, nist_database, chemical
     species_nist_thermodata = species_in_database.thermoData().nist
     species_g0_from_thermodata = species_nist_thermodata.G0
     assert species_g0_from_properties == species_g0_from_thermodata
+
+
+def test_nist_database_thermodata_type(nist_database):
+    database = nist_database
+    assert database.databaseType() == XmlDatabaseType.NIST

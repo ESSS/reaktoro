@@ -40,6 +40,10 @@ using GaseousSpecies = FluidSpecies;
 using LiquidSpecies = FluidSpecies;
 class MineralSpecies;
 
+enum class XmlDatabaseType
+{
+    HKF, NIST, ThermoFun
+};
 
 /// Provides operations to retrieve physical and thermodynamic data of chemical species.
 ///
@@ -168,6 +172,10 @@ public:
 
     /// Return the mineral species that contains at least one of the specified elements.
     auto mineralSpeciesWithElements(const std::vector<std::string>& elements) const -> std::vector<MineralSpecies>;
+
+    /// Get the XML database type. Currently supported: HKF, NIST or ThermoFun. This type determines from where
+    /// the species/elements data are collected.
+    auto databaseType() const -> XmlDatabaseType;
 
 private:
     struct Impl;

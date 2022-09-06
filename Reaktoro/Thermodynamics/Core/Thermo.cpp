@@ -155,14 +155,9 @@ struct Thermo::Impl
 
         water_eletro_state_fn = memoize(water_eletro_state_fn);
 
-        // Workaround to retrieve a chemical species to determine if the model is HKF or NIST
-        std::string water_species_name = "H2O(l)";
-        const auto& water_species = database.aqueousSpecies(water_species_name);
-        const auto& hkf_thermo_data = water_species.thermoData().hkf;
-        const auto& nist_thermo_data = water_species.thermoData().nist;
-
         // Initialize the HKF equation of state for the thermodynamic state of aqueous, gas, liquid, fluid and mineral species
-        if (hkf_thermo_data.has_value())
+        const auto& database_type = database.databaseType();
+        if (database_type == XmlDatabaseType::HKF)
         {
             species_thermo_state_fn = [=](double T, double P, std::string species)
             {
@@ -170,11 +165,11 @@ struct Thermo::Impl
             };
         }
         // Initialize the NIST values for the thermodynamic state of aqueous, gas, and mineral species
-        else if (nist_thermo_data.has_value())
+        else if (database_type == XmlDatabaseType::NIST)
         {
             species_thermo_state_fn = [=](double T, double P, std::string species)
             {
-                return aqueousSpeciesThermoStateNIST(T, P, species);
+                return speciesThermoStateNIST(T, P, species);
             };
         }
         else
