@@ -1087,8 +1087,8 @@
     </Species>
     <Species>
         <Name>Aragonite</Name>
-        <Formula>Ca(1)C(1)O(3)</Formula>
-        <Elements></Elements>
+        <Formula>CaCO3</Formula>
+        <Elements>Ca(1)C(1)O(3)</Elements>
         <Type>Mineral</Type>
         <MolarMass units="g/mol">100.0894</MolarMass>
         <Charge>0</Charge>
@@ -1137,9 +1137,9 @@
         </Thermo>
     </Species>
     <Species>
-        <Name>SrCl2·6H2O</Name>
-        <Formula>Sr(1)Cl(2)H(12)O(6)</Formula>
-        <Elements></Elements>
+        <Name>SrCl2*6H2O</Name>
+        <Formula>SrCl2*6H2O</Formula>
+        <Elements>Sr(1)Cl(2)H(12)O(6)</Elements>
         <Type>Mineral</Type>
         <MolarMass units="g/mol">266.6184</MolarMass>
         <Charge>0</Charge>
