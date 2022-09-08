@@ -59,7 +59,7 @@ def test_equilibriumsolver_with_nist(nist_database, chemical_editor_nacl_nist):
     na_nist_thermodata = na_in_database.thermoData().nist
     na_g0_from_thermodata = na_nist_thermodata.G0
 
-    species_index = system.indexSpecies("Na+")
+    na_index = system.indexSpecies("Na+")
     properties = state.properties()
-    na_g0_from_state = properties.standardPartialMolarGibbsEnergies().val[species_index]
+    na_g0_from_state = properties.standardPartialMolarGibbsEnergies().val[na_index]
     assert na_g0_from_state == pytest.approx(na_g0_from_thermodata)
