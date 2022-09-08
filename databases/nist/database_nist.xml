@@ -471,6 +471,10 @@
         <Elements>O(2)</Elements>
         <Type>Gaseous</Type>
         <MolarMass units="g/mol">31.9988</MolarMass>
+        <Gas>Oxygen</Gas>
+        <CriticalTemperature units="K">154.6</CriticalTemperature>
+        <CriticalPressure units="bar">50.43</CriticalPressure>
+        <AcentricFactor>0.022</AcentricFactor>
         <Charge>0</Charge>
         <Thermo>
             <NIST>
@@ -488,6 +492,7 @@
         <Elements>H(2)O(1)</Elements>
         <Type>Gaseous</Type>
         <MolarMass units="g/mol">18.0154</MolarMass>
+        <Gas>Steam</Gas>
         <CriticalTemperature units="K">647.1</CriticalTemperature>
         <CriticalPressure units="bar">220.55</CriticalPressure>
         <AcentricFactor>0.345</AcentricFactor>
@@ -508,6 +513,10 @@
         <Elements>N(2)</Elements>
         <Type>Gaseous</Type>
         <MolarMass units="g/mol">28.0134</MolarMass>
+        <Gas>Nitrogen</Gas>
+        <CriticalTemperature units="K">126.2</CriticalTemperature>
+        <CriticalPressure units="bar">34.0</CriticalPressure>
+        <AcentricFactor>0.038</AcentricFactor>
         <Charge>0</Charge>
         <Thermo>
             <NIST>
@@ -525,6 +534,10 @@
         <Elements>C(1)O(2)</Elements>
         <Type>Gaseous</Type>
         <MolarMass units="g/mol">44.0100</MolarMass>
+        <Gas>Carbon-Dioxide</Gas>
+        <CriticalTemperature units="K">304.2</CriticalTemperature>
+        <CriticalPressure units="bar">73.83</CriticalPressure>
+        <AcentricFactor>0.224</AcentricFactor>
         <Charge>0</Charge>
         <Thermo>
             <NIST>
