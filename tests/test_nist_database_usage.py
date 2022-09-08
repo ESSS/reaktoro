@@ -2,7 +2,9 @@ import pytest
 from reaktoro import (
     ChemicalSystem,
     ChemicalProperties,
-    XmlDatabaseType
+    XmlDatabaseType,
+    ChemicalState,
+    EquilibriumSolver,
 )
 
 
@@ -31,3 +33,33 @@ def test_reaktoro_setup_with_nist_database(species_name, nist_database, chemical
 def test_nist_database_thermodata_type(nist_database):
     database = nist_database
     assert database.databaseType() == XmlDatabaseType.NIST
+
+
+def test_equilibriumsolver_with_nist(nist_database, chemical_editor_nacl_nist):
+    editor = chemical_editor_nacl_nist
+    system = ChemicalSystem(editor)
+    state = ChemicalState(system)
+
+    # 1 molal NaCl solution
+    state.setTemperature(25.0, "celsius")
+    state.setPressure(1, "bar")
+    state.setSpeciesAmount("Na+", 1, "mol")
+    state.setSpeciesAmount("Cl-", 1, "mol")
+    state.setSpeciesMass("H2O(l)", 1, "kg")
+
+    solver = EquilibriumSolver(system)
+    solver.solve(state)
+
+    # All NaCl should dissociate in the 1 molal solution
+    assert state.speciesAmount("Na+") == pytest.approx(1.0)
+    assert state.speciesAmount("Cl-") == pytest.approx(1.0)
+
+    # Check if ChemicalState has the correct G0 value in properties
+    na_in_database = nist_database.aqueousSpecies("Na+")
+    na_nist_thermodata = na_in_database.thermoData().nist
+    na_g0_from_thermodata = na_nist_thermodata.G0
+
+    species_index = system.indexSpecies("Na+")
+    properties = state.properties()
+    na_g0_from_state = properties.standardPartialMolarGibbsEnergies().val[species_index]
+    assert na_g0_from_state == pytest.approx(na_g0_from_thermodata)
