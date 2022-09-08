@@ -48,6 +48,9 @@ using namespace std::placeholders;
 namespace Reaktoro {
 namespace {
 
+/// Convert kJ to J
+const float kJouleToJoule = 1e3;
+
 /// The signature of a function that calculates the thermodynamic state of water
 using WaterThermoStateFunction =
     std::function<WaterThermoState(double, double)>;
@@ -243,6 +246,8 @@ struct Thermo::Impl
             return aqueousSpeciesThermoStateNIST(T, P, species);
         if(database.containsGaseousSpecies(species))
             return gaseousSpeciesThermoStateNIST(T, P, species);
+        if(database.containsLiquidSpecies(species))
+            return liquidSpeciesThermoStateNIST(T, P, species);
         if(database.containsMineralSpecies(species))
             return mineralSpeciesThermoStateNIST(T, P, species);
         errorNonExistentSpecies(species);
@@ -257,8 +262,28 @@ struct Thermo::Impl
 
         SpeciesThermoState sts;
 
-        sts.gibbs_energy = ThermoScalar{species_nist_data->G0};
-        sts.enthalpy = ThermoScalar{species_nist_data->H0};
+        sts.gibbs_energy = ThermoScalar{species_nist_data->G0 * kJouleToJoule};
+        sts.enthalpy = ThermoScalar{species_nist_data->H0 * kJouleToJoule};
+        sts.entropy = ThermoScalar{species_nist_data->S0};
+        sts.heat_capacity_cp = ThermoScalar{species_nist_data->Cp};
+        sts.heat_capacity_cv = ThermoScalar{species_nist_data->Cp};  // approximately the same except for gases
+        sts.volume = ThermoScalar{0.0};  // unavailable in NIST database
+        sts.helmholtz_energy = ThermoScalar{0.0};  // unavailable in NIST database
+        sts.internal_energy = ThermoScalar{0.0};  // unavailable in NIST database
+
+        return sts;
+    }
+
+    auto liquidSpeciesThermoStateNIST(double T, double P, std::string species) const -> SpeciesThermoState
+    {
+        const auto& liquid_species = database.liquidSpecies(std::move(species));
+        const auto& species_nist_data = liquid_species.thermoData().nist;
+        assert(species_nist_data.has_value());
+
+        SpeciesThermoState sts;
+
+        sts.gibbs_energy = ThermoScalar{species_nist_data->G0 * kJouleToJoule};
+        sts.enthalpy = ThermoScalar{species_nist_data->H0 * kJouleToJoule};
         sts.entropy = ThermoScalar{species_nist_data->S0};
         sts.heat_capacity_cp = ThermoScalar{species_nist_data->Cp};
         sts.heat_capacity_cv = ThermoScalar{species_nist_data->Cp};  // approximately the same except for gases
@@ -277,8 +302,8 @@ struct Thermo::Impl
 
         SpeciesThermoState sts;
 
-        sts.gibbs_energy = ThermoScalar{species_nist_data->G0};
-        sts.enthalpy = ThermoScalar{species_nist_data->H0};
+        sts.gibbs_energy = ThermoScalar{species_nist_data->G0 * kJouleToJoule};
+        sts.enthalpy = ThermoScalar{species_nist_data->H0 * kJouleToJoule};
         sts.entropy = ThermoScalar{species_nist_data->S0};
         sts.heat_capacity_cp = ThermoScalar{species_nist_data->Cp};
         const auto R = universalGasConstant;
@@ -298,8 +323,8 @@ struct Thermo::Impl
 
         SpeciesThermoState sts;
 
-        sts.gibbs_energy = ThermoScalar{species_nist_data->G0};
-        sts.enthalpy = ThermoScalar{species_nist_data->H0};
+        sts.gibbs_energy = ThermoScalar{species_nist_data->G0 * kJouleToJoule};
+        sts.enthalpy = ThermoScalar{species_nist_data->H0 * kJouleToJoule};
         sts.entropy = ThermoScalar{species_nist_data->S0};
         sts.heat_capacity_cp = ThermoScalar{species_nist_data->Cp};
         sts.heat_capacity_cv = ThermoScalar{species_nist_data->Cp};  // approximately the same except for gases
