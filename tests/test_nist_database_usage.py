@@ -11,7 +11,7 @@ KJ_TO_K = 1.0e3
 
 
 @pytest.mark.parametrize(
-    "species_name", ["Na+", "Cl-", "H2O(l)"]
+    "species_name", ["Na+", "Cl-"]
 )
 def test_reaktoro_setup_with_nist_database(species_name, nist_database, chemical_editor_nacl_nist):
     editor = chemical_editor_nacl_nist
