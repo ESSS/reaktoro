@@ -39,8 +39,8 @@ namespace {
 /// The reference temperature assumed in the HKF equations of state (in units of K)
 const double referenceTemperature = 298.15;
 
-/// The reference temperature assumed in the HKF equations of state (in units of bar)
-const double referencePressure = 1.0;
+/// The reference temperature assumed in the HKF equations of state (in units of Pascal)
+const double referencePressure = 1.0e5;
 
 const double kJToJ = 1e3;
 
@@ -79,25 +79,22 @@ auto speciesThermoStateSolventNIST(Temperature T, Pressure P, const AqueousSpeci
     WaterThermoState wt = waterThermoStateWagnerPruss(T, P, StateOfMatter::Liquid);
 
     // Calculate H2O properties with Wagner & Pruss at reference
-    WaterThermoState wtr = waterThermoStateWagnerPruss(referenceTemperature, referencePressure, StateOfMatter::Liquid);
+    const auto Ttr = 273.15;  // unit: K
+    const auto Ptr = referencePressure;  // unit: Pascal
+    WaterThermoState wtr = waterThermoStateWagnerPruss(Ttr, Ptr, StateOfMatter::Liquid);
 
     // Reference values
-    const auto Ttr =  referenceTemperature;  // unit: K
-    const auto Ptr =  referencePressure;  // unit: Pascal
-    const auto Vtr =  wtr.volume * waterMolarMass;  // unit: m3/mol
-    const auto Str =  nist.S0; // unit: J/(mol*K)
-    const auto Gtr =  nist.G0 * kJToJ; // unit: J/mol
-    const auto Htr =  nist.H0 * kJToJ; // unit: J/mol
+    const auto& state_ref = genericSpeciesThermoStateNIST(Ttr, Ptr, species);
+    const auto Vtr = wtr.volume * waterMolarMass;  // unit: m3/mol
+    const auto Str = state_ref.entropy; // unit: J/(mol*K)
+    const auto Gtr = state_ref.gibbs_energy; // unit: J/mol
+    const auto Htr = state_ref.enthalpy; // unit: J/mol
+    const auto Utr = Htr - Ptr*Vtr;
+    const auto Atr = Utr - Ttr*Str;
 
     // Heat capacities
     const auto Cp = wt.cp * waterMolarMass;
     const auto Cv = wt.cv * waterMolarMass;
-
-    // Calculated with heat capacities
-    const auto CpdT = Cp*(T - Ttr);
-    const auto CpdlnT = Cp*log(T/Ttr);
-    const auto Utr = Htr - Ptr*Vtr;
-    const auto Atr = Utr - Ttr*Str;
 
     // Computed with Wagner & Pruss
     const auto Sw = waterMolarMass * wt.entropy;         // unit: J/(mol*K)
@@ -137,7 +134,6 @@ auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType&
     // Auxiliary variables
     const auto R = universalGasConstant;
     const auto Tr = referenceTemperature;
-    const auto Pr = referencePressure;
     const auto G0 = nist.G0 * kJToJ;
     const auto H0 = nist.H0 * kJToJ;
     const auto S0 = nist.S0;
@@ -176,7 +172,7 @@ auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType&
 auto aqueousSpeciesThermoStateNIST(Temperature T, Pressure P, const AqueousSpecies& species) -> SpeciesThermoState
 {
     if(isAlternativeWaterName(species.name()))
-        return genericSpeciesThermoStateNIST(T, P, species);
+        return speciesThermoStateSolventNIST(T, P, species);
 
     return genericSpeciesThermoStateNIST(T, P, species);
 }
