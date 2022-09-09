@@ -84,7 +84,7 @@ auto speciesThermoStateSolventNIST(Temperature T, Pressure P, const AqueousSpeci
     // Reference values
     const auto Ttr =  referenceTemperature;  // unit: K
     const auto Ptr =  referencePressure;  // unit: Pascal
-    const auto Vtr = wtr.volume * waterMolarMass;  // unit: m3/mol
+    const auto Vtr =  wtr.volume * waterMolarMass;  // unit: m3/mol
     const auto Str =  nist.S0; // unit: J/(mol*K)
     const auto Gtr =  nist.G0 * kJToJ; // unit: J/mol
     const auto Htr =  nist.H0 * kJToJ; // unit: J/mol
@@ -176,7 +176,7 @@ auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType&
 auto aqueousSpeciesThermoStateNIST(Temperature T, Pressure P, const AqueousSpecies& species) -> SpeciesThermoState
 {
     if(isAlternativeWaterName(species.name()))
-        return speciesThermoStateSolventNIST(T, P, species);
+        return genericSpeciesThermoStateNIST(T, P, species);
 
     return genericSpeciesThermoStateNIST(T, P, species);
 }
