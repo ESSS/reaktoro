@@ -42,6 +42,8 @@ const double referenceTemperature = 298.15;
 /// The reference temperature assumed in the HKF equations of state (in units of bar)
 const double referencePressure = 1.0;
 
+const double kJToJ = 1e3;
+
 template<typename SpeciesType>
 auto checkSpeciesDataNIST(const SpeciesType& species) -> void
 {
@@ -84,8 +86,8 @@ auto speciesThermoStateSolventNIST(Temperature T, Pressure P, const AqueousSpeci
     const auto Ptr =  referencePressure;  // unit: Pascal
     const auto Vtr = wtr.volume * waterMolarMass;  // unit: m3/mol
     const auto Str =  nist.S0; // unit: J/(mol*K)
-    const auto Gtr =  nist.G0; // unit: J/mol
-    const auto Htr =  nist.H0; // unit: J/mol
+    const auto Gtr =  nist.G0 * kJToJ; // unit: J/mol
+    const auto Htr =  nist.H0 * kJToJ; // unit: J/mol
 
     // Heat capacities
     const auto Cp = wt.cp * waterMolarMass;
@@ -134,10 +136,10 @@ auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType&
 
     // Auxiliary variables
     const auto R = universalGasConstant;
-    const auto Tr   = referenceTemperature;
-    const auto Pr   = referencePressure;
-    const auto G0 = nist.G0;
-    const auto H0 = nist.H0;
+    const auto Tr = referenceTemperature;
+    const auto Pr = referencePressure;
+    const auto G0 = nist.G0 * kJToJ;
+    const auto H0 = nist.H0 * kJToJ;
     const auto S0 = nist.S0;
     const auto Cp0 = nist.Cp;
     const auto a = std::isfinite(nist.Cp_a) ? nist.Cp_a : Cp0;
