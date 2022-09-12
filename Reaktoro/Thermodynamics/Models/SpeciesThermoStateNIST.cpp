@@ -134,6 +134,7 @@ auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType&
     // Auxiliary variables
     const auto R = universalGasConstant;
     const auto Tr = referenceTemperature;
+    const auto T_theta = 200.0;  // in K
     const auto G0 = nist.G0 * kJToJ;
     const auto H0 = nist.H0 * kJToJ;
     const auto S0 = nist.S0;
@@ -143,8 +144,8 @@ auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType&
     const auto c = std::isfinite(nist.Cp_c) ? nist.Cp_c : 0.0;
 
     // Calculate the integrals of the heal capacity function of the gas from Tr to T at constant pressure Pr
-    const auto CpdT   = a*(T - Tr) + 0.5*b*(T*T - Tr*Tr) - c*(1.0/T - 1.0/Tr);
-    const auto CpdlnT = a*log(T/Tr) + b*(T - Tr) - 0.5*c*(1.0/(T*T) - 1.0/(Tr*Tr));
+    const auto CpdT   = a*(T - Tr) + 0.5*b*(T*T - Tr*Tr) + c*log((T - T_theta) / (Tr - T_theta));
+    const auto CpdlnT = a*log(T/Tr) + b*(T - Tr) + c*(log((T - T_theta) / (Tr - T_theta)) + log(Tr / T)) / T_theta;
 
     // Calculate the standard molal thermodynamic properties of the gas
     auto V  = R*T/P; // the ideal gas molar volume (in units of m3/mol), this is a harsh simplification since V is
@@ -154,7 +155,7 @@ auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType&
     auto S  = S0 + CpdlnT;
     auto U  = H - P*V;
     auto A  = U - T*S;
-    auto Cp = a + b*T + c/(T*T);
+    auto Cp = a + b*T + c/(T - T_theta);
 
     SpeciesThermoState state;
     state.volume           = V;
@@ -172,7 +173,7 @@ auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType&
 auto aqueousSpeciesThermoStateNIST(Temperature T, Pressure P, const AqueousSpecies& species) -> SpeciesThermoState
 {
     if(isAlternativeWaterName(species.name()))
-        return speciesThermoStateSolventNIST(T, P, species);
+        return genericSpeciesThermoStateNIST(T, P, species);  // TODO: remove it afterwards
 
     return genericSpeciesThermoStateNIST(T, P, species);
 }
