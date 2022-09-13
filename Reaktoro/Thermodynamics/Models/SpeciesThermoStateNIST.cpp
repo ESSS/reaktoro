@@ -67,6 +67,9 @@ auto checkSpeciesDataNIST(const SpeciesType& species) -> void
 
 } // namespace
 
+
+// This approach uses IAPWS (Wagner and Pruss) to calculate water (solvent) properties.
+// It is currently not used, could be useful in the future.
 auto speciesThermoStateSolventNIST(Temperature T, Pressure P, const AqueousSpecies& species) -> SpeciesThermoState
 {
     // Check if all minimum NIST parameters are available
@@ -172,9 +175,6 @@ auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType&
 
 auto aqueousSpeciesThermoStateNIST(Temperature T, Pressure P, const AqueousSpecies& species) -> SpeciesThermoState
 {
-    if(isAlternativeWaterName(species.name()))
-        return genericSpeciesThermoStateNIST(T, P, species);  // TODO: remove it afterwards
-
     return genericSpeciesThermoStateNIST(T, P, species);
 }
 
