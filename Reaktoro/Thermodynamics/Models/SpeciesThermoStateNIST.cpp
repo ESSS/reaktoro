@@ -58,9 +58,6 @@ auto checkSpeciesDataNIST(const SpeciesType& species) -> void
     if(!std::isfinite(nist.H0))
         RuntimeError(error, "Missing `H0` data for this species in the database");
 
-    if(!std::isfinite(nist.S0))
-        RuntimeError(error, "Missing `S0` data for this species in the database");
-
     if(!std::isfinite(nist.Cp))
         RuntimeError(error, "Missing `Cp` data for this species in the database");
 }
@@ -140,7 +137,8 @@ auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType&
     const auto T_theta = 200.0;  // in K
     const auto G0 = nist.G0 * kJToJ;
     const auto H0 = nist.H0 * kJToJ;
-    const auto S0 = nist.S0;
+    // Since customizations for E-UNIQUAC are being used, we calculate S0 this way to have consistency
+    const auto S0 = (H0 - G0) / Tr;
     const auto Cp0 = nist.Cp;
     const auto a = std::isfinite(nist.Cp_a) ? nist.Cp_a : Cp0;
     const auto b = std::isfinite(nist.Cp_b) ? nist.Cp_b : 0.0;
