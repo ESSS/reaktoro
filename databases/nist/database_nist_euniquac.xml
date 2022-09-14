@@ -722,7 +722,7 @@
                 <H0 units="kJ/mol">-887.34</H0>
                 <H00 units="kJ/mol">-</H00>
                 <S0 units="J/(mol*K)">131.8</S0>
-                <Cp units="J/(mol*K)">-84.</Cp>
+                <Cp units="J/(mol*K)">-4.1313</Cp>
                 <cp_a>647.30</cp_a>
                 <cp_b>-1.5857</cp_b>
                 <cp_c>-17536</cp_c>
@@ -848,6 +848,24 @@
         </Thermo>
     </Species>
     <Species>
+        <Name>Mg++</Name>
+        <Formula>Mg+2</Formula>
+        <Elements>Mg(2)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">24.30506</MolarMass>
+        <Charge>2</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-454.8</G0>
+                <H0 units="kJ/mol">-466.85</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">-18.635063</Cp> <!-- scaleCERe at 25degC -->
+                <!-- TODO: cp parameters are still to be found -->
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
         <Name>Sr++</Name>
         <Formula>Sr+2</Formula>
         <Elements>Sr(1)</Elements>
@@ -940,7 +958,7 @@
         <Thermo>
             <NIST>
                 <G0 units="kJ/mol">-833.51</G0>
-                <H0 units="kJ/mol">-924.54</H0>
+                <H0 units="kJ/mol">-921.1407</H0>
                 <H00 units="kJ/mol">-913.794</H00>
                 <S0 units="J/(mol*K)">63.18</S0>
                 <Cp units="J/(mol*K)">77.03</Cp>
@@ -948,7 +966,7 @@
         </Thermo>
     </Species>
     <Species>
-        <Name>MgCO3</Name>
+        <Name>Magnesite</Name>
         <Formula>MgCO3</Formula>
         <Elements>Mg(1)C(1)O(3)</Elements>
         <Type>Mineral</Type>
@@ -998,7 +1016,7 @@
             </NIST>
         </Thermo>
     </Species>
-    <!-- <Species>
+    <Species>
         <Name>CaCl2*2H2O</Name>
         <Formula>CaCl2*2H2O</Formula>
         <Elements>Ca(1)Cl(2)H(4)O(2)</Elements>
@@ -1007,15 +1025,15 @@
         <Charge>0</Charge>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-</G0>
+                <G0 units="kJ/mol">-1253.87</G0>
                 <H0 units="kJ/mol">-1402.9</H0>
                 <H00 units="kJ/mol">-</H00>
                 <S0 units="J/(mol*K)">-</S0>
-                <Cp units="J/(mol*K)">-</Cp>
+                <Cp units="J/(mol*K)">153.0</Cp>
             </NIST>
         </Thermo>
-    </Species> -->
-    <!-- <Species>
+    </Species>
+    <Species>
         <Name>CaCl2·4H2O</Name>
         <Formula>CaCl2·4H2O</Formula>
         <Elements>Ca(1)Cl(2)H(8)O(4)</Elements>
@@ -1024,15 +1042,15 @@
         <Charge>0</Charge>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-</G0>
-                <H0 units="kJ/mol">-2009.6</H0>
+                <G0 units="kJ/mol">-1738.434</G0>
+                <H0 units="kJ/mol">-2014.119</H0>
                 <H00 units="kJ/mol">-</H00>
                 <S0 units="J/(mol*K)">-</S0>
-                <Cp units="J/(mol*K)">-</Cp>
+                <Cp units="J/(mol*K)">233.0</Cp>
             </NIST>
         </Thermo>
-    </Species> -->
-    <!-- <Species>
+    </Species>
+    <Species>
         <Name>CaCl2·6H2O</Name>
         <Formula>CaCl2·6H2O</Formula>
         <Elements>Ca(1)Cl(2)H(12)O(6)</Elements>
@@ -1041,14 +1059,14 @@
         <Charge>0</Charge>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-</G0>
+                <G0 units="kJ/mol">-2219.378</G0>
                 <H0 units="kJ/mol">-2607.9</H0>
                 <H00 units="kJ/mol">-</H00>
                 <S0 units="J/(mol*K)">-</S0>
-                <Cp units="J/(mol*K)">-</Cp>
+                <Cp units="J/(mol*K)">313.0</Cp>
             </NIST>
         </Thermo>
-    </Species> -->
+    </Species>
     <Species>
         <Name>Anhydrite</Name>
         <Formula>CaSO4</Formula>
@@ -1134,10 +1152,10 @@
         <Thermo>
             <NIST>
                 <G0 units="kJ/mol">-2163.4</G0>
-                <H0 units="kJ/mol">-2326.3</H0>
+                <H0 units="kJ/mol">-2302.72</H0>
                 <H00 units="kJ/mol">-2313.46</H00>
                 <S0 units="J/(mol*K)">155.18</S0>
-                <Cp units="J/(mol*K)">157.53</Cp>
+                <Cp units="J/(mol*K)">157.40</Cp>
             </NIST>
         </Thermo>
     </Species>
