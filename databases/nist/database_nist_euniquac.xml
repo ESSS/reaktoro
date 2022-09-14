@@ -1058,11 +1058,14 @@
         <Charge>0</Charge>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-1321.79</G0>
-                <H0 units="kJ/mol">-1434.11</H0>
+                <G0 units="kJ/mol">-1321.8</G0>
+                <H0 units="kJ/mol">-1436.132</H0>
                 <H00 units="kJ/mol">-</H00>
                 <S0 units="J/(mol*K)">106.7</S0>
-                <Cp units="J/(mol*K)">99.66</Cp>
+                <Cp units="J/(mol*K)">70.21</Cp>
+                <cp_a>70.21</cp_a>
+                <cp_b>0.009874</cp_b>
+                <cp_c>0.0</cp_c>
             </NIST>
         </Thermo>
     </Species>
@@ -1075,11 +1078,14 @@
         <Charge>0</Charge>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-1797.28</G0>
-                <H0 units="kJ/mol">-2022.63</H0>
+                <G0 units="kJ/mol">-1797.407</G0>
+                <H0 units="kJ/mol">-2026.294</H0>
                 <H00 units="kJ/mol">-</H00>
                 <S0 units="J/(mol*K)">194.1</S0>
-                <Cp units="J/(mol*K)">186.02</Cp>
+                <Cp units="J/(mol*K)">91.38</Cp>
+                <cp_a>91.38</cp_a>
+                <cp_b>0.318</cp_b>
+                <cp_c>0.0</cp_c>
             </NIST>
         </Thermo>
     </Species>
@@ -1144,8 +1150,8 @@
         <Charge>0</Charge>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-1281.8</G0>
-                <H0 units="kJ/mol">-1438.0</H0>
+                <G0 units="kJ/mol">-1284.587</G0>
+                <H0 units="kJ/mol">-1456.694</H0>
                 <H00 units="kJ/mol">-</H00>
                 <S0 units="J/(mol*K)">218.</S0>
                 <Cp units="J/(mol*K)">160.2</Cp>
@@ -1165,7 +1171,7 @@
                 <H0 units="kJ/mol">-2623.8</H0>
                 <H00 units="kJ/mol">-</H00>
                 <S0 units="J/(mol*K)">390.8</S0>
-                <Cp units="J/(mol*K)">-</Cp>
+                <Cp units="J/(mol*K)">320</Cp>
             </NIST>
         </Thermo>
     </Species>
@@ -1178,11 +1184,11 @@
         <Charge>0</Charge>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-1340.9</G0>
-                <H0 units="kJ/mol">-1453.1</H0>
+                <G0 units="kJ/mol">-1341.538</G0>
+                <H0 units="kJ/mol">-1452.955</H0>
                 <H00 units="kJ/mol">-</H00>
                 <S0 units="J/(mol*K)">117.</S0>
-                <Cp units="J/(mol*K)">-</Cp>
+                <Cp units="J/(mol*K)">100.0</Cp>
             </NIST>
         </Thermo>
     </Species>
@@ -1216,11 +1222,11 @@
         <Charge>0</Charge>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-1362.2</G0>
-                <H0 units="kJ/mol">-1473.2</H0>
+                <G0 units="kJ/mol">-1361.866</G0>
+                <H0 units="kJ/mol">-1467.929</H0>
                 <H00 units="kJ/mol">-</H00>
                 <S0 units="J/(mol*K)">132.2</S0>
-                <Cp units="J/(mol*K)">101.75</Cp>
+                <Cp units="J/(mol*K)">104.0038</Cp>
             </NIST>
         </Thermo>
     </Species>
