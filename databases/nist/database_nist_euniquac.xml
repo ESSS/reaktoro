@@ -1,0 +1,1585 @@
+
+<?xml version="1.0" ?>
+<Database>
+    <Element>
+        <Name>H</Name>
+        <MolarMass units="g/mol">1.00794</MolarMass>
+    </Element>
+    <Element>
+        <Name>He</Name>
+        <MolarMass units="g/mol">4.002602</MolarMass>
+    </Element>
+    <Element>
+        <Name>Li</Name>
+        <MolarMass units="g/mol">6.941</MolarMass>
+    </Element>
+    <Element>
+        <Name>Be</Name>
+        <MolarMass units="g/mol">9.012182</MolarMass>
+    </Element>
+    <Element>
+        <Name>B</Name>
+        <MolarMass units="g/mol">10.811</MolarMass>
+    </Element>
+    <Element>
+        <Name>C</Name>
+        <MolarMass units="g/mol">12.0107</MolarMass>
+    </Element>
+    <Element>
+        <Name>N</Name>
+        <MolarMass units="g/mol">14.0067</MolarMass>
+    </Element>
+    <Element>
+        <Name>O</Name>
+        <MolarMass units="g/mol">15.9994</MolarMass>
+    </Element>
+    <Element>
+        <Name>F</Name>
+        <MolarMass units="g/mol">18.9984032</MolarMass>
+    </Element>
+    <Element>
+        <Name>Ne</Name>
+        <MolarMass units="g/mol">20.1797</MolarMass>
+    </Element>
+    <Element>
+        <Name>Na</Name>
+        <MolarMass units="g/mol">22.98977</MolarMass>
+    </Element>
+    <Element>
+        <Name>Mg</Name>
+        <MolarMass units="g/mol">24.305</MolarMass>
+    </Element>
+    <Element>
+        <Name>Al</Name>
+        <MolarMass units="g/mol">26.981538</MolarMass>
+    </Element>
+    <Element>
+        <Name>Si</Name>
+        <MolarMass units="g/mol">28.0855</MolarMass>
+    </Element>
+    <Element>
+        <Name>P</Name>
+        <MolarMass units="g/mol">30.973761</MolarMass>
+    </Element>
+    <Element>
+        <Name>S</Name>
+        <MolarMass units="g/mol">32.065</MolarMass>
+    </Element>
+    <Element>
+        <Name>Cl</Name>
+        <MolarMass units="g/mol">35.453</MolarMass>
+    </Element>
+    <Element>
+        <Name>K</Name>
+        <MolarMass units="g/mol">39.0983</MolarMass>
+    </Element>
+    <Element>
+        <Name>Ar</Name>
+        <MolarMass units="g/mol">39.948</MolarMass>
+    </Element>
+    <Element>
+        <Name>Ca</Name>
+        <MolarMass units="g/mol">40.078</MolarMass>
+    </Element>
+    <Element>
+        <Name>Sc</Name>
+        <MolarMass units="g/mol">44.95591</MolarMass>
+    </Element>
+    <Element>
+        <Name>Ti</Name>
+        <MolarMass units="g/mol">47.867</MolarMass>
+    </Element>
+    <Element>
+        <Name>V</Name>
+        <MolarMass units="g/mol">50.9415</MolarMass>
+    </Element>
+    <Element>
+        <Name>Cr</Name>
+        <MolarMass units="g/mol">51.9961</MolarMass>
+    </Element>
+    <Element>
+        <Name>Mn</Name>
+        <MolarMass units="g/mol">54.938049</MolarMass>
+    </Element>
+    <Element>
+        <Name>Fe</Name>
+        <MolarMass units="g/mol">55.845</MolarMass>
+    </Element>
+    <Element>
+        <Name>Ni</Name>
+        <MolarMass units="g/mol">58.6934</MolarMass>
+    </Element>
+    <Element>
+        <Name>Co</Name>
+        <MolarMass units="g/mol">58.9332</MolarMass>
+    </Element>
+    <Element>
+        <Name>Cu</Name>
+        <MolarMass units="g/mol">63.546</MolarMass>
+    </Element>
+    <Element>
+        <Name>Zn</Name>
+        <MolarMass units="g/mol">65.409</MolarMass>
+    </Element>
+    <Element>
+        <Name>Ga</Name>
+        <MolarMass units="g/mol">69.723</MolarMass>
+    </Element>
+    <Element>
+        <Name>Ge</Name>
+        <MolarMass units="g/mol">72.64</MolarMass>
+    </Element>
+    <Element>
+        <Name>As</Name>
+        <MolarMass units="g/mol">74.9216</MolarMass>
+    </Element>
+    <Element>
+        <Name>Se</Name>
+        <MolarMass units="g/mol">78.96</MolarMass>
+    </Element>
+    <Element>
+        <Name>Br</Name>
+        <MolarMass units="g/mol">79.904</MolarMass>
+    </Element>
+    <Element>
+        <Name>Kr</Name>
+        <MolarMass units="g/mol">83.798</MolarMass>
+    </Element>
+    <Element>
+        <Name>Rb</Name>
+        <MolarMass units="g/mol">85.4678</MolarMass>
+    </Element>
+    <Element>
+        <Name>Sr</Name>
+        <MolarMass units="g/mol">87.62</MolarMass>
+    </Element>
+    <Element>
+        <Name>Y</Name>
+        <MolarMass units="g/mol">88.90585</MolarMass>
+    </Element>
+    <Element>
+        <Name>Zr</Name>
+        <MolarMass units="g/mol">91.224</MolarMass>
+    </Element>
+    <Element>
+        <Name>Nb</Name>
+        <MolarMass units="g/mol">92.90638</MolarMass>
+    </Element>
+    <Element>
+        <Name>Mo</Name>
+        <MolarMass units="g/mol">95.94</MolarMass>
+    </Element>
+    <Element>
+        <Name>Tc</Name>
+        <MolarMass units="g/mol">98.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Ru</Name>
+        <MolarMass units="g/mol">101.07</MolarMass>
+    </Element>
+    <Element>
+        <Name>Rh</Name>
+        <MolarMass units="g/mol">102.9055</MolarMass>
+    </Element>
+    <Element>
+        <Name>Pd</Name>
+        <MolarMass units="g/mol">106.42</MolarMass>
+    </Element>
+    <Element>
+        <Name>Ag</Name>
+        <MolarMass units="g/mol">107.8682</MolarMass>
+    </Element>
+    <Element>
+        <Name>Cd</Name>
+        <MolarMass units="g/mol">112.411</MolarMass>
+    </Element>
+    <Element>
+        <Name>In</Name>
+        <MolarMass units="g/mol">114.818</MolarMass>
+    </Element>
+    <Element>
+        <Name>Sn</Name>
+        <MolarMass units="g/mol">118.71</MolarMass>
+    </Element>
+    <Element>
+        <Name>Sb</Name>
+        <MolarMass units="g/mol">121.76</MolarMass>
+    </Element>
+    <Element>
+        <Name>I</Name>
+        <MolarMass units="g/mol">126.90447</MolarMass>
+    </Element>
+    <Element>
+        <Name>Te</Name>
+        <MolarMass units="g/mol">127.6</MolarMass>
+    </Element>
+    <Element>
+        <Name>Xe</Name>
+        <MolarMass units="g/mol">131.293</MolarMass>
+    </Element>
+    <Element>
+        <Name>Cs</Name>
+        <MolarMass units="g/mol">132.90545</MolarMass>
+    </Element>
+    <Element>
+        <Name>Ba</Name>
+        <MolarMass units="g/mol">137.327</MolarMass>
+    </Element>
+    <Element>
+        <Name>La</Name>
+        <MolarMass units="g/mol">138.9055</MolarMass>
+    </Element>
+    <Element>
+        <Name>Ce</Name>
+        <MolarMass units="g/mol">140.116</MolarMass>
+    </Element>
+    <Element>
+        <Name>Pr</Name>
+        <MolarMass units="g/mol">140.90765</MolarMass>
+    </Element>
+    <Element>
+        <Name>Nd</Name>
+        <MolarMass units="g/mol">144.24</MolarMass>
+    </Element>
+    <Element>
+        <Name>Pm</Name>
+        <MolarMass units="g/mol">145.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Sm</Name>
+        <MolarMass units="g/mol">150.36</MolarMass>
+    </Element>
+    <Element>
+        <Name>Eu</Name>
+        <MolarMass units="g/mol">151.964</MolarMass>
+    </Element>
+    <Element>
+        <Name>Gd</Name>
+        <MolarMass units="g/mol">157.25</MolarMass>
+    </Element>
+    <Element>
+        <Name>Tb</Name>
+        <MolarMass units="g/mol">158.92534</MolarMass>
+    </Element>
+    <Element>
+        <Name>Dy</Name>
+        <MolarMass units="g/mol">162.5</MolarMass>
+    </Element>
+    <Element>
+        <Name>Ho</Name>
+        <MolarMass units="g/mol">164.93032</MolarMass>
+    </Element>
+    <Element>
+        <Name>Er</Name>
+        <MolarMass units="g/mol">167.259</MolarMass>
+    </Element>
+    <Element>
+        <Name>Tm</Name>
+        <MolarMass units="g/mol">168.93421</MolarMass>
+    </Element>
+    <Element>
+        <Name>Yb</Name>
+        <MolarMass units="g/mol">173.04</MolarMass>
+    </Element>
+    <Element>
+        <Name>Lu</Name>
+        <MolarMass units="g/mol">174.967</MolarMass>
+    </Element>
+    <Element>
+        <Name>Hf</Name>
+        <MolarMass units="g/mol">178.49</MolarMass>
+    </Element>
+    <Element>
+        <Name>Ta</Name>
+        <MolarMass units="g/mol">180.9479</MolarMass>
+    </Element>
+    <Element>
+        <Name>W</Name>
+        <MolarMass units="g/mol">183.84</MolarMass>
+    </Element>
+    <Element>
+        <Name>Re</Name>
+        <MolarMass units="g/mol">186.207</MolarMass>
+    </Element>
+    <Element>
+        <Name>Os</Name>
+        <MolarMass units="g/mol">190.23</MolarMass>
+    </Element>
+    <Element>
+        <Name>Ir</Name>
+        <MolarMass units="g/mol">192.217</MolarMass>
+    </Element>
+    <Element>
+        <Name>Pt</Name>
+        <MolarMass units="g/mol">195.078</MolarMass>
+    </Element>
+    <Element>
+        <Name>Au</Name>
+        <MolarMass units="g/mol">196.96655</MolarMass>
+    </Element>
+    <Element>
+        <Name>Hg</Name>
+        <MolarMass units="g/mol">200.59</MolarMass>
+    </Element>
+    <Element>
+        <Name>Tl</Name>
+        <MolarMass units="g/mol">204.3833</MolarMass>
+    </Element>
+    <Element>
+        <Name>Pb</Name>
+        <MolarMass units="g/mol">207.2</MolarMass>
+    </Element>
+    <Element>
+        <Name>Bi</Name>
+        <MolarMass units="g/mol">208.98038</MolarMass>
+    </Element>
+    <Element>
+        <Name>Po</Name>
+        <MolarMass units="g/mol">209.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>At</Name>
+        <MolarMass units="g/mol">210.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Rn</Name>
+        <MolarMass units="g/mol">222.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Fr</Name>
+        <MolarMass units="g/mol">223.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Ra</Name>
+        <MolarMass units="g/mol">226.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Ac</Name>
+        <MolarMass units="g/mol">227.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Pa</Name>
+        <MolarMass units="g/mol">231.03588</MolarMass>
+    </Element>
+    <Element>
+        <Name>Th</Name>
+        <MolarMass units="g/mol">232.0381</MolarMass>
+    </Element>
+    <Element>
+        <Name>Np</Name>
+        <MolarMass units="g/mol">237.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>U</Name>
+        <MolarMass units="g/mol">238.02891</MolarMass>
+    </Element>
+    <Element>
+        <Name>Am</Name>
+        <MolarMass units="g/mol">243.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Pu</Name>
+        <MolarMass units="g/mol">244.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Bk</Name>
+        <MolarMass units="g/mol">247.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Cm</Name>
+        <MolarMass units="g/mol">247.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Cf</Name>
+        <MolarMass units="g/mol">251.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Es</Name>
+        <MolarMass units="g/mol">252.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Fm</Name>
+        <MolarMass units="g/mol">257.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Md</Name>
+        <MolarMass units="g/mol">258.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>No</Name>
+        <MolarMass units="g/mol">259.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Rf</Name>
+        <MolarMass units="g/mol">261.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Lr</Name>
+        <MolarMass units="g/mol">262.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Db</Name>
+        <MolarMass units="g/mol">262.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Hs</Name>
+        <MolarMass units="g/mol">264.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Sg</Name>
+        <MolarMass units="g/mol">266.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Mt</Name>
+        <MolarMass units="g/mol">268.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Uuu</Name>
+        <MolarMass units="g/mol">272.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Bh</Name>
+        <MolarMass units="g/mol">277.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Uun</Name>
+        <MolarMass units="g/mol">281.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Uut</Name>
+        <MolarMass units="g/mol">284.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Uub</Name>
+        <MolarMass units="g/mol">285.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Uup</Name>
+        <MolarMass units="g/mol">288.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Uuq</Name>
+        <MolarMass units="g/mol">289.0</MolarMass>
+    </Element>
+    <Element>
+        <Name>Uuh</Name>
+        <MolarMass units="g/mol">292.0</MolarMass>
+    </Element>
+    <Species>
+        <Name>O2(g)</Name>
+        <Formula>O2</Formula>
+        <Elements>O(2)</Elements>
+        <Type>Gaseous</Type>
+        <MolarMass units="g/mol">31.9988</MolarMass>
+        <Gas>Oxygen</Gas>
+        <CriticalTemperature units="K">154.6</CriticalTemperature>
+        <CriticalPressure units="bar">50.43</CriticalPressure>
+        <AcentricFactor>0.022</AcentricFactor>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">0</G0>
+                <H0 units="kJ/mol">0</H0>
+                <H00 units="kJ/mol">0</H00>
+                <S0 units="J/(mol*K)">205.138</S0>
+                <Cp units="J/(mol*K)">29.355</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>H2O(g)</Name>
+        <Formula>H2O</Formula>
+        <Elements>H(2)O(1)</Elements>
+        <Type>Gaseous</Type>
+        <MolarMass units="g/mol">18.0154</MolarMass>
+        <Gas>Steam</Gas>
+        <CriticalTemperature units="K">647.1</CriticalTemperature>
+        <CriticalPressure units="bar">220.55</CriticalPressure>
+        <AcentricFactor>0.345</AcentricFactor>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-228.572</G0>
+                <H0 units="kJ/mol">-241.818</H0>
+                <H00 units="kJ/mol">-238.915</H00>
+                <S0 units="J/(mol*K)">188.825</S0>
+                <Cp units="J/(mol*K)">33.577</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>N2(g)</Name>
+        <Formula>N2</Formula>
+        <Elements>N(2)</Elements>
+        <Type>Gaseous</Type>
+        <MolarMass units="g/mol">28.0134</MolarMass>
+        <Gas>Nitrogen</Gas>
+        <CriticalTemperature units="K">126.2</CriticalTemperature>
+        <CriticalPressure units="bar">34.0</CriticalPressure>
+        <AcentricFactor>0.038</AcentricFactor>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">0</G0>
+                <H0 units="kJ/mol">0</H0>
+                <H00 units="kJ/mol">0</H00>
+                <S0 units="J/(mol*K)">191.61</S0>
+                <Cp units="J/(mol*K)">29.125</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>CO2(g)</Name>
+        <Formula>CO2</Formula>
+        <Elements>C(1)O(2)</Elements>
+        <Type>Gaseous</Type>
+        <MolarMass units="g/mol">44.0100</MolarMass>
+        <Gas>Carbon-Dioxide</Gas>
+        <CriticalTemperature units="K">304.2</CriticalTemperature>
+        <CriticalPressure units="bar">73.83</CriticalPressure>
+        <AcentricFactor>0.224</AcentricFactor>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-394.359</G0>
+                <H0 units="kJ/mol">-393.509</H0>
+                <H00 units="kJ/mol">-393.141</H00>
+                <S0 units="J/(mol*K)">213.74</S0>
+                <Cp units="J/(mol*K)">37.11</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <!-- ========================================= -->
+    <!-- ========================================= -->
+    <!-- AQUEOUS -->
+    <!-- ========================================= -->
+    <!-- ========================================= -->
+    <Species>
+        <Name>O2(aq)</Name>
+        <Formula>O2</Formula>
+        <Elements>O(2)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">31.9988</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">16.4</G0>
+                <H0 units="kJ/mol">-11.7</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">110.9</S0>
+                <Cp units="J/(mol*K)">-</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>H+</Name>
+        <Formula>H+</Formula>
+        <Elements>H(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">1.0080</MolarMass>
+        <Charge>1</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">0</G0>
+                <H0 units="kJ/mol">0</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">0</S0>
+                <Cp units="J/(mol*K)">0</Cp>
+                <cp_a>0</cp_a>
+                <cp_b>0</cp_b>
+                <cp_c>0</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>OH-</Name>
+        <Formula>OH-</Formula>
+        <Elements>H(1)O(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">17.0074</MolarMass>
+        <Charge>-1</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-157.244</G0>
+                <H0 units="kJ/mol">-229.994</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-10.75</S0>
+                <Cp units="J/(mol*K)">-148.5</Cp>
+                <cp_a>1418.2</cp_a>
+                <cp_b>-3.4446</cp_b>
+                <cp_c>-51473</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <!-- <Species>
+        <Name>Ice</Name>
+        <Formula>H2O</Formula>
+        <Elements>H(2)O(2)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">18.0154</MolarMass>
+        <Charge>1</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-</G0>
+                <H0 units="kJ/mol">-</H0>
+                <H00 units="kJ/mol">-286.315</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">-</Cp>
+            </NIST>
+        </Thermo>
+    </Species> -->
+    <Species>
+        <Name>H2O(l)</Name>
+        <Formula>H2O</Formula>
+        <Elements>H(2)O(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">18.0154</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-237.129</G0>
+                <H0 units="kJ/mol">-285.830</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">69.91</S0>
+                <Cp units="J/(mol*K)">75.291</Cp>
+                <!-- ref: Thomsen 1996 -->
+                <cp_a>58.370</cp_a>
+                <cp_b>0.03896</cp_b>
+                <cp_c>523.88</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Cl-</Name>
+        <Formula>Cl-</Formula>
+        <Elements>Cl(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">35.4530</MolarMass>
+        <Charge>-1</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-131.228</G0>
+                <H0 units="kJ/mol">-167.159</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">56.5</S0>
+                <Cp units="J/(mol*K)">-136.4</Cp>
+                <cp_a>400.35</cp_a>
+                <cp_b>-1.1312</cp_b>
+                <cp_c>-18574</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>SO4--</Name>
+        <Formula>SO4-2</Formula>
+        <Elements>S(1)O(4)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">96.0616</MolarMass>
+        <Charge>-2</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-744.53</G0>
+                <H0 units="kJ/mol">-909.27</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">20.1</S0>
+                <Cp units="J/(mol*K)">-293.</Cp>
+                <cp_a>643.30</cp_a>
+                <cp_b>-1.7605</cp_b>
+                <cp_c>-37903</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>S2O8--</Name>
+        <Formula>S2O8-2</Formula>
+        <Elements>S(2)O(8)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">192.1232</MolarMass>
+        <Charge>-2</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1114.9</G0>
+                <H0 units="kJ/mol">-1344.7</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">244.3</S0>
+                <Cp units="J/(mol*K)">-</Cp>
+                <cp_a>-110.0</cp_a>
+                <cp_b>0</cp_b>
+                <cp_c>0</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>HSO4-</Name>
+        <Formula>HSO4-</Formula>
+        <Elements>S(1)H(1)O(4)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">97.0696</MolarMass>
+        <Charge>-1</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-755.91</G0>
+                <H0 units="kJ/mol">-887.34</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">131.8</S0>
+                <Cp units="J/(mol*K)">-84.</Cp>
+                <cp_a>647.30</cp_a>
+                <cp_b>-1.5857</cp_b>
+                <cp_c>-17536</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>NO3-</Name>
+        <Formula>NO3-</Formula>
+        <Elements>N(1)O(3)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">62.0049</MolarMass>
+        <Charge>-1</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-111.25*</G0>
+                <H0 units="kJ/mol">-207.36*</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">146.4</S0>
+                <Cp units="J/(mol*K)">-86.6</Cp>
+                <cp_a>2.2926</cp_a>
+                <cp_b>0.12110</cp_b>
+                <cp_c>-9753.2</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>NH4+</Name>
+        <Formula>NH4+</Formula>
+        <Elements>N(1)H(4)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">18.0387</MolarMass>
+        <Charge>1</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-79.31</G0>
+                <H0 units="kJ/mol">-132.51</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">113.4</S0>
+                <Cp units="J/(mol*K)">79.9</Cp>
+                <cp_a>71.008</cp_a>
+                <cp_b>0</cp_b>
+                <cp_c>0</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>CO2(aq)</Name>
+        <Formula>CO2</Formula>
+        <Elements>C(1)O(2)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">44.0100</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-385.98</G0>
+                <H0 units="kJ/mol">-413.80</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">117.6</S0>
+                <Cp units="J/(mol*K)">243</Cp>
+                <cp_a>243</cp_a>
+                <cp_b>0.0</cp_b>
+                <cp_c>0.0</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>CO3--</Name>
+        <Formula>CO3-2</Formula>
+        <Elements>C(1)O(3)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">60.0094</MolarMass>
+        <Charge>-2</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-527.81</G0>
+                <H0 units="kJ/mol">-677.14</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-56.9</S0>
+                <Cp units="J/(mol*K)">-</Cp>
+                <cp_a>850.61</cp_a>
+                <cp_b>-2.8040</cp_b>
+                <cp_c>-21308</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>HCO3-</Name>
+        <Formula>HCO3-</Formula>
+        <Elements>C(1)H(1)O(3)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">61.0174</MolarMass>
+        <Charge>-1</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-586.77</G0>
+                <H0 units="kJ/mol">-691.99</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">91.2</S0>
+                <Cp units="J/(mol*K)">-</Cp>
+                <cp_a>585.75</cp_a>
+                <cp_b>-1.3612</cp_b>
+                <cp_c>-21374</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Ca++</Name>
+        <Formula>Ca+2</Formula>
+        <Elements>Ca(2)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">40.0800</MolarMass>
+        <Charge>2</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-553.58</G0>
+                <H0 units="kJ/mol">-542.83</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-53.1</S0>
+                <Cp units="J/(mol*K)">-32.808867</Cp> <!-- scaleCERe at 25degC -->
+                <!-- TODO: cp parameters are still to be found -->
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Sr++</Name>
+        <Formula>Sr+2</Formula>
+        <Elements>Sr(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">87.6200</MolarMass>
+        <Charge>2</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-559.48</G0>
+                <H0 units="kJ/mol">-545.80</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-32.6</S0>
+                <Cp units="J/(mol*K)">-1124.756</Cp> <!-- Values from Garcia's thesis -->
+                <cp_a>-1124.756</cp_a>
+                <cp_b>3.450446</cp_b>
+                <cp_c>0.0</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Ba++</Name>
+        <Formula>Ba+2</Formula>
+        <Elements>Ba(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">137.3400</MolarMass>
+        <Charge>2</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-560.77</G0>
+                <H0 units="kJ/mol">-537.64</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">9.6</S0>
+                <Cp units="J/(mol*K)">0.6954</Cp> <!-- scaleCERe at 25degC -->
+                <!-- TODO: cp parameters are still to be found -->
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Na+</Name>
+        <Formula>Na+</Formula>
+        <Elements>Na(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">22.9898</MolarMass>
+        <Charge>1</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-261.905</G0>
+                <H0 units="kJ/mol">-240.12</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">59.0</S0>
+                <Cp units="J/(mol*K)">46.4</Cp>
+                <cp_a>600.62</cp_a>
+                <cp_b>-1.1006</cp_b>
+                <cp_c>-23232</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>K+</Name>
+        <Formula>K+</Formula>
+        <Elements>K(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">39.1020</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-283.27</G0>
+                <H0 units="kJ/mol">-252.38</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">102.5</S0>
+                <Cp units="J/(mol*K)">21.8</Cp>
+                <cp_a>415.09</cp_a>
+                <cp_b>-0.8142</cp_b>
+                <cp_c>-16316</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <!-- ========================================= -->
+    <!-- ========================================= -->
+    <!-- MINERALS -->
+    <!-- ========================================= -->
+    <!-- ========================================= -->
+    <Species>
+        <Name>Mg(OH)2</Name>
+        <Formula>Mg(OH)2</Formula>
+        <Elements>Mg(1)H(2)O(2)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">58.3268</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-833.51</G0>
+                <H0 units="kJ/mol">-924.54</H0>
+                <H00 units="kJ/mol">-913.794</H00>
+                <S0 units="J/(mol*K)">63.18</S0>
+                <Cp units="J/(mol*K)">77.03</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>MgCO3</Name>
+        <Formula>MgCO3</Formula>
+        <Elements>Mg(1)C(1)O(3)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">84.3214</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1012.1</G0>
+                <H0 units="kJ/mol">-1095.8</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">65.7</S0>
+                <Cp units="J/(mol*K)">75.52</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <!-- <Species>
+        <Name>(MgCO3)3·Mg(OH)2·3H2O</Name>
+        <Formula>(MgCO3)3·Mg(OH)2·3H2O</Formula>
+        <Elements>Mg(4)C(3)H(8)O(14)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">365.3372</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-4603.3</G0>
+                <H0 units="kJ/mol">-</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">-</Cp>
+            </NIST>
+        </Thermo>
+    </Species> -->
+    <Species>
+        <Name>CaCl2</Name>
+        <Formula>CaCl2</Formula>
+        <Elements>Ca(1)Cl(2)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">110.9860</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-748.1</G0>
+                <H0 units="kJ/mol">-795.8</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">104.6</S0>
+                <Cp units="J/(mol*K)">72.59</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <!-- <Species>
+        <Name>CaCl2*2H2O</Name>
+        <Formula>CaCl2*2H2O</Formula>
+        <Elements>Ca(1)Cl(2)H(4)O(2)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">147.0168</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-</G0>
+                <H0 units="kJ/mol">-1402.9</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">-</Cp>
+            </NIST>
+        </Thermo>
+    </Species> -->
+    <!-- <Species>
+        <Name>CaCl2·4H2O</Name>
+        <Formula>CaCl2·4H2O</Formula>
+        <Elements>Ca(1)Cl(2)H(8)O(4)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">183.0476</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-</G0>
+                <H0 units="kJ/mol">-2009.6</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">-</Cp>
+            </NIST>
+        </Thermo>
+    </Species> -->
+    <!-- <Species>
+        <Name>CaCl2·6H2O</Name>
+        <Formula>CaCl2·6H2O</Formula>
+        <Elements>Ca(1)Cl(2)H(12)O(6)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">219.0784</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-</G0>
+                <H0 units="kJ/mol">-2607.9</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">-</Cp>
+            </NIST>
+        </Thermo>
+    </Species> -->
+    <Species>
+        <Name>Anhydrite</Name>
+        <Formula>CaSO4</Formula>
+        <Elements>Ca(1)S(1)O(4)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">136.1416</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1321.79</G0>
+                <H0 units="kJ/mol">-1434.11</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">106.7</S0>
+                <Cp units="J/(mol*K)">99.66</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Gypsum</Name>
+        <Formula>CaSO4*2H2O</Formula>
+        <Elements>Ca(1)S(1)H(4)O(6)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">172.1724</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1797.28</G0>
+                <H0 units="kJ/mol">-2022.63</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">194.1</S0>
+                <Cp units="J/(mol*K)">186.02</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Calcite</Name>
+        <Formula>CaCO3</Formula>
+        <Elements>Ca(1)C(1)O(3)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">100.0894</MolarMass>
+        <Charge>0</Charge>
+        <Reference>Garcia's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1129.057</G0>
+                <H0 units="kJ/mol">-1208.726</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">92.9</S0>
+                <Cp units="J/(mol*K)">81.88</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Aragonite</Name>
+        <Formula>CaCO3</Formula>
+        <Elements>Ca(1)C(1)O(3)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">100.0894</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1127.75</G0>
+                <H0 units="kJ/mol">-1207.13</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">88.7</S0>
+                <Cp units="J/(mol*K)">81.25</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Dolomite</Name>
+        <Formula>CaMg(CO3)2</Formula>
+        <Elements>Ca(1)Mg(1)C(2)O(6)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">184.4108</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-2163.4</G0>
+                <H0 units="kJ/mol">-2326.3</H0>
+                <H00 units="kJ/mol">-2313.46</H00>
+                <S0 units="J/(mol*K)">155.18</S0>
+                <Cp units="J/(mol*K)">157.53</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>SrCl2*2H2O</Name>
+        <Formula>SrCl2*2H2O</Formula>
+        <Elements>Sr(1)Cl(2)H(4)O(2)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">194.5568</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1281.8</G0>
+                <H0 units="kJ/mol">-1438.0</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">218.</S0>
+                <Cp units="J/(mol*K)">160.2</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>SrCl2*6H2O</Name>
+        <Formula>SrCl2*6H2O</Formula>
+        <Elements>Sr(1)Cl(2)H(12)O(6)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">266.6184</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-2240.92</G0>
+                <H0 units="kJ/mol">-2623.8</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">390.8</S0>
+                <Cp units="J/(mol*K)">-</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Celestite</Name>
+        <Formula>SrSO4</Formula>
+        <Elements>Sr(1)S(1)O(4)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">183.6816</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1340.9</G0>
+                <H0 units="kJ/mol">-1453.1</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">117.</S0>
+                <Cp units="J/(mol*K)">-</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Strontianite</Name>
+        <Formula>SrCO3</Formula>
+        <Elements>Sr(1)C(1)O(3)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">147.6294</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1139.745</G0>
+                <H0 units="kJ/mol">-1227.633</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">97.1</S0>
+                <Cp units="J/(mol*K)">1259.146863</Cp>
+                <cp_a>1259.146863</cp_a>
+                <cp_b>-2.827237</cp_b>
+                <cp_c>-21149.44</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+
+    <Species>
+        <Name>Barite</Name>
+        <Formula>BaSO4</Formula>
+        <Elements>Ba(1)S(1)O(4)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">233.4016</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1362.2</G0>
+                <H0 units="kJ/mol">-1473.2</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">132.2</S0>
+                <Cp units="J/(mol*K)">101.75</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Witherite</Name>
+        <Formula>BaCO3</Formula>
+        <Elements>Ba(1)C(1)O(3)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">197.3494</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1136.054</G0>
+                <H0 units="kJ/mol">-1222.907</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">112.1</S0>
+                <Cp units="J/(mol*K)">85.5</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Halite</Name>
+        <Formula>NaCl</Formula>
+        <Elements>Na(1)Cl(1)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">58.4428</MolarMass>
+        <Charge>0</Charge>
+        <Reference>Garcia's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-384.1258</G0>
+                <H0 units="kJ/mol">-411.9584</H0>
+                <H00 units="kJ/mol">-410.735</H00>
+                <S0 units="J/(mol*K)">72.13</S0>
+                <Cp units="J/(mol*K)">45.13074</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Na2SO4</Name>
+        <Formula>Na2SO4</Formula>
+        <Elements>Na(2)S(1)O(4)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">142.0412</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1270.16</G0>
+                <H0 units="kJ/mol">-1387.08</H0>
+                <H00 units="kJ/mol">-1375.653</H00>
+                <S0 units="J/(mol*K)">149.58</S0>
+                <Cp units="J/(mol*K)">128.20</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Na2SO4*10H2O</Name>
+        <Formula>Na2SO4*10H2O</Formula>
+        <Elements>Na(2)S(1)H(20)O(14)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">322.196</MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-3646.85</G0>
+                <H0 units="kJ/mol">-4327.26</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">492.2</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>NaK3(SO4)2</Name>
+        <Formula>NaK3(SO4)2</Formula>
+        <Elements>Na(2)K(3)S(2)O(8)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">332.41</MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-2622.82</G0>
+                <H0 units="kJ/mol">-2854.62</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">287.5</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>NaNO3*Na2SO4*H2O</Name>
+        <Formula>NaNO3*Na2SO4*H2O</Formula>
+        <Elements>Na(3)N(1)S(1)H(2)O(8)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">245.05</MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1876.74</G0>
+                <H0 units="kJ/mol">-2152.96</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">300</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Na2CO3*2Na2SO4</Name>
+        <Formula>NaNO3*Na2SO4*H2O</Formula>
+        <Elements>Na(3)N(1)S(1)H(2)O(8)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol"></MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-3593.19</G0>
+                <H0 units="kJ/mol">-3921.49</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">840.07</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Na2CO3*NaHCO3*2H2O</Name>
+        <Formula>Na2CO3*NaHCO3*2H2O</Formula>
+        <Elements>Na(3)C(2)H(5)O(8)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol"></MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-2380.11</G0>
+                <H0 units="kJ/mol">-2684.9</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">256.80</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Na2CO3*3NaHCO3</Name>
+        <Formula>Na2CO3*3NaHCO3</Formula>
+        <Elements>Na(5)C(4)H(3)O(12)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol"></MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-3602.78</G0>
+                <H0 units="kJ/mol">-3982.7</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">182.03</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <!-- <Species> //HALTED
+        <Name>K2CO3*H2O</Name>
+        <Formula>K2CO3*H2O</Formula>
+        <Elements>Na(5)C(4)H(3)O(12)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol"></MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-3602.78</G0>
+                <H0 units="kJ/mol">-3982.7</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">182.03</Cp>
+            </NIST>
+        </Thermo>
+    </Species> -->
+    <Species>
+        <Name>KHCO3</Name>
+        <Formula>KHCO3</Formula>
+        <Elements>K(1)C(1)H(1)O(3)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol"></MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-868.70</G0>
+                <H0 units="kJ/mol">-963.20</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">85.51</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>NaKCO3*6H2O</Name>
+        <Formula>NaKCO3*6H2O</Formula>
+        <Elements>Na(1)K(1)C(1)H(12)O(9)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol"></MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-2495.69</G0>
+                <H0 units="kJ/mol">-2920.78</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">300</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>K2CO3*Na2CO3</Name>
+        <Formula>K2CO3*Na2CO3</Formula>
+        <Elements>K(2)Na(2)C(2)O(6)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol"></MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-2121.47 </G0>
+                <H0 units="kJ/mol">-2299.1</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">420.23</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>K2CO3*NaHCO3•2H2O</Name>
+        <Formula>K2CO3*NaHCO3*2H2O</Formula>
+        <Elements>K(2)Na(1)C(2)H(5)O(8)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol"></MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-2410.63</G0>
+                <H0 units="kJ/mol">-2718.66</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">300</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>(NH4)2SO4*3NH4NO3</Name>
+        <Formula>(NH4)2SO4*3NH4NO3</Formula>
+        <Elements>N(8)S(1)H(20)O(13)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol"></MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1454.53</G0>
+                <H0 units="kJ/mol">-2278.72</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">987.19</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>(NH4)2SO4*2NH4NO3</Name>
+        <Formula>(NH4)2SO4*2NH4NO3</Formula>
+        <Elements>N(6)S(1)H(16)O(10)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol"></MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1270.61</G0>
+                <H0 units="kJ/mol">-1914.10</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">764.42</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Na2SO4*(NH4)2SO4*4H2O</Name>
+        <Formula>Na2SO4*(NH4)2SO4*4H2O</Formula>
+        <Elements>Na(2)S(2)N(2)H(16)O(12)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol"></MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-3127.82</G0>
+                <H0 units="kJ/mol">-3752.02</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">874.92</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>2NaNO3*NH4NO3</Name>
+        <Formula>2NaNO3*NH4NO3</Formula>
+        <Elements>Na(2)N(4)H(4)O(9)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol"></MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-920.19</G0>
+                <H0 units="kJ/mol">-</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">874.92</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Na2S2O8</Name>
+        <Formula>Na2S2O8</Formula>
+        <Elements>Na(2)S(2)O(8)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol"></MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1638.13 </G0>
+                <H0 units="kJ/mol">-1893.64</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">665.38</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>(NH4)2S2O8</Name>
+        <Formula>(NH4)2S2O8</Formula>
+        <Elements>N(2)S(2)H(8)O(8)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol"></MolarMass>
+        <Charge>0</Charge>
+        <Reference>Thomsen's Thesis</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1273.60</G0>
+                <H0 units="kJ/mol">-1648.1</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">569.60</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+</Database>
