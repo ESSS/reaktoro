@@ -1151,7 +1151,7 @@
         <Charge>0</Charge>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-2163.4</G0>
+                <G0 units="kJ/mol">-2140.89</G0>
                 <H0 units="kJ/mol">-2302.72</H0>
                 <H00 units="kJ/mol">-2313.46</H00>
                 <S0 units="J/(mol*K)">155.18</S0>
