@@ -832,7 +832,7 @@
     <Species>
         <Name>Ca++</Name>
         <Formula>Ca+2</Formula>
-        <Elements>Ca(2)</Elements>
+        <Elements>Ca(1)</Elements>
         <Type>Aqueous</Type>
         <MolarMass units="g/mol">40.0800</MolarMass>
         <Charge>2</Charge>
@@ -850,7 +850,7 @@
     <Species>
         <Name>Mg++</Name>
         <Formula>Mg+2</Formula>
-        <Elements>Mg(2)</Elements>
+        <Elements>Mg(1)</Elements>
         <Type>Aqueous</Type>
         <MolarMass units="g/mol">24.30506</MolarMass>
         <Charge>2</Charge>
