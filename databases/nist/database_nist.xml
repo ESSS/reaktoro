@@ -832,7 +832,7 @@
     <Species>
         <Name>Ca++</Name>
         <Formula>Ca+2</Formula>
-        <Elements>Ca(2)</Elements>
+        <Elements>Ca(1)</Elements>
         <Type>Aqueous</Type>
         <MolarMass units="g/mol">40.0800</MolarMass>
         <Charge>2</Charge>
@@ -843,6 +843,24 @@
                 <H00 units="kJ/mol">-</H00>
                 <S0 units="J/(mol*K)">-53.1</S0>
                 <Cp units="J/(mol*K)">-32.808867</Cp> <!-- scaleCERe at 25degC -->
+                <!-- TODO: cp parameters are still to be found -->
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Mg++</Name>
+        <Formula>Mg+2</Formula>
+        <Elements>Mg(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">24.30506</MolarMass>
+        <Charge>2</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-454.8</G0>
+                <H0 units="kJ/mol">-466.85</H0>
+                <H00 units="kJ/mol">-</H00>
+                <S0 units="J/(mol*K)">-</S0>
+                <Cp units="J/(mol*K)">-18.635063</Cp> <!-- scaleCERe at 25degC -->
                 <!-- TODO: cp parameters are still to be found -->
             </NIST>
         </Thermo>
