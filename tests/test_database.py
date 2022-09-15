@@ -288,6 +288,29 @@ def test_nist_database_species(data_regression, nist_database):
         "Mineral": all_mineral_species_names,
     }
     data_regression.check(all_species_names)
+    
+
+def test_custom_nist_database_euniquac_species(data_regression, euniquac_nist_database):
+    database = euniquac_nist_database
+
+    aqueous_species = database.aqueousSpecies()
+    gaseous_species = database.gaseousSpecies()
+    mineral_species = database.mineralSpecies()
+
+    assert database.containsAqueousSpecies(aqueous_species[0].name())
+    assert database.containsGaseousSpecies(gaseous_species[0].name())
+    assert database.containsMineralSpecies(mineral_species[0].name())
+
+    all_aqueous_species_names = [species.name() for species in aqueous_species]
+    all_gaseous_species_names = [species.name() for species in gaseous_species]
+    all_mineral_species_names = [species.name() for species in mineral_species]
+
+    all_species_names = {
+        "Aqueous": all_aqueous_species_names,
+        "Gaseous": all_gaseous_species_names,
+        "Mineral": all_mineral_species_names,
+    }
+    data_regression.check(all_species_names)
 
 
 def test_database_looking_for_species_with_element():
