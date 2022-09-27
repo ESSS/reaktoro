@@ -598,16 +598,17 @@
         <Type>Aqueous</Type>
         <MolarMass units="g/mol">17.0074</MolarMass>
         <Charge>-1</Charge>
+        <Reference>https://doi.org/10.1021/ie801168e</Reference>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-157.244</G0>
-                <H0 units="kJ/mol">-229.994</H0>
+                <G0 units="kJ/mol">-157.2481</G0>
+                <H0 units="kJ/mol">-230.2433</H0>
                 <H00 units="kJ/mol">-</H00>
                 <S0 units="J/(mol*K)">-10.75</S0>
                 <Cp units="J/(mol*K)">-148.5</Cp>
-                <cp_a>1418.2</cp_a>
-                <cp_b>-3.446</cp_b>
-                <cp_c>-51473.1</cp_c>
+                <cp_a>1418.157</cp_a>
+                <cp_b>-3.445769</cp_b>
+                <cp_c>-51473.13</cp_c>
             </NIST>
         </Thermo>
     </Species>
@@ -795,7 +796,7 @@
         <Elements>C(1)O(3)</Elements>
         <Type>Aqueous</Type>
         <MolarMass units="g/mol">60.0094</MolarMass>
-        <Reference>From https://doi.org/10.1016/j.ijggc.2016.08.014</Reference>
+        <Reference>From https://doi.org/10.1021/ie801168e</Reference>
         <Charge>-2</Charge>
         <Thermo>
             <NIST>
@@ -817,6 +818,7 @@
         <Type>Aqueous</Type>
         <MolarMass units="g/mol">61.0174</MolarMass>
         <Charge>-1</Charge>
+        <Reference>From https://doi.org/10.1021/ie801168e</Reference>
         <Thermo>
             <NIST>
                 <G0 units="kJ/mol">-586.77</G0>
@@ -824,8 +826,8 @@
                 <H00 units="kJ/mol">-</H00>
                 <S0 units="J/(mol*K)">91.2</S0>
                 <Cp units="J/(mol*K)">-</Cp>
-                <cp_a>-0.6771</cp_a>
-                <cp_b>0.27375</cp_b>
+                <cp_a>-0.6770971</cp_a>
+                <cp_b>0.2737451</cp_b>
                 <cp_c>-10089.51</cp_c>
             </NIST>
         </Thermo>
