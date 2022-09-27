@@ -179,31 +179,6 @@ def test_adding_and_getting_database_elements():
     assert elements[3].molarMass() == pytest.approx(32.065e-3)
 
 
-def test_adding_and_getting_database_elements_nist(nist_database):
-    database = nist_database
-
-    new_element = Element()
-    new_element.setName("New")
-    new_element.setMolarMass(1.234)
-    assert new_element.molarMass() == 1.234
-
-    database_size_before_inclusion = len(database.elements())
-    database.addElement(new_element)
-    database_size_after_inclusion = len(database.elements())
-    assert database_size_after_inclusion == database_size_before_inclusion + 1
-
-    elements = database.elements()
-
-    assert elements[0].name() == "Ac"
-    assert elements[0].molarMass() == pytest.approx(227.0e-3)
-    assert elements[1].name() == "Ag"
-    assert elements[1].molarMass() == pytest.approx(107.8682e-3)
-    assert elements[2].name() == "Al"
-    assert elements[2].molarMass() == pytest.approx(26.981538e-3)
-    assert elements[3].name() == "Am"
-    assert elements[3].molarMass() == pytest.approx(243.0e-3)
-
-
 def test_database_parse():
     """
     Test the fact that species should be added as
