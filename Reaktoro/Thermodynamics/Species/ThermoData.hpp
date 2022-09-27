@@ -107,6 +107,11 @@ struct AqueousSpeciesThermoParamsHKF
 
 /// A type for storing the parameters of the NIST/NBS tables for std thermo properties.
 /// For further information, check here: https://data.nist.gov/od/id/mds2-2124.
+/// For heat capacities (Cp values), sometimes en empirical expression using Cp_a, Cp_b, and Cp_c
+/// as coefficients are employed as suggested in https://doi.org/10.11581/dtu:00000074
+/// The expression is given as Cp = Cp_a + Cp_b * T + Cp_c / (T - T0), with T0 = 200 K.
+/// When the coefficients are not available, a constant Cp values is assumed (i.e.,
+/// temperature-independent) and should be provided.
 struct SpeciesThermoParamsNIST
 {
     /// The Gibbs energy of formation at 25 degC (in units of kJ/mol).
