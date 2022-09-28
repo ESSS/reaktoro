@@ -32,6 +32,9 @@ Mineral:
 - Aragonite
 - Barite
 - CaCl2
+- CaCl2*2H2O
+- CaCl2*4H2O
+- CaCl2*6H2O
 - Calcite
 - Celestite
 - Dolomite
@@ -40,8 +43,8 @@ Mineral:
 - K2CO3*Na2CO3
 - K2CO3*NaHCO3•2H2O
 - KHCO3
+- Magnesite
 - Mg(OH)2
-- MgCO3
 - Na2CO3*2Na2SO4
 - Na2CO3*3NaHCO3
 - Na2CO3*NaHCO3*2H2O
