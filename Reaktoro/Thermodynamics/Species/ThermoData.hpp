@@ -120,12 +120,6 @@ struct SpeciesThermoParamsNIST
     /// The enthalpy of formation at 25 degC (in units of kJ/mol).
     double H0;
 
-    /// The enthalpy difference H0(T) - H0(0) with T in degC (in units of kJ/mol).
-    double H00;
-
-    /// The entropy at T = 25 degC (in units of J/(mol*K)).
-    double S0;
-
     /// Heat capacity at T = 25 degC (in units of J/(mol*K)).
     double Cp;
 
