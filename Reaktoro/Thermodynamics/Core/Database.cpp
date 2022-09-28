@@ -252,6 +252,18 @@ auto parseAqueousSpeciesThermoParamsHKF(const xml_node& node) -> std::optional<A
     return hkf;
 }
 
+auto parseSpeciesThermoParamsNIST(const xml_node& node) -> SpeciesThermoParamsNIST
+{
+    SpeciesThermoParamsNIST nist{};
+    nist.G0   = as_double(node, "G0");
+    nist.H0   = as_double(node, "H0");
+    nist.Cp   = as_double(node, "Cp");
+    nist.Cp_a = as_double(node, "cp_a");
+    nist.Cp_b = as_double(node, "cp_b");
+    nist.Cp_c = as_double(node, "cp_c");
+    return nist;
+}
+
 auto parseFluidSpeciesThermoParamsHKF(const xml_node& node) -> std::optional<FluidSpeciesThermoParamsHKF>
 {
     FluidSpeciesThermoParamsHKF hkf;
@@ -322,6 +334,9 @@ auto parseAqueousSpeciesThermoData(const xml_node& node) -> AqueousSpeciesThermo
     if(!node.child("HKF").empty())
         thermo.hkf = parseAqueousSpeciesThermoParamsHKF(node.child("HKF"));
 
+    if(!node.child("NIST").empty())
+        thermo.nist = parseSpeciesThermoParamsNIST(node.child("NIST"));
+
     return thermo;
 }
 
@@ -338,6 +353,9 @@ auto parseFluidSpeciesThermoData(const xml_node& node) -> FluidSpeciesThermoData
     if(!node.child("HKF").empty())
         thermo.hkf = parseFluidSpeciesThermoParamsHKF(node.child("HKF"));
 
+    if(!node.child("NIST").empty())
+        thermo.nist = parseSpeciesThermoParamsNIST(node.child("NIST"));
+
     return thermo;
 }
 
@@ -353,6 +371,9 @@ auto parseMineralSpeciesThermoData(const xml_node& node) -> MineralSpeciesThermo
 
     if(!node.child("HKF").empty())
         thermo.hkf = parseMineralSpeciesThermoParamsHKF(node.child("HKF"));
+
+    if(!node.child("NIST").empty())
+        thermo.nist = parseSpeciesThermoParamsNIST(node.child("NIST"));
 
     return thermo;
 }

@@ -48,12 +48,16 @@ void exportThermoData(py::module& m)
         .def(py::init<>())
         .def_property("hkf", [] (AqueousSpeciesThermoData& self) { return get_optional(self.hkf);},
                              [] (AqueousSpeciesThermoData& self, AqueousSpeciesThermoParamsHKF& hkf) {self.hkf = hkf;})
+        .def_property("nist", [] (AqueousSpeciesThermoData& self) { return get_optional(self.nist);},
+            [] (AqueousSpeciesThermoData& self, SpeciesThermoParamsNIST& nist) {self.nist = nist;})
         ;
 
     py::class_<FluidSpeciesThermoData, SpeciesThermoData>(m, "FluidSpeciesThermoData")
         .def(py::init<>())
         .def_property("hkf", [] (FluidSpeciesThermoData& self) { return get_optional(self.hkf);},
                              [] (FluidSpeciesThermoData& self, FluidSpeciesThermoParamsHKF& hkf) {self.hkf = hkf;})
+        .def_property("nist", [] (FluidSpeciesThermoData& self) { return get_optional(self.nist);},
+            [] (FluidSpeciesThermoData& self, SpeciesThermoParamsNIST& nist) {self.nist = nist;})
         ;
 
     m.attr("LiquidSpeciesThermoData") = m.attr("FluidSpeciesThermoData");
@@ -64,6 +68,8 @@ void exportThermoData(py::module& m)
         .def(py::init<>())
         .def_property("hkf", [] (MineralSpeciesThermoData& self) { return get_optional(self.hkf);},
                              [] (MineralSpeciesThermoData& self, MineralSpeciesThermoParamsHKF& hkf) {self.hkf = hkf;})
+        .def_property("nist", [] (MineralSpeciesThermoData& self) { return get_optional(self.nist);},
+            [] (MineralSpeciesThermoData& self, SpeciesThermoParamsNIST& nist) {self.nist = nist;})
         ;
     }
 
@@ -145,6 +151,16 @@ void exportThermoDataProperties(py::module& m)
         .def_readwrite("Vtr", &MineralSpeciesThermoParamsHKF::Vtr)
         .def_readwrite("dPdTtr", &MineralSpeciesThermoParamsHKF::dPdTtr)
         .def_readwrite("Tmax", &MineralSpeciesThermoParamsHKF::Tmax)
+        ;
+
+    py::class_<SpeciesThermoParamsNIST>(m, "SpeciesThermoParamsNIST")
+        .def(py::init<>())
+        .def_readwrite("G0", &SpeciesThermoParamsNIST::G0)
+        .def_readwrite("H0", &SpeciesThermoParamsNIST::H0)
+        .def_readwrite("Cp", &SpeciesThermoParamsNIST::Cp)
+        .def_readwrite("Cp_a", &SpeciesThermoParamsNIST::Cp_a)
+        .def_readwrite("Cp_b", &SpeciesThermoParamsNIST::Cp_b)
+        .def_readwrite("Cp_c", &SpeciesThermoParamsNIST::Cp_c)
         ;
 }
 

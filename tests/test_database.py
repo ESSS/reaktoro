@@ -31,6 +31,11 @@ def get_test_data_dir():
     return Path(os.path.abspath(__file__)).parents[0] / "data"
 
 
+@pytest.fixture(scope="session")
+def get_databases_dir():
+    return Path(os.path.abspath(__file__)).parents[1] / "databases"
+
+
 LANGUAGES = {
     'bg_BG': 'Bulgarian',
     'cs_CZ': 'Czech',
@@ -66,6 +71,12 @@ def guard_locale():
     old_locale = locale.setlocale(locale.LC_NUMERIC)
     yield old_locale
     locale.setlocale(locale.LC_NUMERIC, old_locale)
+
+
+@pytest.fixture(scope="session")
+def nist_database(get_databases_dir):
+    database = Database(str(get_databases_dir / "nist" / "database_nist_euniquac.xml"))
+    return database
 
 
 def try_set_locale(loc):
@@ -185,7 +196,6 @@ def test_database_parse():
     assert liquid_species[0].name() == "H2S(liq)"
 
 
-
 def test_database_species_adding_and_getting():
     database = Database(str(get_test_data_dir() / "supcrt98_simplified.xml"))
     no_species_database = Database(str(get_test_data_dir() / "supcrt98_no_species.xml"))
@@ -229,6 +239,25 @@ def test_database_contains():
     assert database.containsMineralSpecies(mineral_species[0].name())
 
 
+def test_nist_database_species(data_regression, nist_database):
+    database = nist_database
+
+    aqueous_species = database.aqueousSpecies()
+    gaseous_species = database.gaseousSpecies()
+    mineral_species = database.mineralSpecies()
+
+    all_aqueous_species_names = [species.name() for species in aqueous_species]
+    all_gaseous_species_names = [species.name() for species in gaseous_species]
+    all_mineral_species_names = [species.name() for species in mineral_species]
+
+    all_species_names = {
+        "Aqueous": all_aqueous_species_names,
+        "Gaseous": all_gaseous_species_names,
+        "Mineral": all_mineral_species_names,
+    }
+    data_regression.check(all_species_names)
+
+
 def test_database_looking_for_species_with_element():
     database = Database(str(get_test_data_dir() / "supcrt98_simplified.xml"))
 
@@ -242,3 +271,14 @@ def test_database_looking_for_species_with_element():
     assert liquid_species_with_H_or_Fe[0].name() == "H2S(liq)"
     assert mineral_species_with_H_or_Fe[0].name() == "Pyrrhotite"
 
+
+def test_nist_database_looking_for_species_with_element(nist_database):
+    database = nist_database
+
+    aqueous_species_with_C_or_O = database.aqueousSpeciesWithElements(["C", "O"])
+    gaseous_species_with_C_or_O = database.gaseousSpeciesWithElements(["C", "O"])
+    mineral_species_with_Na_or_Cl = database.mineralSpeciesWithElements(["Na", "Cl"])
+
+    assert aqueous_species_with_C_or_O[0].name() == "CO2(aq)"
+    assert gaseous_species_with_C_or_O[0].name() == "CO2(g)"
+    assert mineral_species_with_Na_or_Cl[0].name() == "Halite"

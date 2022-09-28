@@ -105,6 +105,34 @@ struct AqueousSpeciesThermoParamsHKF
     double wref;
 };
 
+/// A type for storing the parameters of the NIST/NBS tables for std thermo properties.
+/// For further information, check here: https://data.nist.gov/od/id/mds2-2124.
+/// For heat capacities (Cp values), sometimes en empirical expression using Cp_a, Cp_b, and Cp_c
+/// as coefficients are employed as suggested in https://doi.org/10.11581/dtu:00000074
+/// The expression is given as Cp = Cp_a + Cp_b * T + Cp_c / (T - T0), with T0 = 200 K.
+/// When the coefficients are not available, a constant Cp values is assumed (i.e.,
+/// temperature-independent) and should be provided.
+struct SpeciesThermoParamsNIST
+{
+    /// The Gibbs energy of formation at 25 degC (in units of kJ/mol).
+    double G0;
+
+    /// The enthalpy of formation at 25 degC (in units of kJ/mol).
+    double H0;
+
+    /// Heat capacity at T = 25 degC (in units of J/(mol*K)).
+    double Cp;
+
+    /// Heat capacity coefficient to compute Cp as function of T, when available.
+    double Cp_a;
+
+    /// Heat capacity coefficient to compute Cp as function of T, when available.
+    double Cp_b;
+
+    /// Heat capacity coefficient to compute Cp as function of T, when available.
+    double Cp_c;
+};
+
 /// A type for storing the parameters of the HKF equation of state for a fluid (gaseous or liquid) species
 struct FluidSpeciesThermoParamsHKF
 {
@@ -224,6 +252,9 @@ struct AqueousSpeciesThermoData : SpeciesThermoData
 {
     /// The thermodynamic parameters of the HKF model for an aqueous species
     std::optional<AqueousSpeciesThermoParamsHKF> hkf;
+
+    /// The thermodynamic parameters of the NIST model for an aqueous species
+    std::optional<SpeciesThermoParamsNIST> nist;
 };
 
 /// A type for storing the thermodynamic data of fluid (gaseous or liquid) species
@@ -231,6 +262,9 @@ struct FluidSpeciesThermoData : SpeciesThermoData
 {
     /// The thermodynamic parameters of the HKF model for a fluid (gaseous or liquid) species
     std::optional<FluidSpeciesThermoParamsHKF> hkf;
+
+    /// The thermodynamic parameters of the NIST model for a fluid (gaseous or liquid) species
+    std::optional<SpeciesThermoParamsNIST> nist;
 };
 
 using GaseousSpeciesThermoData = FluidSpeciesThermoData;
@@ -241,6 +275,9 @@ struct MineralSpeciesThermoData : SpeciesThermoData
 {
     /// The thermodynamic parameters of the HKF model for a mineral species
     std::optional<MineralSpeciesThermoParamsHKF> hkf;
+
+    /// The thermodynamic parameters of the NIST model for a mineral species
+    std::optional<SpeciesThermoParamsNIST> nist;
 };
 
 } // namespace Reaktoro
