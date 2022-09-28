@@ -110,9 +110,6 @@ def test_SpeciesThermoParamsNIST_getter_and_setters():
     H0 = nist.H0
     assert H0 == 0  # default
 
-    S0 = nist.S0
-    assert S0 == 0  # default
-
     Cp = nist.Cp
     assert Cp == 0  # default
 
@@ -132,9 +129,6 @@ def test_SpeciesThermoParamsNIST_getter_and_setters():
 
     nist.H0 = 2
     assert nist.H0 == 2
-
-    nist.S0 = 3
-    assert nist.S0 == 3
 
     nist.Cp = 3
     assert nist.Cp == 3
