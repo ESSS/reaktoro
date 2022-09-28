@@ -252,13 +252,11 @@ auto parseAqueousSpeciesThermoParamsHKF(const xml_node& node) -> std::optional<A
     return hkf;
 }
 
-auto parseSpeciesThermoParamsNIST(const xml_node& node) -> std::optional<SpeciesThermoParamsNIST>
+auto parseSpeciesThermoParamsNIST(const xml_node& node) -> SpeciesThermoParamsNIST
 {
     SpeciesThermoParamsNIST nist{};
     nist.G0   = as_double(node, "G0");
     nist.H0   = as_double(node, "H0");
-    nist.H00  = as_double(node, "H00");
-    nist.S0   = as_double(node, "S0");
     nist.Cp   = as_double(node, "Cp");
     nist.Cp_a = as_double(node, "cp_a");
     nist.Cp_b = as_double(node, "cp_b");

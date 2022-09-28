@@ -17,6 +17,7 @@
 import pytest
 from reaktoro import *
 
+
 def test_ReactionParams():
     reaction = ReactionParams()
     coefficients = reaction.analytic
@@ -101,11 +102,45 @@ def test_MineralSpeciesThermoParamsHKF():
 def test_SpeciesThermoParamsNIST_getter_and_setters():
     nist = SpeciesThermoParamsNIST()
 
+    # Getters with default values
+
     G0 = nist.G0
     assert G0 == 0  # default
 
-    nist.G0 = 2
-    assert nist.G0 == 2
+    H0 = nist.H0
+    assert H0 == 0  # default
+
+    Cp = nist.Cp
+    assert Cp == 0  # default
+
+    Cp_a = nist.Cp_a
+    assert Cp_a == 0  # default
+
+    Cp_b = nist.Cp_b
+    assert Cp_b == 0  # default
+
+    Cp_c = nist.Cp_c
+    assert Cp_c == 0  # default
+
+    # Getters and setters with custom values
+
+    nist.G0 = 1
+    assert nist.G0 == 1
+
+    nist.H0 = 2
+    assert nist.H0 == 2
+
+    nist.Cp = 3
+    assert nist.Cp == 3
+
+    nist.Cp_a = 4
+    assert nist.Cp_a == 4
+
+    nist.Cp_b = 5
+    assert nist.Cp_b == 5
+
+    nist.Cp_c = 6
+    assert nist.Cp_c == 6
 
 
 @pytest.mark.parametrize(

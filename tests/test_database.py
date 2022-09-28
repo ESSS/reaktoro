@@ -69,6 +69,12 @@ def guard_locale():
     locale.setlocale(locale.LC_NUMERIC, old_locale)
 
 
+@pytest.fixture(scope="session")
+def nist_database(get_databases_dir):
+    database = Database(str(get_databases_dir / "nist" / "database_nist_euniquac.xml"))
+    return database
+
+
 def try_set_locale(loc):
     try:
         locale.setlocale(locale.LC_NUMERIC, loc)
@@ -182,31 +188,6 @@ def test_adding_and_getting_database_elements():
     assert elements[3].molarMass() == pytest.approx(32.065e-3)
 
 
-def test_adding_and_getting_database_elements_nist(nist_database):
-    database = nist_database
-
-    new_element = Element()
-    new_element.setName("New")
-    new_element.setMolarMass(1.234)
-    assert new_element.molarMass() == 1.234
-
-    database_size_before_inclusion = len(database.elements())
-    database.addElement(new_element)
-    database_size_after_inclusion = len(database.elements())
-    assert database_size_after_inclusion == database_size_before_inclusion + 1
-
-    elements = database.elements()
-
-    assert elements[0].name() == "Ac"
-    assert elements[0].molarMass() == pytest.approx(227.0e-3)
-    assert elements[1].name() == "Ag"
-    assert elements[1].molarMass() == pytest.approx(107.8682e-3)
-    assert elements[2].name() == "Al"
-    assert elements[2].molarMass() == pytest.approx(26.981538e-3)
-    assert elements[3].name() == "Am"
-    assert elements[3].molarMass() == pytest.approx(243.0e-3)
-
-
 def test_database_parse():
     """
     Test the fact that species should be added as
@@ -273,33 +254,6 @@ def test_nist_database_species(data_regression, nist_database):
     aqueous_species = database.aqueousSpecies()
     gaseous_species = database.gaseousSpecies()
     mineral_species = database.mineralSpecies()
-
-    assert database.containsAqueousSpecies(aqueous_species[0].name())
-    assert database.containsGaseousSpecies(gaseous_species[0].name())
-    assert database.containsMineralSpecies(mineral_species[0].name())
-
-    all_aqueous_species_names = [species.name() for species in aqueous_species]
-    all_gaseous_species_names = [species.name() for species in gaseous_species]
-    all_mineral_species_names = [species.name() for species in mineral_species]
-
-    all_species_names = {
-        "Aqueous": all_aqueous_species_names,
-        "Gaseous": all_gaseous_species_names,
-        "Mineral": all_mineral_species_names,
-    }
-    data_regression.check(all_species_names)
-    
-
-def test_custom_nist_database_euniquac_species(data_regression, euniquac_nist_database):
-    database = euniquac_nist_database
-
-    aqueous_species = database.aqueousSpecies()
-    gaseous_species = database.gaseousSpecies()
-    mineral_species = database.mineralSpecies()
-
-    assert database.containsAqueousSpecies(aqueous_species[0].name())
-    assert database.containsGaseousSpecies(gaseous_species[0].name())
-    assert database.containsMineralSpecies(mineral_species[0].name())
 
     all_aqueous_species_names = [species.name() for species in aqueous_species]
     all_gaseous_species_names = [species.name() for species in gaseous_species]
