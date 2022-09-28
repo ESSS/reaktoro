@@ -381,12 +381,6 @@ def get_databases_dir():
 
 @pytest.fixture(scope="session")
 def nist_database(get_databases_dir):
-    database = Database(str(get_databases_dir / "nist" / "database_nist.xml"))
-    return database
-
-
-@pytest.fixture(scope="session")
-def euniquac_nist_database(get_databases_dir):
     database = Database(str(get_databases_dir / "nist" / "database_nist_euniquac.xml"))
     return database
 

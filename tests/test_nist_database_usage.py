@@ -109,16 +109,16 @@ def test_equilibriumsolver_with_nist(nist_database, chemical_editor_nacl_nist):
     assert na_g0_from_state == pytest.approx(na_g0_from_thermodata * KJ_TO_K)
 
 
-def test_heat_capacity_calculation(euniquac_nist_database, dataframe_regression):
+def test_heat_capacity_calculation(nist_database, dataframe_regression):
     # Reaktoro basic setup
-    editor = ChemicalEditor(euniquac_nist_database)
+    editor = ChemicalEditor(nist_database)
     num_interpolation_points = 100
     T_min = 25.0  # degC
     T_max = 200.0  # degC
     interpolation_temperatures = np.linspace(T_min, T_max, num_interpolation_points)
     editor.setTemperatures(interpolation_temperatures, "celsius")
 
-    aqueous_species = euniquac_nist_database.aqueousSpecies()
+    aqueous_species = nist_database.aqueousSpecies()
     aqueous_species = [species.name() for species in aqueous_species]
     editor.addAqueousPhase(aqueous_species)
     
@@ -133,7 +133,7 @@ def test_heat_capacity_calculation(euniquac_nist_database, dataframe_regression)
     # Collecting solutes' Cp parameters
     species_cp_params = {}
     for species in aqueous_species:
-        cp_params = _get_species_cp_parameters(euniquac_nist_database, species)
+        cp_params = _get_species_cp_parameters(nist_database, species)
         species_cp_params[species] = cp_params
         
     # Calculating Cp values for reference
