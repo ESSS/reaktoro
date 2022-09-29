@@ -23,17 +23,11 @@ def _calculate_cp(T, a, b, c):
 
 def _get_species_cp_parameters(nist_database, species_name):
     species_in_database = nist_database.aqueousSpecies(species_name)
-    species_nist_thermodata = species_in_database.thermoData().nist
-    species_cp_constant = species_nist_thermodata.Cp
+    nist = species_in_database.thermoData().nist
 
-    cp_a_value = species_nist_thermodata.Cp_a
-    species_cp_a = cp_a_value if cp_a_value != np.inf else species_cp_constant
-
-    cp_b_value = species_nist_thermodata.Cp_b
-    species_cp_b = cp_b_value if cp_b_value != np.inf else 0.0
-
-    cp_c_value = species_nist_thermodata.Cp_c
-    species_cp_c = cp_c_value if cp_c_value != np.inf else 0.0
+    species_cp_a = nist.Cp_a if nist.Cp_a != np.inf else nist.Cp
+    species_cp_b = nist.Cp_b if nist.Cp_b != np.inf else 0.0
+    species_cp_c = nist.Cp_c if nist.Cp_c != np.inf else 0.0
 
     return species_cp_a, species_cp_b, species_cp_c
 
