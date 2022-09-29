@@ -152,7 +152,8 @@ auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType&
 
     // Calculate the standard molal thermodynamic properties of the gas
     auto V  = R*T/P; // the ideal gas molar volume (in units of m3/mol), this is a harsh simplification since V is
-                     // not provided by NIST
+                     // not provided by NIST. This could be improved in the future, but this value is not used
+                     // in equilibrium calculations.
     auto G  = G0 - S0 * (T - Tr) + CpdT - T * CpdlnT;
     auto H  = H0 + CpdT;
     auto S  = S0 + CpdlnT;
