@@ -145,8 +145,7 @@ auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType&
     // This is valid according to Gibbs-Helmholtz equation with P = cte. This is a fine assumption
     // since it just for the reference state, which is constant.
     const auto S0 = (H0 - G0) / Tr;
-    const auto Cp0 = nist.Cp;
-    const auto a = std::isfinite(nist.Cp_a) ? nist.Cp_a : Cp0;
+    const auto a = std::isfinite(nist.Cp_a) ? nist.Cp_a : nist.Cp;
     const auto b = std::isfinite(nist.Cp_b) ? nist.Cp_b : 0.0;
     const auto c = std::isfinite(nist.Cp_c) ? nist.Cp_c : 0.0;
 
