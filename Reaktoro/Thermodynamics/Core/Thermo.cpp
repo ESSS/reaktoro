@@ -269,7 +269,7 @@ struct Thermo::Impl
         if(phreeqc_thermo_params)
 			return standardGibbsEnergyFromPhreeqcReaction(T, P, species, *phreeqc_thermo_params);
 
-        if(hasThermoParamsHKF(species) || hasThermoParamsNIST(species) || !substances.empty())
+        if(hasThermoParams(species) || !substances.empty())
             return species_thermo_state_fn(T, P, species).gibbs_energy;
 
         return {};
@@ -285,7 +285,7 @@ struct Thermo::Impl
         if(reaction_thermo_properties && !reaction_thermo_properties->helmholtz_energy.empty())
             return standardHelmholtzEnergyFromReaction(T, P, species, *reaction_thermo_properties);
 
-        if(hasThermoParamsHKF(species) || hasThermoParamsNIST(species) || !substances.empty())
+        if(hasThermoParams(species) || !substances.empty())
             return species_thermo_state_fn(T, P, species).helmholtz_energy;
 
         return {};
@@ -301,7 +301,7 @@ struct Thermo::Impl
         if(reaction_thermo_properties && !reaction_thermo_properties->internal_energy.empty())
             return standardInternalEnergyFromReaction(T, P, species, *reaction_thermo_properties);
 
-        if(hasThermoParamsHKF(species) || hasThermoParamsNIST(species) || !substances.empty())
+        if(hasThermoParams(species) || !substances.empty())
             return species_thermo_state_fn(T, P, species).internal_energy;
 
         return {};
@@ -317,7 +317,7 @@ struct Thermo::Impl
         if(reaction_thermo_properties && !reaction_thermo_properties->enthalpy.empty())
             return standardEnthalpyFromReaction(T, P, species, *reaction_thermo_properties);
 
-        if(hasThermoParamsHKF(species) || hasThermoParamsNIST(species) || !substances.empty())
+        if(hasThermoParams(species) || !substances.empty())
             return species_thermo_state_fn(T, P, species).enthalpy;
 
         return {};
@@ -333,7 +333,7 @@ struct Thermo::Impl
         if(reaction_thermo_properties && !reaction_thermo_properties->entropy.empty())
             return standardEntropyFromReaction(T, P, species, *reaction_thermo_properties);
 
-        if(hasThermoParamsHKF(species) || hasThermoParamsNIST(species) || !substances.empty())
+        if(hasThermoParams(species) || !substances.empty())
             return species_thermo_state_fn(T, P, species).entropy;
 
         return {};
@@ -349,7 +349,7 @@ struct Thermo::Impl
         if(reaction_thermo_properties && !reaction_thermo_properties->volume.empty())
             return standardVolumeFromReaction(T, P, species, *reaction_thermo_properties);
 
-        if(hasThermoParamsHKF(species) || hasThermoParamsNIST(species) || !substances.empty())
+        if(hasThermoParams(species) || !substances.empty())
             return species_thermo_state_fn(T, P, species).volume;
 
         return {};
@@ -365,7 +365,7 @@ struct Thermo::Impl
         if(reaction_thermo_properties && !reaction_thermo_properties->heat_capacity_cp.empty())
             return standardHeatCapacityConstPFromReaction(T, P, species, *reaction_thermo_properties);
 
-        if(hasThermoParamsHKF(species) || hasThermoParamsNIST(species) || !substances.empty())
+        if(hasThermoParams(species) || !substances.empty())
             return species_thermo_state_fn(T, P, species).heat_capacity_cp;
 
         return {};
@@ -382,7 +382,7 @@ struct Thermo::Impl
         if(reaction_thermo_properties && !reaction_thermo_properties->heat_capacity_cv.empty())
             return standardHeatCapacityConstVFromReaction(T, P, species, *reaction_thermo_properties);
 
-        if(hasThermoParamsHKF(species) || hasThermoParamsNIST(species) || !substances.empty())
+        if(hasThermoParams(species) || !substances.empty())
             return species_thermo_state_fn(T, P, species).heat_capacity_cv;
 
         return {};
@@ -430,7 +430,7 @@ struct Thermo::Impl
         return {};
     }
 
-    auto hasThermoParamsHKF(std::string species) -> bool
+    auto hasThermoParamsHKF(const std::string& species) const -> bool
     {
         if(isAlternativeWaterName(species)) return true;
         if(database.containsAqueousSpecies(species))
@@ -458,6 +458,11 @@ struct Thermo::Impl
             return static_cast<bool>(database.mineralSpecies(species).thermoData().nist);
         errorNonExistentSpecies(species);
         return {};
+    }
+
+    auto hasThermoParams(const std::string& species) const -> bool
+    {
+        return hasThermoParamsHKF(species) || hasThermoParamsNIST(species);
     }
 
     template<typename PropertyFunction, typename EvalFunction>
@@ -671,7 +676,7 @@ auto Thermo::logEquilibriumConstant(double T, double P, std::string reaction) ->
 
 auto Thermo::hasStandardPartialMolarGibbsEnergy(std::string species) const -> bool
 {
-    if(pimpl->hasThermoParamsHKF(species))
+    if(pimpl->hasThermoParams(species))
         return true;
 
     const auto properties = pimpl->getSpeciesInterpolatedThermoProperties(species);
@@ -690,7 +695,7 @@ auto Thermo::hasStandardPartialMolarGibbsEnergy(std::string species) const -> bo
 
 auto Thermo::hasStandardPartialMolarHelmholtzEnergy(std::string species) const -> bool
 {
-    if(pimpl->hasThermoParamsHKF(species))
+    if(pimpl->hasThermoParams(species))
         return true;
 
     const auto properties = pimpl->getSpeciesInterpolatedThermoProperties(species);
@@ -706,7 +711,7 @@ auto Thermo::hasStandardPartialMolarHelmholtzEnergy(std::string species) const -
 
 auto Thermo::hasStandardPartialMolarInternalEnergy(std::string species) const -> bool
 {
-    if(pimpl->hasThermoParamsHKF(species))
+    if(pimpl->hasThermoParams(species))
         return true;
 
     const auto properties = pimpl->getSpeciesInterpolatedThermoProperties(species);
@@ -722,7 +727,7 @@ auto Thermo::hasStandardPartialMolarInternalEnergy(std::string species) const ->
 
 auto Thermo::hasStandardPartialMolarEnthalpy(std::string species) const -> bool
 {
-    if(pimpl->hasThermoParamsHKF(species))
+    if(pimpl->hasThermoParams(species))
         return true;
 
     const auto properties = pimpl->getSpeciesInterpolatedThermoProperties(species);
@@ -738,7 +743,7 @@ auto Thermo::hasStandardPartialMolarEnthalpy(std::string species) const -> bool
 
 auto Thermo::hasStandardPartialMolarEntropy(std::string species) const -> bool
 {
-    if(pimpl->hasThermoParamsHKF(species))
+    if(pimpl->hasThermoParams(species))
         return true;
 
     const auto properties = pimpl->getSpeciesInterpolatedThermoProperties(species);
@@ -754,7 +759,7 @@ auto Thermo::hasStandardPartialMolarEntropy(std::string species) const -> bool
 
 auto Thermo::hasStandardPartialMolarVolume(std::string species) const -> bool
 {
-    if(pimpl->hasThermoParamsHKF(species))
+    if(pimpl->hasThermoParams(species))
         return true;
 
     const auto properties = pimpl->getSpeciesInterpolatedThermoProperties(species);
@@ -770,7 +775,7 @@ auto Thermo::hasStandardPartialMolarVolume(std::string species) const -> bool
 
 auto Thermo::hasStandardPartialMolarHeatCapacityConstP(std::string species) const -> bool
 {
-    if(pimpl->hasThermoParamsHKF(species))
+    if(pimpl->hasThermoParams(species))
         return true;
 
     const auto properties = pimpl->getSpeciesInterpolatedThermoProperties(species);
@@ -786,7 +791,7 @@ auto Thermo::hasStandardPartialMolarHeatCapacityConstP(std::string species) cons
 
 auto Thermo::hasStandardPartialMolarHeatCapacityConstV(std::string species) const -> bool
 {
-    if(pimpl->hasThermoParamsHKF(species))
+    if(pimpl->hasThermoParams(species))
         return true;
 
     const auto properties = pimpl->getSpeciesInterpolatedThermoProperties(species);
