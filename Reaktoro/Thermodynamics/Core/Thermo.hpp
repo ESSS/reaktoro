@@ -140,7 +140,8 @@ public:
     /// @param species The name of the species
     auto hasStandardPartialMolarHeatCapacityConstV(std::string species) const -> bool;
 
-    /// Calculate the thermodynamic state of an aqueous species using the HKF model.
+    /// Calculate the thermodynamic state of an aqueous species using HKF or NIST models.
+    /// The calculation depends on which database is being used.
     /// @param T The temperature value (in units of K)
     /// @param P The pressure value (in units of Pa)
     /// @param species The name of the species

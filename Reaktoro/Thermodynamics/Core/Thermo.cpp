@@ -106,7 +106,7 @@ struct Thermo::Impl
     /// The Johnson and Norton equation of state for the electrostatic state of water
     WaterElectroStateFunction water_eletro_state_fn;
 
-    /// The HKF equation of state for the thermodynamic state of aqueous, gaseous and mineral species
+    /// The equation of state for the thermodynamic state of aqueous, gaseous and mineral species
     SpeciesThermoStateFunction species_thermo_state_fn;
 
     Impl()
