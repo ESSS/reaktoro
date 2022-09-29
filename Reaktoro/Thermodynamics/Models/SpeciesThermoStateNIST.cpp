@@ -37,7 +37,7 @@ namespace Reaktoro {
 namespace {
 
 /// The reference temperature assumed in the HKF equations of state (in units of K)
-const double referenceTemperature = 298.15;
+const double referenceTemperature = 273.15 + 25.0;
 
 /// The reference temperature assumed in the HKF equations of state (in units of Pascal)
 const double referencePressure = 1.0e5;
