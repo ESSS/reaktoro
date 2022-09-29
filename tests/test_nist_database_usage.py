@@ -69,8 +69,7 @@ def test_reaktoro_setup_with_nist_database(species_name, nist_database, chemical
 
 
 def test_nist_database_thermodata_type(nist_database):
-    database = nist_database
-    assert database.databaseType() == XmlDatabaseType.NIST
+    assert nist_database.databaseType() == XmlDatabaseType.NIST
 
 
 def test_equilibriumsolver_with_nist(nist_database, chemical_editor_nacl_nist):
