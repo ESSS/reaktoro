@@ -44,6 +44,7 @@ const double referencePressure = 1.0e5;
 
 const double kJToJ = 1e3;
 
+/// Check if minimum data are provided to compute the thermo state for the species.
 template<typename SpeciesType>
 auto checkSpeciesDataNIST(const SpeciesType& species) -> void
 {
@@ -59,7 +60,10 @@ auto checkSpeciesDataNIST(const SpeciesType& species) -> void
         RuntimeError(error, "Missing `H0` data for this species in the database");
 
     if(!std::isfinite(nist.Cp))
-        RuntimeError(error, "Missing `Cp` data for this species in the database");
+    {
+        if(!std::isfinite(nist.Cp_a))
+            RuntimeError(error, "Missing minimum `Cp` data for this species in the database");
+    }
 }
 
 } // namespace
