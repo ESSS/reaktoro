@@ -10,7 +10,7 @@ from reaktoro import (
     EquilibriumSolver,
 )
 
-KJ_TO_K = 1.0e3
+KJ_PER_MOL_TO_J_PER_MOL = 1.0e3
 
 
 def _calculate_cp(T, a, b, c):
@@ -71,7 +71,7 @@ def test_reaktoro_setup_with_nist_database(species_name, nist_database, chemical
     species_in_database = nist_database.aqueousSpecies(species_name)
     species_nist_thermodata = species_in_database.thermoData().nist
     species_g0_from_thermodata = species_nist_thermodata.G0
-    assert species_g0_from_properties == pytest.approx(species_g0_from_thermodata * KJ_TO_K)
+    assert species_g0_from_properties == pytest.approx(species_g0_from_thermodata * KJ_PER_MOL_TO_J_PER_MOL)
 
 
 def test_nist_database_thermodata_type(nist_database):
@@ -106,7 +106,9 @@ def test_equilibriumsolver_with_nist(nist_database, chemical_editor_nacl_nist):
     na_index = system.indexSpecies("Na+")
     properties = state.properties()
     na_g0_from_state = properties.standardPartialMolarGibbsEnergies().val[na_index]
-    assert na_g0_from_state == pytest.approx(na_g0_from_thermodata * KJ_TO_K)
+    assert na_g0_from_state == pytest.approx(
+        na_g0_from_thermodata * KJ_PER_MOL_TO_J_PER_MOL
+    )
 
 
 def test_heat_capacity_calculation(nist_database, dataframe_regression):
