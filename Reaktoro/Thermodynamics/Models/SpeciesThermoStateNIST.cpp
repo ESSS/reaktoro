@@ -83,7 +83,7 @@ auto speciesThermoStateSolventNIST(Temperature T, Pressure P, const AqueousSpeci
     WaterThermoState wt = waterThermoStateWagnerPruss(T, P, StateOfMatter::Liquid);
 
     // Calculate H2O properties with Wagner & Pruss at reference
-    const auto Ttr = 273.15;  // unit: K
+    const auto Ttr = referenceTemperature;  // unit: K
     const auto Ptr = referencePressure;  // unit: Pascal
     WaterThermoState wtr = waterThermoStateWagnerPruss(Ttr, Ptr, StateOfMatter::Liquid);
 
