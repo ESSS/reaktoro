@@ -137,7 +137,9 @@ auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType&
     const auto T_theta = 200.0;  // in K
     const auto G0 = nist.G0 * kJToJ;
     const auto H0 = nist.H0 * kJToJ;
-    // Since customizations for E-UNIQUAC are being used, we calculate S0 this way to have consistency
+    // Since customizations for E-UNIQUAC are being used, we calculate S0 this way to have consistency.
+    // This is valid according to Gibbs-Helmholtz equation with P = cte. This is a fine assumption
+    // since it just for the reference state, which is constant.
     const auto S0 = (H0 - G0) / Tr;
     const auto Cp0 = nist.Cp;
     const auto a = std::isfinite(nist.Cp_a) ? nist.Cp_a : Cp0;
