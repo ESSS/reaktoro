@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+from pathlib import Path
 
 import pytest
 import numpy as np
@@ -370,3 +372,23 @@ def chemical_properties(chemical_system):
     n = np.array([55, 1e-7, 1e-7, 0.1, 0.5, 0.01, 1.0, 0.001, 1.0])
 
     return chemical_system.properties(T, P, n)
+
+
+@pytest.fixture(scope="session")
+def get_databases_dir():
+    return Path(os.path.abspath(__file__)).parents[1] / "databases"
+
+
+@pytest.fixture(scope="session")
+def nist_database(get_databases_dir):
+    database = Database(str(get_databases_dir / "nist" / "database_nist_euniquac.xml"))
+    return database
+
+
+@pytest.fixture
+def chemical_editor_nacl_nist(nist_database):
+    editor = ChemicalEditor(nist_database)
+    editor.addAqueousPhase("H2O(l) H+ OH- Na+ Cl-".split())
+    editor.addGaseousPhase("H2O(g)")
+    editor.addMineralPhase("Halite")
+    return editor

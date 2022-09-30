@@ -444,6 +444,9 @@ struct Database::Impl
     /// ThermoFun database
     ThermoFun::Database fundb;
 
+    /// The XML database backend
+    DatabaseType database_type;
+
     Impl() = default;
 
     Impl(std::string filename)
@@ -483,6 +486,7 @@ struct Database::Impl
     Impl(const ThermoFun::Database& fundatabase)
     {
         fundb = fundatabase;
+        database_type = DatabaseType::ThermoFun;
 
         for (auto pair : fundb.mapSubstances())
         {
@@ -509,6 +513,11 @@ struct Database::Impl
             } else RuntimeError("Could not parse the species `" + name + " in the database.",
                 "The type of the species is unknown.");
         }
+    }
+
+    auto getXmlDatabaseType() const -> DatabaseType
+    {
+        return database_type;
     }
 
     auto parseElementalFormula(const std::string& formula) -> std::map<Element, double>
@@ -754,10 +763,19 @@ struct Database::Impl
             std::string type = node.child("Type").text().get();
             std::string name = node.child("Name").text().get();
 
+            // Determine if thermo data is NIST or HKF (workaround, not optimal but sufficient)
+            bool has_hkf_thermo_data = !node.child("Thermo").child("HKF").empty();
+            database_type = has_hkf_thermo_data ? DatabaseType::HKF : DatabaseType::NIST;
+
             if(type == "Aqueous")
             {
                 AqueousSpecies species = parseAqueousSpecies(node);
-                if(valid(species))
+                if (database_type == DatabaseType::HKF)
+                {
+                    if(valid(species))
+                        aqueous_species_map[species.name()] = species;
+                }
+                else
                     aqueous_species_map[species.name()] = species;
             }
             else if(type == "Gaseous")
@@ -767,7 +785,15 @@ struct Database::Impl
                 LiquidSpecies liquid_species = parseFluidSpecies(node);
                 const auto gas_species_suffix_size = 3;
                 liquid_species.setName(name.substr(0, name.size() - gas_species_suffix_size) + "(liq)");
-                if(valid(gaseous_species))
+                if (database_type == DatabaseType::HKF)
+                {
+                    if(valid(gaseous_species))
+                    {
+                        gaseous_species_map[gaseous_species.name()] = gaseous_species;
+                        liquid_species_map[liquid_species.name()] = liquid_species;
+                    }
+                }
+                else
                 {
                     gaseous_species_map[gaseous_species.name()] = gaseous_species;
                     liquid_species_map[liquid_species.name()] = liquid_species;
@@ -779,15 +805,25 @@ struct Database::Impl
                 liquid_species.setName(name);
                 const auto liquid_species_suffix_size = 3;
                 liquid_species.setName(name.substr(0, name.size() - liquid_species_suffix_size) + "(liq)");
-                if(valid(liquid_species))
+                if (database_type == DatabaseType::HKF)
                 {
-                    liquid_species_map[liquid_species.name()] = liquid_species;
+                    if(valid(liquid_species))
+                    {
+                        liquid_species_map[liquid_species.name()] = liquid_species;
+                    }
                 }
+                else
+                    liquid_species_map[liquid_species.name()] = liquid_species;
             }
             else if(type == "Mineral")
             {
                 MineralSpecies species = parseMineralSpecies(node);
-                if(valid(species))
+                if (database_type == DatabaseType::HKF)
+                {
+                    if(valid(species))
+                        mineral_species_map[species.name()] = species;
+                }
+                else
                     mineral_species_map[species.name()] = species;
             }
             else RuntimeError("Could not parse the species `" +
@@ -1041,6 +1077,11 @@ auto Database::liquidSpeciesWithElements(const std::vector<std::string>& element
 auto Database::mineralSpeciesWithElements(const std::vector<std::string>& elements) const -> std::vector<MineralSpecies>
 {
     return pimpl->mineralSpeciesWithElements(elements);
+}
+
+auto Database::databaseType() const -> DatabaseType
+{
+    return pimpl->getXmlDatabaseType();
 }
 
 } // namespace Reaktoro

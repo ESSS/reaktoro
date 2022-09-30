@@ -18,6 +18,7 @@
 from reaktoro import (
     Database,
     Element,
+    DatabaseType
 )
 
 from pathlib import Path
@@ -29,11 +30,6 @@ import sys
 
 def get_test_data_dir():
     return Path(os.path.abspath(__file__)).parents[0] / "data"
-
-
-@pytest.fixture(scope="session")
-def get_databases_dir():
-    return Path(os.path.abspath(__file__)).parents[1] / "databases"
 
 
 LANGUAGES = {
@@ -138,6 +134,19 @@ def test_elements_molar_mass(guard_locale):
     database = Database("supcrt07.xml")
     assert old_locale == locale.setlocale(locale.LC_NUMERIC)
     check_molar_mass({element.name(): element.molarMass() for element in database.elements()})
+
+
+@pytest.mark.parametrize(
+    "default_database_filename", [
+        "supcrt98.xml",
+        "supcrt98-organics.xml",
+        "supcrt07.xml",
+        "supcrt07-organics.xml",
+    ]
+)
+def test_supcrt_database_thermodata_type(default_database_filename):
+    database = Database(default_database_filename)
+    assert database.databaseType() == DatabaseType.HKF
 
 
 def test_invariant_database():

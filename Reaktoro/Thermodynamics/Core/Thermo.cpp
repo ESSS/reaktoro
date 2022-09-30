@@ -37,6 +37,7 @@ using namespace std::placeholders;
 #include <Reaktoro/Thermodynamics/Models/SpeciesElectroStateHKF.hpp>
 #include <Reaktoro/Thermodynamics/Models/SpeciesThermoState.hpp>
 #include <Reaktoro/Thermodynamics/Models/SpeciesThermoStateHKF.hpp>
+#include <Reaktoro/Thermodynamics/Models/SpeciesThermoStateNIST.hpp>
 #include <Reaktoro/Thermodynamics/Species/AqueousSpecies.hpp>
 #include <Reaktoro/Thermodynamics/Species/FluidSpecies.hpp>
 #include <Reaktoro/Thermodynamics/Species/MineralSpecies.hpp>
@@ -47,6 +48,9 @@ using namespace std::placeholders;
 
 namespace Reaktoro {
 namespace {
+
+/// Convert kJ to J
+const float kJouleToJoule = 1e3;
 
 /// The signature of a function that calculates the thermodynamic state of water
 using WaterThermoStateFunction =
@@ -65,6 +69,15 @@ auto errorNonExistentSpecies(const std::string& name) -> void
     Exception exception;
     exception.error << "Cannot get an instance of the species `" << name << "` in the database.";
     exception.reason << "There is no such species in the database.";
+    RaiseError(exception);
+}
+
+auto errorInvalidReaktoroXmlDatabase() -> void
+{
+    Exception exception;
+    exception.error << "Invalid thermo database to compute std properties.";
+    exception.reason << "There is no such a database backend defined in Reaktoro. Currently only HKF and NIST are "
+                        "valid options.";
     RaiseError(exception);
 }
 
@@ -93,8 +106,8 @@ struct Thermo::Impl
     /// The Johnson and Norton equation of state for the electrostatic state of water
     WaterElectroStateFunction water_eletro_state_fn;
 
-    /// The HKF equation of state for the thermodynamic state of aqueous, gaseous and mineral species
-    SpeciesThermoStateFunction species_thermo_state_hkf_fn;
+    /// The equation of state for the thermodynamic state of aqueous, gaseous and mineral species
+    SpeciesThermoStateFunction species_thermo_state_fn;
 
     Impl()
     : engine(ThermoFun::Database())
@@ -110,12 +123,12 @@ struct Thermo::Impl
         substances = fundatabase.getSubstances();
 
         // Initialize the HKF equation of state for the thermodynamic state of aqueous, gaseous and mineral species
-        species_thermo_state_hkf_fn = [=](double T, double P, std::string species)
+        species_thermo_state_fn = [=](double T, double P, std::string species)
         {
             return speciesThermoStateUsingThermoFun(T, P, species);
         };
 
-        species_thermo_state_hkf_fn = memoize(species_thermo_state_hkf_fn);
+        species_thermo_state_fn = memoize(species_thermo_state_fn);
     }
 
     Impl(const Database& database)
@@ -147,12 +160,26 @@ struct Thermo::Impl
         water_eletro_state_fn = memoize(water_eletro_state_fn);
 
         // Initialize the HKF equation of state for the thermodynamic state of aqueous, gas, liquid, fluid and mineral species
-        species_thermo_state_hkf_fn = [=](double T, double P, std::string species)
+        const auto& database_type = database.databaseType();
+        if (database_type == DatabaseType::HKF)
         {
-            return speciesThermoStateHKF(T, P, species);
-        };
+            species_thermo_state_fn = [=](double T, double P, std::string species)
+            {
+                return speciesThermoStateHKF(T, P, species);
+            };
+        }
+        // Initialize the NIST values for the thermodynamic state of aqueous, gas, and mineral species
+        else if (database_type == DatabaseType::NIST)
+        {
+            species_thermo_state_fn = [=](double T, double P, std::string species)
+            {
+                return speciesThermoStateNIST(T, P, species);
+            };
+        }
+        else
+            errorInvalidReaktoroXmlDatabase();
 
-        species_thermo_state_hkf_fn = memoize(species_thermo_state_hkf_fn);
+        species_thermo_state_fn = memoize(species_thermo_state_fn);
     }
 
     auto convertScalar(Reaktoro_::ThermoScalar funscalar) -> ThermoScalar
@@ -214,6 +241,20 @@ struct Thermo::Impl
         return speciesThermoStateSoluteHKF(T, P, species, aes, wes);
     }
 
+    auto speciesThermoStateNIST(double T, double P, const std::string& species) const -> SpeciesThermoState
+    {
+        if(database.containsAqueousSpecies(species))
+            return Reaktoro::aqueousSpeciesThermoStateNIST(T, P, database.aqueousSpecies(species));
+        if(database.containsGaseousSpecies(species))
+            return Reaktoro::gaseousSpeciesThermoStateNIST(T, P, database.gaseousSpecies(species));
+        if(database.containsLiquidSpecies(species))
+            return Reaktoro::liquidSpeciesThermoStateNIST(T, P, database.liquidSpecies(species));
+        if(database.containsMineralSpecies(species))
+            return Reaktoro::mineralSpeciesThermoStateNIST(T, P, database.mineralSpecies(species));
+        errorNonExistentSpecies(species);
+        return {};
+    }
+
     auto standardPartialMolarGibbsEnergy(double T, double P, std::string species) -> ThermoScalar
     {
         const auto species_thermo_properties = getSpeciesInterpolatedThermoProperties(species);
@@ -228,8 +269,8 @@ struct Thermo::Impl
         if(phreeqc_thermo_params)
 			return standardGibbsEnergyFromPhreeqcReaction(T, P, species, *phreeqc_thermo_params);
 
-        if(hasThermoParamsHKF(species) || substances.size() > 0)
-            return species_thermo_state_hkf_fn(T, P, species).gibbs_energy;
+        if(hasThermoParams(species) || !substances.empty())
+            return species_thermo_state_fn(T, P, species).gibbs_energy;
 
         return {};
     }
@@ -244,8 +285,8 @@ struct Thermo::Impl
         if(reaction_thermo_properties && !reaction_thermo_properties->helmholtz_energy.empty())
             return standardHelmholtzEnergyFromReaction(T, P, species, *reaction_thermo_properties);
 
-        if(hasThermoParamsHKF(species) || substances.size() > 0)
-            return species_thermo_state_hkf_fn(T, P, species).helmholtz_energy;
+        if(hasThermoParams(species) || !substances.empty())
+            return species_thermo_state_fn(T, P, species).helmholtz_energy;
 
         return {};
     }
@@ -260,8 +301,8 @@ struct Thermo::Impl
         if(reaction_thermo_properties && !reaction_thermo_properties->internal_energy.empty())
             return standardInternalEnergyFromReaction(T, P, species, *reaction_thermo_properties);
 
-        if(hasThermoParamsHKF(species) || substances.size() > 0)
-            return species_thermo_state_hkf_fn(T, P, species).internal_energy;
+        if(hasThermoParams(species) || !substances.empty())
+            return species_thermo_state_fn(T, P, species).internal_energy;
 
         return {};
     }
@@ -276,8 +317,8 @@ struct Thermo::Impl
         if(reaction_thermo_properties && !reaction_thermo_properties->enthalpy.empty())
             return standardEnthalpyFromReaction(T, P, species, *reaction_thermo_properties);
 
-        if(hasThermoParamsHKF(species) || substances.size() > 0)
-            return species_thermo_state_hkf_fn(T, P, species).enthalpy;
+        if(hasThermoParams(species) || !substances.empty())
+            return species_thermo_state_fn(T, P, species).enthalpy;
 
         return {};
     }
@@ -292,8 +333,8 @@ struct Thermo::Impl
         if(reaction_thermo_properties && !reaction_thermo_properties->entropy.empty())
             return standardEntropyFromReaction(T, P, species, *reaction_thermo_properties);
 
-        if(hasThermoParamsHKF(species) || substances.size() > 0)
-            return species_thermo_state_hkf_fn(T, P, species).entropy;
+        if(hasThermoParams(species) || !substances.empty())
+            return species_thermo_state_fn(T, P, species).entropy;
 
         return {};
     }
@@ -308,8 +349,8 @@ struct Thermo::Impl
         if(reaction_thermo_properties && !reaction_thermo_properties->volume.empty())
             return standardVolumeFromReaction(T, P, species, *reaction_thermo_properties);
 
-        if(hasThermoParamsHKF(species) || substances.size() > 0)
-            return species_thermo_state_hkf_fn(T, P, species).volume;
+        if(hasThermoParams(species) || !substances.empty())
+            return species_thermo_state_fn(T, P, species).volume;
 
         return {};
     }
@@ -324,8 +365,8 @@ struct Thermo::Impl
         if(reaction_thermo_properties && !reaction_thermo_properties->heat_capacity_cp.empty())
             return standardHeatCapacityConstPFromReaction(T, P, species, *reaction_thermo_properties);
 
-        if(hasThermoParamsHKF(species) || substances.size() > 0)
-            return species_thermo_state_hkf_fn(T, P, species).heat_capacity_cp;
+        if(hasThermoParams(species) || !substances.empty())
+            return species_thermo_state_fn(T, P, species).heat_capacity_cp;
 
         return {};
     }
@@ -341,8 +382,8 @@ struct Thermo::Impl
         if(reaction_thermo_properties && !reaction_thermo_properties->heat_capacity_cv.empty())
             return standardHeatCapacityConstVFromReaction(T, P, species, *reaction_thermo_properties);
 
-        if(hasThermoParamsHKF(species) || substances.size() > 0)
-            return species_thermo_state_hkf_fn(T, P, species).heat_capacity_cv;
+        if(hasThermoParams(species) || !substances.empty())
+            return species_thermo_state_fn(T, P, species).heat_capacity_cv;
 
         return {};
     }
@@ -389,7 +430,7 @@ struct Thermo::Impl
         return {};
     }
 
-    auto hasThermoParamsHKF(std::string species) -> bool
+    auto hasThermoParamsHKF(const std::string& species) const -> bool
     {
         if(isAlternativeWaterName(species)) return true;
         if(database.containsAqueousSpecies(species))
@@ -402,6 +443,26 @@ struct Thermo::Impl
             return static_cast<bool>(database.mineralSpecies(species).thermoData().hkf);
         errorNonExistentSpecies(species);
         return {};
+    }
+
+    auto hasThermoParamsNIST(const std::string& species) const -> bool
+    {
+        if(isAlternativeWaterName(species)) return true;
+        if(database.containsAqueousSpecies(species))
+            return static_cast<bool>(database.aqueousSpecies(species).thermoData().nist);
+        if(database.containsGaseousSpecies(species))
+            return static_cast<bool>(database.gaseousSpecies(species).thermoData().nist);
+        if(database.containsLiquidSpecies(species))
+            return static_cast<bool>(database.liquidSpecies(species).thermoData().nist);
+        if(database.containsMineralSpecies(species))
+            return static_cast<bool>(database.mineralSpecies(species).thermoData().nist);
+        errorNonExistentSpecies(species);
+        return {};
+    }
+
+    auto hasThermoParams(const std::string& species) const -> bool
+    {
+        return hasThermoParamsHKF(species) || hasThermoParamsNIST(species);
     }
 
     template<typename PropertyFunction, typename EvalFunction>
@@ -615,7 +676,7 @@ auto Thermo::logEquilibriumConstant(double T, double P, std::string reaction) ->
 
 auto Thermo::hasStandardPartialMolarGibbsEnergy(std::string species) const -> bool
 {
-    if(pimpl->hasThermoParamsHKF(species))
+    if(pimpl->hasThermoParams(species))
         return true;
 
     const auto properties = pimpl->getSpeciesInterpolatedThermoProperties(species);
@@ -634,7 +695,7 @@ auto Thermo::hasStandardPartialMolarGibbsEnergy(std::string species) const -> bo
 
 auto Thermo::hasStandardPartialMolarHelmholtzEnergy(std::string species) const -> bool
 {
-    if(pimpl->hasThermoParamsHKF(species))
+    if(pimpl->hasThermoParams(species))
         return true;
 
     const auto properties = pimpl->getSpeciesInterpolatedThermoProperties(species);
@@ -650,7 +711,7 @@ auto Thermo::hasStandardPartialMolarHelmholtzEnergy(std::string species) const -
 
 auto Thermo::hasStandardPartialMolarInternalEnergy(std::string species) const -> bool
 {
-    if(pimpl->hasThermoParamsHKF(species))
+    if(pimpl->hasThermoParams(species))
         return true;
 
     const auto properties = pimpl->getSpeciesInterpolatedThermoProperties(species);
@@ -666,7 +727,7 @@ auto Thermo::hasStandardPartialMolarInternalEnergy(std::string species) const ->
 
 auto Thermo::hasStandardPartialMolarEnthalpy(std::string species) const -> bool
 {
-    if(pimpl->hasThermoParamsHKF(species))
+    if(pimpl->hasThermoParams(species))
         return true;
 
     const auto properties = pimpl->getSpeciesInterpolatedThermoProperties(species);
@@ -682,7 +743,7 @@ auto Thermo::hasStandardPartialMolarEnthalpy(std::string species) const -> bool
 
 auto Thermo::hasStandardPartialMolarEntropy(std::string species) const -> bool
 {
-    if(pimpl->hasThermoParamsHKF(species))
+    if(pimpl->hasThermoParams(species))
         return true;
 
     const auto properties = pimpl->getSpeciesInterpolatedThermoProperties(species);
@@ -698,7 +759,7 @@ auto Thermo::hasStandardPartialMolarEntropy(std::string species) const -> bool
 
 auto Thermo::hasStandardPartialMolarVolume(std::string species) const -> bool
 {
-    if(pimpl->hasThermoParamsHKF(species))
+    if(pimpl->hasThermoParams(species))
         return true;
 
     const auto properties = pimpl->getSpeciesInterpolatedThermoProperties(species);
@@ -714,7 +775,7 @@ auto Thermo::hasStandardPartialMolarVolume(std::string species) const -> bool
 
 auto Thermo::hasStandardPartialMolarHeatCapacityConstP(std::string species) const -> bool
 {
-    if(pimpl->hasThermoParamsHKF(species))
+    if(pimpl->hasThermoParams(species))
         return true;
 
     const auto properties = pimpl->getSpeciesInterpolatedThermoProperties(species);
@@ -730,7 +791,7 @@ auto Thermo::hasStandardPartialMolarHeatCapacityConstP(std::string species) cons
 
 auto Thermo::hasStandardPartialMolarHeatCapacityConstV(std::string species) const -> bool
 {
-    if(pimpl->hasThermoParamsHKF(species))
+    if(pimpl->hasThermoParams(species))
         return true;
 
     const auto properties = pimpl->getSpeciesInterpolatedThermoProperties(species);
@@ -744,9 +805,9 @@ auto Thermo::hasStandardPartialMolarHeatCapacityConstV(std::string species) cons
     return false;
 }
 
-auto Thermo::speciesThermoStateHKF(double T, double P, std::string species) -> SpeciesThermoState
+auto Thermo::speciesThermoState(double T, double P, std::string species) -> SpeciesThermoState
 {
-    return pimpl->species_thermo_state_hkf_fn(T, P, species);
+    return pimpl->species_thermo_state_fn(T, P, species);
 }
 
 auto Thermo::waterThermoStateHGK(double T, double P) -> WaterThermoState
