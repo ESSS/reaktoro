@@ -18,7 +18,7 @@
 from reaktoro import (
     Database,
     Element,
-    XmlDatabaseType
+    DatabaseType
 )
 
 from pathlib import Path
@@ -146,7 +146,7 @@ def test_elements_molar_mass(guard_locale):
 )
 def test_supcrt_database_thermodata_type(default_database_filename):
     database = Database(default_database_filename)
-    assert database.databaseType() == XmlDatabaseType.HKF
+    assert database.databaseType() == DatabaseType.HKF
 
 
 def test_invariant_database():

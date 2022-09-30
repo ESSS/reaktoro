@@ -445,7 +445,7 @@ struct Database::Impl
     ThermoFun::Database fundb;
 
     /// The XML database backend
-    XmlDatabaseType xml_database_type;
+    DatabaseType database_type;
 
     Impl() = default;
 
@@ -486,7 +486,7 @@ struct Database::Impl
     Impl(const ThermoFun::Database& fundatabase)
     {
         fundb = fundatabase;
-        xml_database_type = XmlDatabaseType::ThermoFun;
+        database_type = DatabaseType::ThermoFun;
 
         for (auto pair : fundb.mapSubstances())
         {
@@ -515,9 +515,9 @@ struct Database::Impl
         }
     }
 
-    auto getXmlDatabaseType() const -> XmlDatabaseType
+    auto getXmlDatabaseType() const -> DatabaseType
     {
-        return xml_database_type;
+        return database_type;
     }
 
     auto parseElementalFormula(const std::string& formula) -> std::map<Element, double>
@@ -765,12 +765,12 @@ struct Database::Impl
 
             // Determine if thermo data is NIST or HKF (workaround, not optimal but sufficient)
             bool has_hkf_thermo_data = !node.child("Thermo").child("HKF").empty();
-            xml_database_type = has_hkf_thermo_data ? XmlDatabaseType::HKF : XmlDatabaseType::NIST;
+            database_type = has_hkf_thermo_data ? DatabaseType::HKF : DatabaseType::NIST;
 
             if(type == "Aqueous")
             {
                 AqueousSpecies species = parseAqueousSpecies(node);
-                if (xml_database_type == XmlDatabaseType::HKF)
+                if (database_type == DatabaseType::HKF)
                 {
                     if(valid(species))
                         aqueous_species_map[species.name()] = species;
@@ -785,7 +785,7 @@ struct Database::Impl
                 LiquidSpecies liquid_species = parseFluidSpecies(node);
                 const auto gas_species_suffix_size = 3;
                 liquid_species.setName(name.substr(0, name.size() - gas_species_suffix_size) + "(liq)");
-                if (xml_database_type == XmlDatabaseType::HKF)
+                if (database_type == DatabaseType::HKF)
                 {
                     if(valid(gaseous_species))
                     {
@@ -805,7 +805,7 @@ struct Database::Impl
                 liquid_species.setName(name);
                 const auto liquid_species_suffix_size = 3;
                 liquid_species.setName(name.substr(0, name.size() - liquid_species_suffix_size) + "(liq)");
-                if (xml_database_type == XmlDatabaseType::HKF)
+                if (database_type == DatabaseType::HKF)
                 {
                     if(valid(liquid_species))
                     {
@@ -818,7 +818,7 @@ struct Database::Impl
             else if(type == "Mineral")
             {
                 MineralSpecies species = parseMineralSpecies(node);
-                if (xml_database_type == XmlDatabaseType::HKF)
+                if (database_type == DatabaseType::HKF)
                 {
                     if(valid(species))
                         mineral_species_map[species.name()] = species;
@@ -1079,7 +1079,7 @@ auto Database::mineralSpeciesWithElements(const std::vector<std::string>& elemen
     return pimpl->mineralSpeciesWithElements(elements);
 }
 
-auto Database::databaseType() const -> XmlDatabaseType
+auto Database::databaseType() const -> DatabaseType
 {
     return pimpl->getXmlDatabaseType();
 }

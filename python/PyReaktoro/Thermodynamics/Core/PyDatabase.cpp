@@ -32,10 +32,10 @@ namespace Reaktoro {
 
 void exportDatabase(py::module& m)
 {
-    py::enum_<XmlDatabaseType>(m, "XmlDatabaseType")
-        .value("HKF", XmlDatabaseType::HKF)
-        .value("NIST", XmlDatabaseType::NIST)
-        .value("ThermoFun", XmlDatabaseType::ThermoFun)
+    py::enum_<DatabaseType>(m, "DatabaseType")
+        .value("HKF", DatabaseType::HKF)
+        .value("NIST", DatabaseType::NIST)
+        .value("ThermoFun", DatabaseType::ThermoFun)
         ;
 
     auto aqueousSpecies1 = static_cast<std::vector<AqueousSpecies>(Database::*)()>(&Database::aqueousSpecies);

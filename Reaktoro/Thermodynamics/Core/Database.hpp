@@ -40,7 +40,7 @@ using GaseousSpecies = FluidSpecies;
 using LiquidSpecies = FluidSpecies;
 class MineralSpecies;
 
-enum class XmlDatabaseType
+enum class DatabaseType
 {
     HKF, NIST, ThermoFun
 };
@@ -175,7 +175,7 @@ public:
 
     /// Get the XML database type. Currently supported: HKF, NIST or ThermoFun. This type determines from where
     /// the species/elements data are collected.
-    auto databaseType() const -> XmlDatabaseType;
+    auto databaseType() const -> DatabaseType;
 
 private:
     struct Impl;

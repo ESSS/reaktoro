@@ -161,7 +161,7 @@ struct Thermo::Impl
 
         // Initialize the HKF equation of state for the thermodynamic state of aqueous, gas, liquid, fluid and mineral species
         const auto& database_type = database.databaseType();
-        if (database_type == XmlDatabaseType::HKF)
+        if (database_type == DatabaseType::HKF)
         {
             species_thermo_state_fn = [=](double T, double P, std::string species)
             {
@@ -169,7 +169,7 @@ struct Thermo::Impl
             };
         }
         // Initialize the NIST values for the thermodynamic state of aqueous, gas, and mineral species
-        else if (database_type == XmlDatabaseType::NIST)
+        else if (database_type == DatabaseType::NIST)
         {
             species_thermo_state_fn = [=](double T, double P, std::string species)
             {
