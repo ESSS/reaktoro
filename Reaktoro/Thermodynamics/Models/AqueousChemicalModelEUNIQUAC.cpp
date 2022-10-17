@@ -53,8 +53,8 @@ auto sanityCheckEnergyInteractionParams(
         );
 
         // Check k's symmetry
-        for (unsigned i = 0; i < uij_0_num_of_rows; i++){
-            for (auto j = i + 1; j < uij_0_num_of_cols; j++){
+        for (unsigned i = 0; i < uij_0_num_of_rows; i++) {
+            for (auto j = i + 1; j < uij_0_num_of_cols; j++) {
                 Assert(uij_0(i, j) == uij_0(j, i),
                     "BIPs matrix u_ij_0 is not symmetric.", "Check your u_ij_0 BIPs matrix input."
                 );
@@ -63,8 +63,7 @@ auto sanityCheckEnergyInteractionParams(
                 );
             }
         }
-    }
-    else {
+    } else {
         Exception exception;
         exception.error << "Invalid dimension for the energy BIPs matrices.";
         exception.reason << "Logic error: a proper non-empty symmetric matrix should be passed as BIPs.";
@@ -98,6 +97,53 @@ auto calculateDebyeHuckelParameterA(const Temperature T, const ThermoScalar& eps
     return parameterA;
 }
 
+auto getWaterIndex(
+    const AqueousMixture& mixture,
+    const Indices& species_indices,
+    const std::string& water_species_name) ->Index
+{
+    Index water_index = -1;
+    for (const auto& species_id : species_indices) {
+        const auto& species = mixture.species(species_id);
+        const auto& species_name = species.name();
+        if (species_name == water_species_name)
+            water_index = species_id;
+    }
+
+    Assert(water_index != -1,
+        "The E-UNIQUAC parameter set is missing Water.",
+        "Water is required in E-UNIQUAC parameter set");
+
+    return water_index;
+}
+
+auto getIndicesForSpeciesWithKnownParams(
+    const std::vector<std::string>& species_names,
+    const AqueousMixture& mixture,
+    const std::map<std::string, int>& species_id_maps,
+    const std::string& water_species_name) -> Indices
+{
+    Index water_index_in_knowns = -1;
+    Indices index_of_species_with_params;
+    Index count_knowns = 0;
+    for ( const auto &name : species_names ) {
+        // Since idMaps is a map container, this checks if 'name' occurs in there.
+        if (species_id_maps.count(name)) {
+            const auto index_known_species = mixture.indexSpecies(name);
+            index_of_species_with_params.push_back(index_known_species);
+            if (name == water_species_name)
+                water_index_in_knowns = count_knowns;
+            count_knowns++;
+        }
+    }
+
+    Assert(water_index_in_knowns != -1,
+        "The E-UNIQUAC parameter set is missing Water.",
+        "Water is required in E-UNIQUAC parameter set");
+
+    return index_of_species_with_params;
+}
+
 auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACParams& params) -> PhaseChemicalModel
 {
     // The molar mass of water
@@ -129,23 +175,28 @@ auto aqueousChemicalModelEUNIQUAC(const AqueousMixture& mixture, const EUNIQUACP
     const auto& id_maps = params.bips_species_id_map();
 
     // Get index of species with known parameters
-    Index water_index_in_knowns = -1;
-    Indices index_of_species_with_params;
-    Index count_knowns = 0;
-    for ( const auto &name : species_names ) {
-        // Since idMaps is a map container, this checks if 'name' occurs in there.
-        if (id_maps.count(name)) {
-            const auto index_known_species = mixture.indexSpecies(name);
-            index_of_species_with_params.push_back(index_known_species);
-            if (name == water_species_name)
-                water_index_in_knowns = count_knowns;
-            count_knowns++; 
-        }
-    }
+    const auto& index_of_species_with_params = getIndicesForSpeciesWithKnownParams(
+        species_names, mixture, id_maps, water_species_name);
+
+    // Get water species id in known species
+    const auto& water_index_in_knowns = getWaterIndex(
+        mixture, index_of_species_with_params, water_species_name);
+
+//    Index water_index_in_knowns = -1;
+//    Indices index_of_species_with_params;
+//    Index count_knowns = 0;
+//    for ( const auto &name : species_names ) {
+//        // Since idMaps is a map container, this checks if 'name' occurs in there.
+//        if (id_maps.count(name)) {
+//            const auto index_known_species = mixture.indexSpecies(name);
+//            index_of_species_with_params.push_back(index_known_species);
+//            if (name == water_species_name)
+//                water_index_in_knowns = count_knowns;
+//            count_knowns++;
+//        }
+//    }
+
     const Index num_species_known = index_of_species_with_params.size();
-    Assert(water_index_in_knowns != -1, 
-            "The e-uniquac parameter set is missing Water.",
-            "Water is required in e-uniquac parameter set");
 
     // Collect UNIQUAC parameters `r_i` and `q_i` of all species with known parameters.
     for (const auto& index : index_of_species_with_params)
