@@ -1605,4 +1605,132 @@
             </NIST>
         </Thermo>
     </Species>
+    <Species>
+        <Name>FeCl2</Name>
+        <Formula>FeCl2</Formula>
+        <Elements>Fe(1)Cl(2)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">126.7530</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-302.30</G0>
+                <H0 units="kJ/mol">-341.79</H0>
+                <Cp units="J/(mol*K)">76.65</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>FeCl3</Name>
+        <Formula>FeCl3</Formula>
+        <Elements>Fe(1)Cl(3)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">162.2060</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-334.00</G0>
+                <H0 units="kJ/mol">-399.49</H0>
+                <Cp units="J/(mol*K)">96.65</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Pyrrhotite</Name>
+        <Formula>FeS</Formula>
+        <Elements>Fe(1)S(1)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">87.9110</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-100.4</G0>
+                <H0 units="kJ/mol">-100.0</H0>
+                <Cp units="J/(mol*K)">50.54</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Pyrite</Name>
+        <Formula>FeS2</Formula>
+        <Elements>Fe(1)S(2)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">119.9750</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-166.9</G0>
+                <H0 units="kJ/mol">-178.2</H0>
+                <Cp units="J/(mol*K)">62.17</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>FeSO4</Name>
+        <Formula>FeSO4</Formula>
+        <Elements>Fe(1)S(1)O(4)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">151.9086</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-820.8</G0>
+                <H0 units="kJ/mol">-928.4</H0>
+                <Cp units="J/(mol*K)">100.58</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Siderite</Name>
+        <Formula>FeCO3</Formula>
+        <Elements>Fe(1)C(1)O(3)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">115.8564</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-666.67</G0>
+                <H0 units="kJ/mol">-740.57</H0>
+                <Cp units="J/(mol*K)">82.13</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Hematite</Name>
+        <Formula>Fe2O3</Formula>
+        <Elements>Fe(2)O(3)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">159.6922</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-742.2</G0>
+                <H0 units="kJ/mol">-824.2</H0>
+                <Cp units="J/(mol*K)">103.85</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Magnetite</Name>
+        <Formula>Fe3O4</Formula>
+        <Elements>Fe(3)O(4)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">231.5386</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1015.4</G0>
+                <H0 units="kJ/mol">-1118.4</H0>
+                <Cp units="J/(mol*K)">143.43</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
 </Database>
