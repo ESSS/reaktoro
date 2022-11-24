@@ -964,7 +964,7 @@
         <Elements>K(1)</Elements>
         <Type>Aqueous</Type>
         <MolarMass units="g/mol">39.1020</MolarMass>
-        <Charge>0</Charge>
+        <Charge>1</Charge>
         <Thermo>
             <NIST>
                 <G0 units="kJ/mol">-283.27</G0>
@@ -973,6 +973,44 @@
                 <cp_a>415.09</cp_a>
                 <cp_b>-0.8142</cp_b>
                 <cp_c>-16316</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Fe++</Name>
+        <Formula>Fe++</Formula>
+        <Elements>Fe(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">55.8470</MolarMass>
+        <Charge>2</Charge>
+        <Reference>NIST, except for Cp: Ion Properties (Marcus)</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-78.90</G0>
+                <H0 units="kJ/mol">-89.1</H0>
+                <Cp units="J/(mol*K)">-168</Cp>
+                <cp_a>-168</cp_a>
+                <cp_b>0.0</cp_b>
+                <cp_c>0.0</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Fe+++</Name>
+        <Formula>Fe+++</Formula>
+        <Elements>Fe(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">55.8470</MolarMass>
+        <Charge>3</Charge>
+        <Reference>NIST, except for Cp: Ion Properties (Marcus)</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-4.7</G0>
+                <H0 units="kJ/mol">-48.5</H0>
+                <Cp units="J/(mol*K)">-204</Cp>
+                <cp_a>-204</cp_a>
+                <cp_b>0.0</cp_b>
+                <cp_c>0.0</cp_c>
             </NIST>
         </Thermo>
     </Species>
