@@ -131,6 +131,27 @@ struct SpeciesThermoParamsNIST
 
     /// Heat capacity coefficient to compute Cp as function of T, when available.
     double Cp_c;
+
+    // The following values are alternative data to calculate std properties from lnK
+    // according to Iliuta, Thomsen, and Rasmussen (see https://doi.org/10.1002/aic.690481125).
+    // The formula is given as
+    // lnK(T) = A + B / T + C * lnT + D * pow(T - 298.15, 2) / (1e3 * T) + E * (T - 200.0) / T * ln((T - 200) / 98.15)
+    // This approach is only valid for some heavy metal solid salts, as explained in the paper.
+
+    /// Iliuta's lnK coefficient A
+    double A = INFINITY;
+
+    /// Iliuta's lnK coefficient B
+    double B = INFINITY;
+
+    /// Iliuta's lnK coefficient C
+    double C = INFINITY;
+
+    /// Iliuta's lnK coefficient D
+    double D = INFINITY;
+
+    /// Iliuta's lnK coefficient E
+    double E = INFINITY;
 };
 
 /// A type for storing the parameters of the HKF equation of state for a fluid (gaseous or liquid) species
