@@ -541,6 +541,25 @@
             </NIST>
         </Thermo>
     </Species>
+    <Species>
+        <Name>H2S(g)</Name>
+        <Formula>H2S</Formula>
+        <Elements>H(2)S(1)</Elements>
+        <Type>Gaseous</Type>
+        <MolarMass units="g/mol">34.0800</MolarMass>
+        <Gas>Steam</Gas>
+        <CriticalTemperature units="K">373.5</CriticalTemperature>
+        <CriticalPressure units="bar">89.63</CriticalPressure>
+        <AcentricFactor>0.094</AcentricFactor>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-33.56</G0>
+                <H0 units="kJ/mol">-20.63</H0>
+                <Cp units="J/(mol*K)">34.23</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
     <!-- ========================================= -->
     <!-- ========================================= -->
     <!-- AQUEOUS -->
@@ -631,6 +650,63 @@
                 <cp_a>58.3695</cp_a>
                 <cp_b>0.03896</cp_b>
                 <cp_c>523.88</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>H2S(aq)</Name>
+        <Formula>H2S</Formula>
+        <Elements>H(2)S(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">34.0800</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-27.83</G0>
+                <H0 units="kJ/mol">-39.7</H0>
+                <Cp units="J/(mol*K)">110</Cp>
+                <!-- ref: Negar Sadegh Thesis, 2013 -->
+                <cp_a>110</cp_a>
+                <cp_b>0</cp_b>
+                <cp_c>0</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>HS-</Name>
+        <Formula>HS-</Formula>
+        <Elements>H(1)S(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">33.0720</MolarMass>
+        <Charge>-1</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">12.08</G0>
+                <H0 units="kJ/mol">-17.6</H0>
+                <Cp units="J/(mol*K)">-94</Cp>
+                <!-- ref: Negar Sadegh Thesis, 2013 -->
+                <cp_a>-94</cp_a>
+                <cp_b>0</cp_b>
+                <cp_c>0</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>S--</Name>
+        <Formula>S-2</Formula>
+        <Elements>S(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">32.0640</MolarMass>
+        <Charge>-2</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">85.8</G0>
+                <H0 units="kJ/mol">33.1</H0>
+                <Cp units="J/(mol*K)">-184</Cp>
+                <!-- ref: Ion Properties, Marcus (1997) -->
+                <cp_a>-184</cp_a>
+                <cp_b>0</cp_b>
+                <cp_c>0</cp_c>
             </NIST>
         </Thermo>
     </Species>
