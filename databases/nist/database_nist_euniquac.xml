@@ -1733,4 +1733,20 @@
             </NIST>
         </Thermo>
     </Species>
+    <Species>
+        <Name>Sulfur</Name>
+        <Formula>S</Formula>
+        <Elements>S(1)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">32.0640</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">0</G0>
+                <H0 units="kJ/mol">0</H0>
+                <Cp units="J/(mol*K)">22.64</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
 </Database>
