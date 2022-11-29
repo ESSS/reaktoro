@@ -1085,9 +1085,6 @@
                 <G0 units="kJ/mol">-78.90</G0>
                 <H0 units="kJ/mol">-89.1</H0>
                 <Cp units="J/(mol*K)">-168</Cp>
-                <cp_a>-168</cp_a>
-                <cp_b>0.0</cp_b>
-                <cp_c>0.0</cp_c>
             </NIST>
         </Thermo>
     </Species>
@@ -1104,9 +1101,6 @@
                 <G0 units="kJ/mol">-4.7</G0>
                 <H0 units="kJ/mol">-48.5</H0>
                 <Cp units="J/(mol*K)">-204</Cp>
-                <cp_a>-204</cp_a>
-                <cp_b>0.0</cp_b>
-                <cp_c>0.0</cp_c>
             </NIST>
         </Thermo>
     </Species>
@@ -1762,6 +1756,70 @@
                 <G0 units="kJ/mol">-166.9</G0>
                 <H0 units="kJ/mol">-178.2</H0>
                 <Cp units="J/(mol*K)">62.17</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Mackinawite</Name>
+        <Formula>FeS</Formula>
+        <Elements>Fe(1)S(1)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">87.9110</MolarMass>
+        <Charge>0</Charge>
+        <Reference>https://doi.org/10.2475/ajs.265.9.773</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-93.3032</G0>
+                <H0 units="kJ/mol">-91.6296</H0>
+                <Cp units="J/(mol*K)">50.208</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Greigite</Name>
+        <Formula>Fe3S4</Formula>
+        <Elements>Fe(3)S(4)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">295.8</MolarMass>
+        <Charge>0</Charge>
+        <Reference>https://doi.org/10.2475/ajs.265.9.773</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-290.3696</G0>
+                <H0 units="kJ/mol">-294.1352</H0>
+                <Cp units="J/(mol*K)">175.728</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Amorphous-FeS</Name>
+        <Formula>FeS</Formula>
+        <Elements>Fe(1)S(1)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">87.9110</MolarMass>
+        <Charge>0</Charge>
+        <Reference>https://doi.org/10.2475/ajs.265.9.773</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-89.1192</G0>
+                <H0 units="kJ/mol">-87.4456</H0>
+                <Cp units="J/(mol*K)">50.208</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Troilite</Name>
+        <Formula>FeS</Formula>
+        <Elements>Fe(1)S(1)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">87.9110</MolarMass>
+        <Charge>0</Charge>
+        <Reference>https://janaf.nist.gov/tables/Fe-023.html</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-101.953</G0>
+                <H0 units="kJ/mol">-101.671</H0>
+                <Cp units="J/(mol*K)">50.517</Cp>
             </NIST>
         </Thermo>
     </Species>

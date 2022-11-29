@@ -39,6 +39,7 @@ Mineral:
 - (NH4)2SO4*2NH4NO3
 - (NH4)2SO4*3NH4NO3
 - 2NaNO3*NH4NO3
+- Amorphous-FeS
 - Anhydrite
 - Aragonite
 - Barite
@@ -52,12 +53,14 @@ Mineral:
 - FeCl2
 - FeCl3
 - FeSO4
+- Greigite
 - Gypsum
 - Halite
 - Hematite
 - K2CO3*Na2CO3
 - K2CO3*NaHCO3*2H2O
 - KHCO3
+- Mackinawite
 - Magnesite
 - Magnetite
 - Mg(OH)2
@@ -78,4 +81,5 @@ Mineral:
 - SrCl2*6H2O
 - Strontianite
 - Sulfur
+- Troilite
 - Witherite
