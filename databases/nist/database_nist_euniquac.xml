@@ -560,6 +560,26 @@
             </NIST>
         </Thermo>
     </Species>
+    <Species>
+        <Name>SO2(g)</Name>
+        <Formula>SO2</Formula>
+        <Elements>S(1)O(2)</Elements>
+        <Type>Gaseous</Type>
+        <MolarMass units="g/mol">64.0628</MolarMass>
+        <Gas>Steam</Gas>
+        <CriticalTemperature units="K">430.8</CriticalTemperature>
+        <CriticalPressure units="bar">78.84</CriticalPressure>
+        <AcentricFactor>0.256</AcentricFactor>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-300.194</G0>
+                <H0 units="kJ/mol">-296.830</H0>
+                <Cp units="J/(mol*K)">39.87</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
     <!-- ========================================= -->
     <!-- ========================================= -->
     <!-- AQUEOUS -->
@@ -711,20 +731,78 @@
         </Thermo>
     </Species>
     <Species>
-        <Name>Cl-</Name>
-        <Formula>Cl-</Formula>
-        <Elements>Cl(1)</Elements>
+        <Name>SO2(aq)</Name>
+        <Formula>SO2</Formula>
+        <Elements>S(1)O(2)</Elements>
         <Type>Aqueous</Type>
-        <MolarMass units="g/mol">35.4530</MolarMass>
+        <MolarMass units="g/mol">64.0628</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-300.676</G0>
+                <H0 units="kJ/mol">-322.980</H0>
+                <Cp units="J/(mol*K)">195</Cp>
+                <!-- ref: Pereda et al. 2000 -->
+                <cp_a>195</cp_a>
+                <cp_b>0</cp_b>
+                <cp_c>0</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>HSO3-</Name>
+        <Formula>HSO3-</Formula>
+        <Elements>H(1)S(1)O(3)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">81.0702</MolarMass>
         <Charge>-1</Charge>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-131.228</G0>
-                <H0 units="kJ/mol">-167.159</H0>
-                <Cp units="J/(mol*K)">-136.4</Cp>
-                <cp_a>400.35</cp_a>
-                <cp_b>-1.1312</cp_b>
-                <cp_c>-18574</cp_c>
+                <G0 units="kJ/mol">-527.73</G0>
+                <H0 units="kJ/mol">-626.22</H0>
+                <Cp units="J/(mol*K)">-0.65657</Cp>
+                <!-- ref: Pereda et al. 2000 -->
+                <cp_a>-0.65657</cp_a>
+                <cp_b>0.33697</cp_b>
+                <cp_c>-9853.00</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>SO3--</Name>
+        <Formula>SO3-2</Formula>
+        <Elements>S(1)O(3)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">80.0622</MolarMass>
+        <Charge>-2</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-486.5</G0>
+                <H0 units="kJ/mol">-635.5</H0>
+                <Cp units="J/(mol*K)">1050.29</Cp>
+                <!-- ref: Pereda et al. 2000 -->
+                <cp_a>1050.29</cp_a>
+                <cp_b>-3.01755</cp_b>
+                <cp_c>-26024.9</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>S2O5--</Name>
+        <Formula>S2O5-2</Formula>
+        <Elements>S(2)O(5)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">144.1270</MolarMass>
+        <Charge>-2</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-808.61</G0>
+                <H0 units="kJ/mol">-973.60</H0>
+                <Cp units="J/(mol*K)">-0.92424</Cp>
+                <!-- ref: Pereda et al. 2000 -->
+                <cp_a>-0.92424</cp_a>
+                <cp_b>0.286059</cp_b>
+                <cp_c>-10800.1</cp_c>
             </NIST>
         </Thermo>
     </Species>
@@ -779,6 +857,24 @@
                 <cp_a>647.30</cp_a>
                 <cp_b>-1.5857</cp_b>
                 <cp_c>-17536</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Cl-</Name>
+        <Formula>Cl-</Formula>
+        <Elements>Cl(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">35.4530</MolarMass>
+        <Charge>-1</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-131.228</G0>
+                <H0 units="kJ/mol">-167.159</H0>
+                <Cp units="J/(mol*K)">-136.4</Cp>
+                <cp_a>400.35</cp_a>
+                <cp_b>-1.1312</cp_b>
+                <cp_c>-18574</cp_c>
             </NIST>
         </Thermo>
     </Species>
