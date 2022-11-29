@@ -1590,7 +1590,7 @@
         </Thermo>
     </Species>
     <Species>
-        <Name>K2CO3*NaHCO3•2H2O</Name>
+        <Name>K2CO3*NaHCO3*2H2O</Name>
         <Formula>K2CO3*NaHCO3*2H2O</Formula>
         <Elements>K(2)Na(1)C(2)H(5)O(8)</Elements>
         <Type>Mineral</Type>
