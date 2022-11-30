@@ -684,11 +684,8 @@
             <NIST>
                 <G0 units="kJ/mol">-27.83</G0>
                 <H0 units="kJ/mol">-39.7</H0>
-                <Cp units="J/(mol*K)">110</Cp>
                 <!-- ref: Negar Sadegh Thesis, 2013 -->
-                <cp_a>110</cp_a>
-                <cp_b>0</cp_b>
-                <cp_c>0</cp_c>
+                <Cp units="J/(mol*K)">110</Cp>
             </NIST>
         </Thermo>
     </Species>
