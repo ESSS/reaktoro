@@ -1079,11 +1079,12 @@
         <Type>Aqueous</Type>
         <MolarMass units="g/mol">55.8470</MolarMass>
         <Charge>2</Charge>
+        <!-- Corrected according to https://srd.nist.gov/jpcrdreprint/1.555964.pdf -->
         <Reference>NIST, except for Cp: Ion Properties (Marcus)</Reference>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-78.90</G0>
-                <H0 units="kJ/mol">-89.1</H0>
+                <G0 units="kJ/mol">-90.53</G0>
+                <H0 units="kJ/mol">-90.0</H0>
                 <Cp units="J/(mol*K)">-168</Cp>
             </NIST>
         </Thermo>
@@ -1095,11 +1096,12 @@
         <Type>Aqueous</Type>
         <MolarMass units="g/mol">55.8470</MolarMass>
         <Charge>3</Charge>
+        <!-- Corrected according to https://srd.nist.gov/jpcrdreprint/1.555964.pdf -->
         <Reference>NIST, except for Cp: Ion Properties (Marcus)</Reference>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-4.7</G0>
-                <H0 units="kJ/mol">-48.5</H0>
+                <G0 units="kJ/mol">-16.28</G0>
+                <H0 units="kJ/mol">-49.0</H0>
                 <Cp units="J/(mol*K)">-204</Cp>
             </NIST>
         </Thermo>
@@ -1702,11 +1704,12 @@
         <Type>Mineral</Type>
         <MolarMass units="g/mol">126.7530</MolarMass>
         <Charge>0</Charge>
+        <!-- Corrected according to https://srd.nist.gov/jpcrdreprint/1.555964.pdf -->
         <Reference>NIST/NBS tables</Reference>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-302.30</G0>
-                <H0 units="kJ/mol">-341.79</H0>
+                <G0 units="kJ/mol">-301.70</G0>
+                <H0 units="kJ/mol">-341.16</H0>
                 <Cp units="J/(mol*K)">76.65</Cp>
             </NIST>
         </Thermo>
@@ -1721,8 +1724,8 @@
         <Reference>NIST/NBS tables</Reference>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-334.00</G0>
-                <H0 units="kJ/mol">-399.49</H0>
+                <G0 units="kJ/mol">-331.81</G0>
+                <H0 units="kJ/mol">-395.66</H0>
                 <Cp units="J/(mol*K)">96.65</Cp>
             </NIST>
         </Thermo>
