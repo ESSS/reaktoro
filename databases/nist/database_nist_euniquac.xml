@@ -1897,11 +1897,12 @@
         <Type>Mineral</Type>
         <MolarMass units="g/mol">88.8538</MolarMass>
         <Charge>0</Charge>
-        <Reference>https://doi.org/10.1127/ejm/10/1/0031</Reference>
+        <Reference>https://doi.org/10.1127/ejm/10/1/0031 and corrected NIST</Reference>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-492.1</G0>
-                <H0 units="kJ/mol">-562.9</H0>
+                <!-- G0 and H0 corrected from https://srd.nist.gov/jpcrdreprint/1.555964.pdf -->
+                <G0 units="kJ/mol">-488.51</G0>
+                <H0 units="kJ/mol">-559.3</H0>
                 <!-- Cp is fitted against the paper results -->
                 <Cp units="J/(mol*K)">-71.352</Cp>
                 <cp_a>-71.352</cp_a>
