@@ -1894,17 +1894,36 @@
         <Type>Mineral</Type>
         <MolarMass units="g/mol">88.8538</MolarMass>
         <Charge>0</Charge>
-        <Reference>https://doi.org/10.1127/ejm/10/1/0031 and corrected NIST</Reference>
+        <Reference>https://www.oecd-nea.org/jcms/pl_14374/chemical-thermodynamics-of-iron-part-1?details=true</Reference>
         <Thermo>
             <NIST>
-                <!-- G0 and H0 corrected from https://srd.nist.gov/jpcrdreprint/1.555964.pdf -->
                 <G0 units="kJ/mol">-488.51</G0>
                 <H0 units="kJ/mol">-559.3</H0>
-                <!-- Cp is fitted against the paper results -->
-                <Cp units="J/(mol*K)">-71.352</Cp>
-                <cp_a>-71.352</cp_a>
-                <cp_b>0.194</cp_b>
-                <cp_c>-14520.80</cp_c>
+                <!-- Cp is fitted against the book parameters -->
+                <Cp units="J/(mol*K)">74.360</Cp>
+                <cp_a>-10.2209114</cp_a>
+                <cp_b>0.260685443</cp_b>
+                <cp_c>643.235071</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Lepidocrocite</Name>
+        <Formula>FeO(OH)</Formula>
+        <Elements>Fe(1)O(2)H(1)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">88.8538</MolarMass>
+        <Charge>0</Charge>
+        <Reference>https://www.oecd-nea.org/jcms/pl_14374/chemical-thermodynamics-of-iron-part-1?details=true</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-479.881</G0>
+                <H0 units="kJ/mol">-549.200</H0>
+                <!-- Cp is fitted against the book parameters -->
+                <Cp units="J/(mol*K)">69.14</Cp>
+                <cp_a>57.2670792</cp_a>
+                <cp_b>0.0613181115</cp_b>
+                <cp_c>-614.614253</cp_c>
             </NIST>
         </Thermo>
     </Species>
