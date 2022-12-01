@@ -1814,12 +1814,28 @@
         <Type>Mineral</Type>
         <MolarMass units="g/mol">87.9110</MolarMass>
         <Charge>0</Charge>
-        <Reference>https://janaf.nist.gov/tables/Fe-023.html</Reference>
+        <Reference>https://janaf.nist.gov</Reference>
         <Thermo>
             <NIST>
                 <G0 units="kJ/mol">-101.953</G0>
                 <H0 units="kJ/mol">-101.671</H0>
                 <Cp units="J/(mol*K)">50.517</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Markasite</Name>
+        <Formula>FeS2</Formula>
+        <Elements>Fe(1)S(2)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">119.9750</MolarMass>
+        <Charge>0</Charge>
+        <Reference>https://janaf.nist.gov</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-156.159</G0>
+                <H0 units="kJ/mol">-167.375</H0>
+                <Cp units="J/(mol*K)">62.554</Cp>
             </NIST>
         </Thermo>
     </Species>
