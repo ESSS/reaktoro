@@ -485,6 +485,26 @@
         </Thermo>
     </Species>
     <Species>
+        <Name>H2(g)</Name>
+        <Formula>H2</Formula>
+        <Elements>H(2)</Elements>
+        <Type>Gaseous</Type>
+        <MolarMass units="g/mol">2.016</MolarMass>
+        <Gas>Steam</Gas>
+        <CriticalTemperature units="K">33.18</CriticalTemperature>
+        <CriticalPressure units="bar">13.00</CriticalPressure>
+        <AcentricFactor>-0.216</AcentricFactor>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">0</G0>
+                <H0 units="kJ/mol">0</H0>
+                <Cp units="J/(mol*K)">28.824</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
         <Name>H2O(g)</Name>
         <Formula>H2O</Formula>
         <Elements>H(2)O(1)</Elements>
@@ -1100,6 +1120,38 @@
                 <G0 units="kJ/mol">-16.28</G0>
                 <H0 units="kJ/mol">-49.0</H0>
                 <Cp units="J/(mol*K)">-108</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Fe(OH)4-</Name>
+        <Formula>Fe(OH)4-</Formula>
+        <Elements>Fe(1)O(4)H(4)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">123.876</MolarMass>
+        <Charge>-1</Charge>
+        <Reference>Thermoddem DB: https://thermoddem.brgm.fr/species/feoh4</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-841.548</G0>
+                <H0 units="kJ/mol">-1047.338</H0>
+                <Cp units="J/(mol*K)">109.48</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>HFeO2-</Name>
+        <Formula>HFeO2-</Formula>
+        <Elements>H(1)Fe(1)O(2)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">88.854</MolarMass>
+        <Charge>-1</Charge>
+        <Reference>Thermoddem DB: https://thermoddem.brgm.fr/species/hfeo2-0</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-382.553</G0>
+                <H0 units="kJ/mol">-509.539</H0>
+                <Cp units="J/(mol*K)">99.66</Cp>
             </NIST>
         </Thermo>
     </Species>
@@ -1894,12 +1946,17 @@
         <Type>Mineral</Type>
         <MolarMass units="g/mol">231.5386</MolarMass>
         <Charge>0</Charge>
-        <Reference>NIST/NBS tables</Reference>
+        <Reference>NIST/NBS tables, except for Cp: Thermoddem values</Reference>
         <Thermo>
             <NIST>
                 <G0 units="kJ/mol">-1015.4</G0>
                 <H0 units="kJ/mol">-1118.4</H0>
                 <Cp units="J/(mol*K)">143.43</Cp>
+                <!-- Cp is fitted against the Thermoddem parameters -->
+                <!-- see: https://thermoddem.brgm.fr/species/magnetite -->
+                <cp_a>128.201465</cp_a>
+                <cp_b>0.142899029</cp_b>
+                <cp_c>-1910.96484</cp_c>
             </NIST>
         </Thermo>
     </Species>
