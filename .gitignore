@@ -33,3 +33,5 @@ _build/
 
 # temp files created by tests
 tests/IW
+
+/IW

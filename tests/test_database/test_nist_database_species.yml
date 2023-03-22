@@ -4,12 +4,14 @@ Aqueous:
 - CO3--
 - Ca++
 - Cl-
+- Fe(OH)4-
 - Fe++
 - Fe+++
 - H+
 - H2O(l)
 - H2S(aq)
 - HCO3-
+- HFeO2-
 - HS-
 - HSO3-
 - HSO4-
@@ -29,6 +31,7 @@ Aqueous:
 - Sr++
 Gaseous:
 - CO2(g)
+- H2(g)
 - H2O(g)
 - H2S(g)
 - N2(g)
