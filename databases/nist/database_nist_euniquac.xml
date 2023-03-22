@@ -1,4 +1,3 @@
-
 <?xml version="1.0" ?>
 <Database>
     <Element>
@@ -485,6 +484,26 @@
         </Thermo>
     </Species>
     <Species>
+        <Name>H2(g)</Name>
+        <Formula>H2</Formula>
+        <Elements>H(2)</Elements>
+        <Type>Gaseous</Type>
+        <MolarMass units="g/mol">2.016</MolarMass>
+        <Gas>Steam</Gas>
+        <CriticalTemperature units="K">33.18</CriticalTemperature>
+        <CriticalPressure units="bar">13.00</CriticalPressure>
+        <AcentricFactor>-0.216</AcentricFactor>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">0</G0>
+                <H0 units="kJ/mol">0</H0>
+                <Cp units="J/(mol*K)">28.824</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
         <Name>H2O(g)</Name>
         <Formula>H2O</Formula>
         <Elements>H(2)O(1)</Elements>
@@ -538,6 +557,45 @@
                 <G0 units="kJ/mol">-394.359</G0>
                 <H0 units="kJ/mol">-393.509</H0>
                 <Cp units="J/(mol*K)">37.11</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>H2S(g)</Name>
+        <Formula>H2S</Formula>
+        <Elements>H(2)S(1)</Elements>
+        <Type>Gaseous</Type>
+        <MolarMass units="g/mol">34.0800</MolarMass>
+        <Gas>Steam</Gas>
+        <CriticalTemperature units="K">373.5</CriticalTemperature>
+        <CriticalPressure units="bar">89.63</CriticalPressure>
+        <AcentricFactor>0.094</AcentricFactor>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-33.56</G0>
+                <H0 units="kJ/mol">-20.63</H0>
+                <Cp units="J/(mol*K)">34.23</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>SO2(g)</Name>
+        <Formula>SO2</Formula>
+        <Elements>S(1)O(2)</Elements>
+        <Type>Gaseous</Type>
+        <MolarMass units="g/mol">64.0628</MolarMass>
+        <Gas>Steam</Gas>
+        <CriticalTemperature units="K">430.8</CriticalTemperature>
+        <CriticalPressure units="bar">78.84</CriticalPressure>
+        <AcentricFactor>0.256</AcentricFactor>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-300.194</G0>
+                <H0 units="kJ/mol">-296.830</H0>
+                <Cp units="J/(mol*K)">39.87</Cp>
             </NIST>
         </Thermo>
     </Species>
@@ -635,20 +693,132 @@
         </Thermo>
     </Species>
     <Species>
-        <Name>Cl-</Name>
-        <Formula>Cl-</Formula>
-        <Elements>Cl(1)</Elements>
+        <Name>H2S(aq)</Name>
+        <Formula>H2S</Formula>
+        <Elements>H(2)S(1)</Elements>
         <Type>Aqueous</Type>
-        <MolarMass units="g/mol">35.4530</MolarMass>
+        <MolarMass units="g/mol">34.0800</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-27.83</G0>
+                <H0 units="kJ/mol">-39.7</H0>
+                <!-- ref: Negar Sadegh Thesis, 2013 -->
+                <Cp units="J/(mol*K)">110</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>HS-</Name>
+        <Formula>HS-</Formula>
+        <Elements>H(1)S(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">33.0720</MolarMass>
         <Charge>-1</Charge>
         <Thermo>
             <NIST>
-                <G0 units="kJ/mol">-131.228</G0>
-                <H0 units="kJ/mol">-167.159</H0>
-                <Cp units="J/(mol*K)">-136.4</Cp>
-                <cp_a>400.35</cp_a>
-                <cp_b>-1.1312</cp_b>
-                <cp_c>-18574</cp_c>
+                <G0 units="kJ/mol">12.08</G0>
+                <H0 units="kJ/mol">-17.6</H0>
+                <Cp units="J/(mol*K)">-94</Cp>
+                <!-- ref: Negar Sadegh Thesis, 2013 -->
+                <cp_a>-94</cp_a>
+                <cp_b>0</cp_b>
+                <cp_c>0</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>S--</Name>
+        <Formula>S-2</Formula>
+        <Elements>S(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">32.0640</MolarMass>
+        <Charge>-2</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">85.8</G0>
+                <H0 units="kJ/mol">33.1</H0>
+                <Cp units="J/(mol*K)">-184</Cp>
+                <!-- ref: Ion Properties, Marcus (1997) -->
+                <cp_a>-184</cp_a>
+                <cp_b>0</cp_b>
+                <cp_c>0</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>SO2(aq)</Name>
+        <Formula>SO2</Formula>
+        <Elements>S(1)O(2)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">64.0628</MolarMass>
+        <Charge>0</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-300.676</G0>
+                <H0 units="kJ/mol">-322.980</H0>
+                <Cp units="J/(mol*K)">195</Cp>
+                <!-- ref: Pereda et al. 2000 -->
+                <cp_a>195</cp_a>
+                <cp_b>0</cp_b>
+                <cp_c>0</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>HSO3-</Name>
+        <Formula>HSO3-</Formula>
+        <Elements>H(1)S(1)O(3)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">81.0702</MolarMass>
+        <Charge>-1</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-527.73</G0>
+                <H0 units="kJ/mol">-626.22</H0>
+                <Cp units="J/(mol*K)">-0.65657</Cp>
+                <!-- ref: Pereda et al. 2000 -->
+                <cp_a>-0.65657</cp_a>
+                <cp_b>0.33697</cp_b>
+                <cp_c>-9853.00</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>SO3--</Name>
+        <Formula>SO3-2</Formula>
+        <Elements>S(1)O(3)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">80.0622</MolarMass>
+        <Charge>-2</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-486.5</G0>
+                <H0 units="kJ/mol">-635.5</H0>
+                <Cp units="J/(mol*K)">1050.29</Cp>
+                <!-- ref: Pereda et al. 2000 -->
+                <cp_a>1050.29</cp_a>
+                <cp_b>-3.01755</cp_b>
+                <cp_c>-26024.9</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>S2O5--</Name>
+        <Formula>S2O5-2</Formula>
+        <Elements>S(2)O(5)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">144.1270</MolarMass>
+        <Charge>-2</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-808.61</G0>
+                <H0 units="kJ/mol">-973.60</H0>
+                <Cp units="J/(mol*K)">-0.92424</Cp>
+                <!-- ref: Pereda et al. 2000 -->
+                <cp_a>-0.92424</cp_a>
+                <cp_b>0.286059</cp_b>
+                <cp_c>-10800.1</cp_c>
             </NIST>
         </Thermo>
     </Species>
@@ -703,6 +873,24 @@
                 <cp_a>647.30</cp_a>
                 <cp_b>-1.5857</cp_b>
                 <cp_c>-17536</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Cl-</Name>
+        <Formula>Cl-</Formula>
+        <Elements>Cl(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">35.4530</MolarMass>
+        <Charge>-1</Charge>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-131.228</G0>
+                <H0 units="kJ/mol">-167.159</H0>
+                <Cp units="J/(mol*K)">-136.4</Cp>
+                <cp_a>400.35</cp_a>
+                <cp_b>-1.1312</cp_b>
+                <cp_c>-18574</cp_c>
             </NIST>
         </Thermo>
     </Species>
@@ -888,7 +1076,7 @@
         <Elements>K(1)</Elements>
         <Type>Aqueous</Type>
         <MolarMass units="g/mol">39.1020</MolarMass>
-        <Charge>0</Charge>
+        <Charge>1</Charge>
         <Thermo>
             <NIST>
                 <G0 units="kJ/mol">-283.27</G0>
@@ -897,6 +1085,72 @@
                 <cp_a>415.09</cp_a>
                 <cp_b>-0.8142</cp_b>
                 <cp_c>-16316</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Fe++</Name>
+        <Formula>Fe++</Formula>
+        <Elements>Fe(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">55.8470</MolarMass>
+        <Charge>2</Charge>
+        <!-- Corrected according to https://srd.nist.gov/jpcrdreprint/1.555964.pdf -->
+        <Reference>NIST, except for Cp: https://www.oecd-nea.org/jcms/pl_14374/chemical-thermodynamics-of-iron-part-1?details=true</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-90.53</G0>
+                <H0 units="kJ/mol">-90.0</H0>
+                <Cp units="J/(mol*K)">-23</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Fe+++</Name>
+        <Formula>Fe+++</Formula>
+        <Elements>Fe(1)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">55.8470</MolarMass>
+        <Charge>3</Charge>
+        <!-- Corrected according to https://srd.nist.gov/jpcrdreprint/1.555964.pdf -->
+        <Reference>NIST, except for Cp: https://www.oecd-nea.org/jcms/pl_14374/chemical-thermodynamics-of-iron-part-1?details=true</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-16.28</G0>
+                <H0 units="kJ/mol">-49.0</H0>
+                <Cp units="J/(mol*K)">-108</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Fe(OH)4-</Name>
+        <Formula>Fe(OH)4-</Formula>
+        <Elements>Fe(1)O(4)H(4)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">123.876</MolarMass>
+        <Charge>-1</Charge>
+        <Reference>Thermoddem DB: https://thermoddem.brgm.fr/species/feoh4</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-841.548</G0>
+                <H0 units="kJ/mol">-1047.338</H0>
+                <Cp units="J/(mol*K)">109.48</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>HFeO2-</Name>
+        <Formula>HFeO2-</Formula>
+        <Elements>H(1)Fe(1)O(2)</Elements>
+        <Type>Aqueous</Type>
+        <MolarMass units="g/mol">88.854</MolarMass>
+        <Charge>-1</Charge>
+        <Reference>Thermoddem DB: https://thermoddem.brgm.fr/species/hfeo2-0</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-382.553</G0>
+                <H0 units="kJ/mol">-509.539</H0>
+                <Cp units="J/(mol*K)">99.66</Cp>
             </NIST>
         </Thermo>
     </Species>
@@ -1380,7 +1634,7 @@
         </Thermo>
     </Species>
     <Species>
-        <Name>K2CO3*NaHCO3•2H2O</Name>
+        <Name>K2CO3*NaHCO3*2H2O</Name>
         <Formula>K2CO3*NaHCO3*2H2O</Formula>
         <Elements>K(2)Na(1)C(2)H(5)O(8)</Elements>
         <Type>Mineral</Type>
@@ -1488,6 +1742,276 @@
                 <G0 units="kJ/mol">-1273.60</G0>
                 <H0 units="kJ/mol">-1648.1</H0>
                 <Cp units="J/(mol*K)">569.60</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>FeCl2</Name>
+        <Formula>FeCl2</Formula>
+        <Elements>Fe(1)Cl(2)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">126.7530</MolarMass>
+        <Charge>0</Charge>
+        <!-- Corrected according to https://srd.nist.gov/jpcrdreprint/1.555964.pdf -->
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-301.70</G0>
+                <H0 units="kJ/mol">-341.16</H0>
+                <Cp units="J/(mol*K)">76.65</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>FeCl3</Name>
+        <Formula>FeCl3</Formula>
+        <Elements>Fe(1)Cl(3)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">162.2060</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-331.81</G0>
+                <H0 units="kJ/mol">-395.66</H0>
+                <Cp units="J/(mol*K)">96.65</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Pyrrhotite</Name>
+        <Formula>FeS</Formula>
+        <Elements>Fe(1)S(1)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">87.9110</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-100.4</G0>
+                <H0 units="kJ/mol">-100.0</H0>
+                <Cp units="J/(mol*K)">50.54</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Pyrite</Name>
+        <Formula>FeS2</Formula>
+        <Elements>Fe(1)S(2)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">119.9750</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-166.9</G0>
+                <H0 units="kJ/mol">-178.2</H0>
+                <Cp units="J/(mol*K)">62.17</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Mackinawite</Name>
+        <Formula>FeS</Formula>
+        <Elements>Fe(1)S(1)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">87.9110</MolarMass>
+        <Charge>0</Charge>
+        <Reference>https://doi.org/10.2475/ajs.265.9.773</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-93.3032</G0>
+                <H0 units="kJ/mol">-91.6296</H0>
+                <Cp units="J/(mol*K)">50.208</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Greigite</Name>
+        <Formula>Fe3S4</Formula>
+        <Elements>Fe(3)S(4)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">295.8</MolarMass>
+        <Charge>0</Charge>
+        <Reference>https://doi.org/10.2475/ajs.265.9.773</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-290.3696</G0>
+                <H0 units="kJ/mol">-294.1352</H0>
+                <Cp units="J/(mol*K)">175.728</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Amorphous-FeS</Name>
+        <Formula>FeS</Formula>
+        <Elements>Fe(1)S(1)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">87.9110</MolarMass>
+        <Charge>0</Charge>
+        <Reference>https://doi.org/10.2475/ajs.265.9.773</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-89.1192</G0>
+                <H0 units="kJ/mol">-87.4456</H0>
+                <Cp units="J/(mol*K)">50.208</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Troilite</Name>
+        <Formula>FeS</Formula>
+        <Elements>Fe(1)S(1)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">87.9110</MolarMass>
+        <Charge>0</Charge>
+        <Reference>https://janaf.nist.gov</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-101.953</G0>
+                <H0 units="kJ/mol">-101.671</H0>
+                <Cp units="J/(mol*K)">50.517</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Markasite</Name>
+        <Formula>FeS2</Formula>
+        <Elements>Fe(1)S(2)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">119.9750</MolarMass>
+        <Charge>0</Charge>
+        <Reference>https://janaf.nist.gov</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-156.159</G0>
+                <H0 units="kJ/mol">-167.375</H0>
+                <Cp units="J/(mol*K)">62.554</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>FeSO4</Name>
+        <Formula>FeSO4</Formula>
+        <Elements>Fe(1)S(1)O(4)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">151.9086</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-820.8</G0>
+                <H0 units="kJ/mol">-928.4</H0>
+                <Cp units="J/(mol*K)">100.58</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Siderite</Name>
+        <Formula>FeCO3</Formula>
+        <Elements>Fe(1)C(1)O(3)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">115.8564</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-666.67</G0>
+                <H0 units="kJ/mol">-740.57</H0>
+                <Cp units="J/(mol*K)">82.13</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Hematite</Name>
+        <Formula>Fe2O3</Formula>
+        <Elements>Fe(2)O(3)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">159.6922</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-742.2</G0>
+                <H0 units="kJ/mol">-824.2</H0>
+                <Cp units="J/(mol*K)">103.85</Cp>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Magnetite</Name>
+        <Formula>Fe3O4</Formula>
+        <Elements>Fe(3)O(4)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">231.5386</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables, except for Cp: Thermoddem values</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-1015.4</G0>
+                <H0 units="kJ/mol">-1118.4</H0>
+                <Cp units="J/(mol*K)">143.43</Cp>
+                <!-- Cp is fitted against the Thermoddem parameters -->
+                <!-- see: https://thermoddem.brgm.fr/species/magnetite -->
+                <cp_a>128.201465</cp_a>
+                <cp_b>0.142899029</cp_b>
+                <cp_c>-1910.96484</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Goethite</Name>
+        <Formula>FeO(OH)</Formula>
+        <Elements>Fe(1)O(2)H(1)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">88.8538</MolarMass>
+        <Charge>0</Charge>
+        <Reference>https://www.oecd-nea.org/jcms/pl_14374/chemical-thermodynamics-of-iron-part-1?details=true</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-488.51</G0>
+                <H0 units="kJ/mol">-559.3</H0>
+                <!-- Cp is fitted against the book parameters -->
+                <Cp units="J/(mol*K)">74.360</Cp>
+                <cp_a>-10.2209114</cp_a>
+                <cp_b>0.260685443</cp_b>
+                <cp_c>643.235071</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Lepidocrocite</Name>
+        <Formula>FeO(OH)</Formula>
+        <Elements>Fe(1)O(2)H(1)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">88.8538</MolarMass>
+        <Charge>0</Charge>
+        <Reference>https://www.oecd-nea.org/jcms/pl_14374/chemical-thermodynamics-of-iron-part-1?details=true</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">-479.881</G0>
+                <H0 units="kJ/mol">-549.200</H0>
+                <!-- Cp is fitted against the book parameters -->
+                <Cp units="J/(mol*K)">69.14</Cp>
+                <cp_a>57.2670792</cp_a>
+                <cp_b>0.0613181115</cp_b>
+                <cp_c>-614.614253</cp_c>
+            </NIST>
+        </Thermo>
+    </Species>
+    <Species>
+        <Name>Sulfur</Name>
+        <Formula>S</Formula>
+        <Elements>S(1)</Elements>
+        <Type>Mineral</Type>
+        <MolarMass units="g/mol">32.0640</MolarMass>
+        <Charge>0</Charge>
+        <Reference>NIST/NBS tables</Reference>
+        <Thermo>
+            <NIST>
+                <G0 units="kJ/mol">0</G0>
+                <H0 units="kJ/mol">0</H0>
+                <Cp units="J/(mol*K)">22.64</Cp>
             </NIST>
         </Thermo>
     </Species>
