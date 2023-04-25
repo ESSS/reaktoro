@@ -125,6 +125,17 @@ auto speciesThermoStateSolventNIST(Temperature T, Pressure P, const AqueousSpeci
 
     return state;
 }
+ 
+auto mineralsSolubilityGarcia(Pressure P, const double lnK_ref, const double alpha, const double beta) -> double
+{
+    // Defining the reference pressure in bar
+    const auto P_ref = 1.0;
+
+    // Defining the pressure-dependent equilibrium constant
+    auto lnK = lnK_ref + alpha * (P.val-P_ref) + beta * (P.val-P_ref) * (P.val-P_ref);
+
+    return lnK;
+}
 
 template<typename SpeciesType>
 auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType& species) -> SpeciesThermoState
@@ -141,6 +152,8 @@ auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType&
     const auto T_theta = 200.0;  // in K
     const auto G0 = nist.G0 * kJToJ;
     const auto H0 = nist.H0 * kJToJ;
+    const auto alpha = nist.alpha;
+    const auto beta = nist.beta;
     // Since customizations for E-UNIQUAC are being used, we calculate S0 this way to have consistency.
     // This is valid according to Gibbs-Helmholtz equation with P = cte. This is a fine assumption
     // since it just for the reference state, which is constant.
@@ -148,6 +161,7 @@ auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType&
     const auto a = std::isfinite(nist.Cp_a) ? nist.Cp_a : nist.Cp;
     const auto b = std::isfinite(nist.Cp_b) ? nist.Cp_b : 0.0;
     const auto c = std::isfinite(nist.Cp_c) ? nist.Cp_c : 0.0;
+
 
     // Calculate the integrals of the heal capacity function of the gas from Tr to T at constant pressure Pr
     const auto CpdT   = a*(T - Tr) + 0.5*b*(T*T - Tr*Tr) + c*log((T - T_theta) / (Tr - T_theta));
@@ -157,7 +171,17 @@ auto genericSpeciesThermoStateNIST(Temperature T, Pressure P, const SpeciesType&
     auto V  = R*T/P; // the ideal gas molar volume (in units of m3/mol), this is a harsh simplification since V is
                      // not provided by NIST. This could be improved in the future, but this value is not used
                      // in equilibrium calculations.
+
     auto G  = G0 - S0 * (T - Tr) + CpdT - T * CpdlnT;
+
+    if(std::isfinite(nist.alpha))
+    {
+        auto lnK0 = -G0/(R * T.val);
+        auto lnK = mineralsSolubilityGarcia(P, lnK0, alpha, beta);
+        auto G = -(lnK * R * T.val) - S0 * (T - Tr) + CpdT - T * CpdlnT;
+        
+    }
+ 
     auto H  = H0 + CpdT;
     auto S  = S0 + CpdlnT;
     auto U  = H - P*V;

@@ -112,6 +112,9 @@ struct AqueousSpeciesThermoParamsHKF
 /// The expression is given as Cp = Cp_a + Cp_b * T + Cp_c / (T - T0), with T0 = 200 K.
 /// When the coefficients are not available, a constant Cp values is assumed (i.e.,
 /// temperature-independent) and should be provided.
+/// The pressure dependence in the equilibrium constant is found in https://doi:10.1016/j.geothermics.2004.11.002
+/// The expression is ln K = ln K0 + alpha*(P-P0) + beta*(P-P0)^2
+
 struct SpeciesThermoParamsNIST
 {
     /// The Gibbs energy of formation at 25 degC (in units of kJ/mol).
@@ -131,6 +134,13 @@ struct SpeciesThermoParamsNIST
 
     /// Heat capacity coefficient to compute Cp as function of T, when available.
     double Cp_c;
+
+    /// The alpha parameter to compute the pressure dependence in the mineral solubility, when available
+    double alpha;
+
+    /// The beta parameter to compute the pressure dependence in the mineral solubility, when available
+    double beta;
+
 };
 
 /// A type for storing the parameters of the HKF equation of state for a fluid (gaseous or liquid) species

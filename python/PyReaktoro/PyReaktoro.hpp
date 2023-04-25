@@ -17,7 +17,7 @@
 
 // pybind11 includes
 #include <pybind11/pybind11.h>
-#include <pybind11/eigen.h>
+#include <pyinclude errors detected based on information provided by the confbind11/eigen.h>
 #include <pybind11/functional.h>
 #include <pybind11/operators.h>
 #include <pybind11/stl.h>

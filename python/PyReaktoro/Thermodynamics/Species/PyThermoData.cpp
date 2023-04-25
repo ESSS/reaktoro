@@ -161,6 +161,8 @@ void exportThermoDataProperties(py::module& m)
         .def_readwrite("Cp_a", &SpeciesThermoParamsNIST::Cp_a)
         .def_readwrite("Cp_b", &SpeciesThermoParamsNIST::Cp_b)
         .def_readwrite("Cp_c", &SpeciesThermoParamsNIST::Cp_c)
+        .def_readwrite("alpha", &SpeciesThermoParamsNIST::alpha)
+        .def_readwrite("beta", &SpeciesThermoParamsNIST::beta)
         ;
 }
 

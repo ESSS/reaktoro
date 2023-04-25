@@ -108,6 +108,8 @@ public:
     /// @param reaction The reaction equation
     auto logEquilibriumConstant(double T, double P, std::string reaction) -> ThermoScalar;
 
+    auto minerallnEquilibriumConstantGarcia(double T, double P, std::string reaction, std::string mineral_name) -> ThermoScalar;
+
     /// Return true if there is support for the calculation of the apparent standard molar Gibbs free energy of a species.
     /// @param species The name of the species
     auto hasStandardPartialMolarGibbsEnergy(std::string species) const -> bool;

@@ -261,6 +261,8 @@ auto parseSpeciesThermoParamsNIST(const xml_node& node) -> SpeciesThermoParamsNI
     nist.Cp_a = as_double(node, "cp_a");
     nist.Cp_b = as_double(node, "cp_b");
     nist.Cp_c = as_double(node, "cp_c");
+    nist.alpha = as_double(node, "alpha");
+    nist.beta = as_double(node, "beta");
     return nist;
 }
 

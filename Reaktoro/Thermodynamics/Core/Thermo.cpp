@@ -614,6 +614,22 @@ struct Thermo::Impl
         const ThermoScalar lnK = lnEquilibriumConstant(T, P, reaction);
         return lnK/ln10;
     }
+
+    auto minerallnEquilibriumConstantGarcia(double T, double P, std::string reaction, std::string mineral_name) -> ThermoScalar
+    {   
+        const auto mineral_species = database.mineralSpecies(mineral_name);
+        const auto& mineral_species_thermodata = *mineral_species.thermoData().nist;
+        const auto alpha = mineral_species_thermodata.alpha;
+        const auto beta = mineral_species_thermodata.beta;
+        const ThermoScalar lnK0 = lnEquilibriumConstant(T, P, reaction);
+        // Defining the reference pressure in bar
+        const auto P_ref = 1.0;
+        const auto P_bar = P * 1e-5;
+
+        // Defining the pressure-dependent equilibrium constant
+        auto lnK = lnK0 + alpha * (P_bar-P_ref) + beta * (P_bar-P_ref) * (P_bar-P_ref);
+        return lnK;
+    }
 };
 
 Thermo::Thermo(const ThermoFun::Database& database)
@@ -672,6 +688,11 @@ auto Thermo::lnEquilibriumConstant(double T, double P, std::string reaction) -> 
 auto Thermo::logEquilibriumConstant(double T, double P, std::string reaction) -> ThermoScalar
 {
     return pimpl->logEquilibriumConstant(T, P, reaction);
+}
+
+auto Thermo::minerallnEquilibriumConstantGarcia(double T, double P, std::string reaction, std::string mineral_name) -> ThermoScalar
+{
+    return pimpl->minerallnEquilibriumConstantGarcia(T, P, reaction, mineral_name);
 }
 
 auto Thermo::hasStandardPartialMolarGibbsEnergy(std::string species) const -> bool

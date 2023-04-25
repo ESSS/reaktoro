@@ -38,6 +38,7 @@ void exportThermo(py::module& m)
         .def("standardPartialMolarHeatCapacityConstV", &Thermo::standardPartialMolarHeatCapacityConstV, (py::arg("T"), py::arg("P"), "species"))
         .def("lnEquilibriumConstant", &Thermo::lnEquilibriumConstant, (py::arg("T"), py::arg("P"), "reaction"))
         .def("logEquilibriumConstant", &Thermo::logEquilibriumConstant, (py::arg("T"), py::arg("P"), "reaction"))
+        .def("minerallnEquilibriumConstantGarcia", &Thermo::minerallnEquilibriumConstantGarcia, (py::arg("T"), py::arg("P"), "reaction", "mineral_name"))
         .def("standardPartialMolarGibbsEnergy", &Thermo::standardPartialMolarGibbsEnergy)
         .def("standardPartialMolarHelmholtzEnergy", &Thermo::standardPartialMolarHelmholtzEnergy)
         .def("standardPartialMolarInternalEnergy", &Thermo::standardPartialMolarInternalEnergy)
@@ -48,6 +49,7 @@ void exportThermo(py::module& m)
         .def("standardPartialMolarHeatCapacityConstV", &Thermo::standardPartialMolarHeatCapacityConstV)
         .def("lnEquilibriumConstant", &Thermo::lnEquilibriumConstant)
         .def("logEquilibriumConstant", &Thermo::logEquilibriumConstant)
+        .def("minerallnEquilibriumConstantGarcia", &Thermo::minerallnEquilibriumConstantGarcia)
         ;
 }
 
