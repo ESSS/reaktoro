@@ -4,7 +4,12 @@ configure_file(version.py.in ${CMAKE_CURRENT_BINARY_DIR}/reaktoro/version.py)
 
 # Create pybind11-stubgen command string depending if this program has been found or not
 if(PYBIND11_STUBGEN)
-    set(STUBGEN_COMMAND1 ${CMAKE_COMMAND} -E env "PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}" ${PYBIND11_STUBGEN} --ignore-all-errors reaktoro)
+    if (WIN32)
+        string(REPLACE ";" "\\;" REAKTORO_PYTHONPATH "${CMAKE_CURRENT_BINARY_DIR};$ENV{PYTHONPATH}")
+    else()
+        set(REAKTORO_PYTHONPATH "${CMAKE_CURRENT_BINARY_DIR}:$ENV{PYTHONPATH}")
+    endif()
+    set(STUBGEN_COMMAND1 ${CMAKE_COMMAND} -E env "PYTHONPATH=${REAKTORO_PYTHONPATH}" ${PYBIND11_STUBGEN} --ignore-all-errors reaktoro)
     set(STUBGEN_COMMAND2 ${CMAKE_COMMAND} -E copy_directory stubs/reaktoro/ reaktoro)
 else()
     set(STUBGEN_COMMAND1 "")  # do nothing when it it's time to generate python stubs for reaktoro in the target below
