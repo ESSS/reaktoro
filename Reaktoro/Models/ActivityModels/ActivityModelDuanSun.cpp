@@ -102,12 +102,12 @@ auto ActivityModelDuanSun(String gas) -> ActivityModelGenerator
             const auto& state = *std::any_cast<SharedPtr<AqueousMixtureState> const&>(stateit->second);
 
             // The local indices of some charged species among all charged species
-            static const auto iNa  = mixture.charged().findWithFormula("Na+");
-            static const auto iK   = mixture.charged().findWithFormula("K+");
-            static const auto iCa  = mixture.charged().findWithFormula("Ca++");
-            static const auto iMg  = mixture.charged().findWithFormula("Mg++");
-            static const auto iCl  = mixture.charged().findWithFormula("Cl-");
-            static const auto iSO4 = mixture.charged().findWithFormula("SO4--");
+            const auto iNa  = mixture.charged().findWithFormula("Na+");
+            const auto iK   = mixture.charged().findWithFormula("K+");
+            const auto iCa  = mixture.charged().findWithFormula("Ca++");
+            const auto iMg  = mixture.charged().findWithFormula("Mg++");
+            const auto iCl  = mixture.charged().findWithFormula("Cl-");
+            const auto iSO4 = mixture.charged().findWithFormula("SO4--");
 
             const auto& T  = state.T;
             const auto& P  = state.P;
