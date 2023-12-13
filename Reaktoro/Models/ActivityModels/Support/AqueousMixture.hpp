@@ -17,6 +17,9 @@
 
 #pragma once
 
+// C++ includes
+#include <map>
+
 // Reaktoro includes
 #include <Reaktoro/Common/Matrix.hpp>
 #include <Reaktoro/Common/Types.hpp>
@@ -91,6 +94,10 @@ public:
 
     /// Return the charged aqueous solutes in the mixture.
     auto charged() const -> SpeciesList const&;
+
+    /// Return the mapping that maps a formula of a charged aqueous species into the index of that species in the
+    /// list returned by `charged()`.
+    auto formula_to_charged() const -> std::map<String, Index> const&;
 
     /// Return the cation solutes in the mixture.
     auto cations() const -> SpeciesList const&;

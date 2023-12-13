@@ -19,6 +19,7 @@
 
 // C++ includes
 #include <algorithm>
+#include <map>
 
 // Reaktoro includes
 #include <Reaktoro/Common/Algorithms.hpp>
@@ -56,6 +57,9 @@ struct AqueousMixture::Impl
 
     /// The charged aqueous species in the mixture.
     SpeciesList charged;
+
+    /// The map from charged aqueous species formulas to the corresponding index in `charged`.
+    std::map<String, Index> formula_to_charged; 
 
     /// The cation species in the mixture.
     SpeciesList cations;
@@ -138,6 +142,8 @@ struct AqueousMixture::Impl
             {
                 idx_charged_species.push_back(i);
                 charged.push_back(species[i]);
+                formula_to_charged.insert({species[i].formula().str(), charged.size() - 1});
+
                 if(species[i].charge() > 0.0)
                 {
                     idx_cations.push_back(i);
@@ -282,6 +288,11 @@ auto AqueousMixture::neutral() const -> SpeciesList const&
 auto AqueousMixture::charged() const -> SpeciesList const&
 {
     return pimpl->charged;
+}
+
+auto AqueousMixture::formula_to_charged() const -> std::map<String, Index> const&
+{
+    return pimpl->formula_to_charged;
 }
 
 auto AqueousMixture::cations() const -> SpeciesList const&

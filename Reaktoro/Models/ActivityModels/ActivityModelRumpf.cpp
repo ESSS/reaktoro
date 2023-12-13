@@ -17,12 +17,24 @@
 
 #include "ActivityModelRumpf.hpp"
 
+// C++ includes
+#include <map>
+
 // Reaktoro includes
 #include <Reaktoro/Models/ActivityModels/Support/AqueousMixture.hpp>
 
 namespace Reaktoro {
+namespace {
 
 using std::log;
+
+auto get_index_with_formula(String const& v, std::map<String, Index> const& str_to_ix)
+{
+    auto result = str_to_ix.find(v);
+    return result != str_to_ix.end() ? result->second : str_to_ix.size(); 
+}
+
+}  // namespace
 
 auto ActivityModelRumpf(String gas) -> ActivityModelGenerator
 {
@@ -45,11 +57,11 @@ auto ActivityModelRumpf(String gas) -> ActivityModelGenerator
             const auto& state = *std::any_cast<SharedPtr<AqueousMixtureState> const&>(stateit->second);
 
             // The local indices of some charged species among all charged species
-            const auto iNa  = mixture.charged().findWithFormula("Na+");
-            const auto iK   = mixture.charged().findWithFormula("K+");
-            const auto iCa  = mixture.charged().findWithFormula("Ca++");
-            const auto iMg  = mixture.charged().findWithFormula("Mg++");
-            const auto iCl  = mixture.charged().findWithFormula("Cl-");
+            const auto iNa  = get_index_with_formula("Na+", mixture.formula_to_charged());
+            const auto iK   = get_index_with_formula("K+", mixture.formula_to_charged());
+            const auto iCa  = get_index_with_formula("Ca++", mixture.formula_to_charged());
+            const auto iMg  = get_index_with_formula("Mg++", mixture.formula_to_charged());
+            const auto iCl  = get_index_with_formula("Cl-", mixture.formula_to_charged());
 
             // The number of charged species
             const auto nions = mixture.charged().size();

@@ -17,6 +17,9 @@
 
 #include "ActivityModelDuanSun.hpp"
 
+// C++ includes
+#include <map>
+
 // Reaktoro includes
 #include <Reaktoro/Models/ActivityModels/Support/AqueousMixture.hpp>
 
@@ -79,6 +82,12 @@ auto paramDuanSun(const real& T, const real& P, const real coeffs[]) -> real
         c10*Pbar*Pbar/(630 - T)/(630 - T) + c11*T*log(Pbar);
 }
 
+auto get_index_with_formula(String const& v, std::map<String, Index> const& str_to_ix)
+{
+    auto result = str_to_ix.find(v);
+    return result != str_to_ix.end() ? result->second : str_to_ix.size(); 
+}
+
 } // namespace
 
 auto ActivityModelDuanSun(String gas) -> ActivityModelGenerator
@@ -102,12 +111,12 @@ auto ActivityModelDuanSun(String gas) -> ActivityModelGenerator
             const auto& state = *std::any_cast<SharedPtr<AqueousMixtureState> const&>(stateit->second);
 
             // The local indices of some charged species among all charged species
-            const auto iNa  = mixture.charged().findWithFormula("Na+");
-            const auto iK   = mixture.charged().findWithFormula("K+");
-            const auto iCa  = mixture.charged().findWithFormula("Ca++");
-            const auto iMg  = mixture.charged().findWithFormula("Mg++");
-            const auto iCl  = mixture.charged().findWithFormula("Cl-");
-            const auto iSO4 = mixture.charged().findWithFormula("SO4--");
+            const auto iNa  = get_index_with_formula("Na+", mixture.formula_to_charged());
+            const auto iK   = get_index_with_formula("K+", mixture.formula_to_charged());
+            const auto iCa  = get_index_with_formula("Ca++", mixture.formula_to_charged());
+            const auto iMg  = get_index_with_formula("Mg++", mixture.formula_to_charged());
+            const auto iCl  = get_index_with_formula("Cl-", mixture.formula_to_charged());
+            const auto iSO4 = get_index_with_formula("SO4--", mixture.formula_to_charged());
 
             const auto& T  = state.T;
             const auto& P  = state.P;
