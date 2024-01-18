@@ -92,6 +92,9 @@ struct SmartEquilibriumSolver::Impl
     auto solve(ChemicalState& state, EquilibriumConditions const& conditions) -> SmartEquilibriumResult
     {
         tic(SOLVE_STEP)
+                 
+        // Save a backup state in case the smart prediction fails.
+        const auto statebkp = state;
 
         // Reset the result of the last smart equilibrium calculation
         result = {};
@@ -100,8 +103,10 @@ struct SmartEquilibriumSolver::Impl
         timeit( predict(state, conditions), result.timing.prediction= )
 
         // Perform a learning step if the smart prediction is not satisfactory
-        if(!result.prediction.accepted)
-            timeit( learn(state, conditions), result.timing.learning= )
+        if (!result.prediction.accepted) {
+            state = statebkp;
+            timeit(learn(state, conditions), result.timing.learning = )
+        }
 
         result.timing.solve = toc(SOLVE_STEP);
 
@@ -163,51 +168,54 @@ struct SmartEquilibriumSolver::Impl
 
         result.timing.learning_solve = toc(EQUILIBRIUM_STEP);
 
-        //---------------------------------------------------------------------
-        // STORAGE STEP DURING THE LEARNING PROCESS
-        //---------------------------------------------------------------------
-        tic(STORAGE_STEP)
+        // Store a predictor only if chemical equilibrium succeded
+        if (result.learning.solve.succeeded()) {
+            //---------------------------------------------------------------------
+            // STORAGE STEP DURING THE LEARNING PROCESS
+            //---------------------------------------------------------------------
+            tic(STORAGE_STEP)
 
-        // Create an equilibrium predictor object with computed equilibrium state and its sensitivities
-        EquilibriumPredictor predictor(state, sensitivity);
+            // Create an equilibrium predictor object with computed equilibrium state and its sensitivities
+            EquilibriumPredictor predictor(state, sensitivity);
 
-        // Round temperature and pressure according to their respective step lengths for discretization
-        const auto iT = detail::sround(state.temperature().val(), options.temperature_step);
-        const auto iP = detail::sround(state.pressure().val(), options.pressure_step);
+            // Round temperature and pressure according to their respective step lengths for discretization
+            const auto iT = detail::sround(state.temperature().val(), options.temperature_step);
+            const auto iP = detail::sround(state.pressure().val(), options.pressure_step);
 
-        // Get a mutable reference to an existing temperature-pressure cell or create a new one
-        auto& cell = grid.cells[{iT, iP}];
+            // Get a mutable reference to an existing temperature-pressure cell or create a new one
+            auto& cell = grid.cells[{iT, iP}];
 
-        // Generate the hash number for indices of primary species in the state
-        const auto iprimary = state.equilibrium().indicesPrimarySpecies();
-        const auto label = hashVector(iprimary);
+            // Generate the hash number for indices of primary species in the state
+            const auto iprimary = state.equilibrium().indicesPrimarySpecies();
+            const auto label = hashVector(iprimary);
 
-        // Find the index of the cluster within the temperature-pressure grid cell that has the same primary species
-        auto icluster = indexfn(cell.clusters, RKT_LAMBDA(cluster, cluster.label == label));
+            // Find the index of the cluster within the temperature-pressure grid cell that has the same primary species
+            auto icluster = indexfn(cell.clusters, RKT_LAMBDA(cluster, cluster.label == label));
 
-        // If cluster is found, store the new record in it, otherwise, create a new cluster
-        if(icluster < cell.clusters.size())
-        {
-            auto& cluster = cell.clusters[icluster];
-            cluster.records.push_back({ state, conditions, sensitivity, predictor });
-            cluster.priority.extend();
+            // If cluster is found, store the new record in it, otherwise, create a new cluster
+            if (icluster < cell.clusters.size())
+            {
+                auto& cluster = cell.clusters[icluster];
+                cluster.records.push_back({ state, conditions, sensitivity, predictor });
+                cluster.priority.extend();
+            }
+            else
+            {
+                // Create a new cluster within the current temperature-pressure grid cell
+                Cluster cluster;
+                cluster.iprimary = iprimary;
+                cluster.label = label;
+                cluster.records.push_back({ state, conditions, sensitivity, predictor });
+                cluster.priority.extend();
+
+                // Append the new cluster and initialize its connectivity and priority
+                cell.clusters.push_back(cluster);
+                cell.connectivity.extend();
+                cell.priority.extend();
+            }
+
+            result.timing.learning_storage = toc(STORAGE_STEP);
         }
-        else
-        {
-            // Create a new cluster within the current temperature-pressure grid cell
-            Cluster cluster;
-            cluster.iprimary = iprimary;
-            cluster.label = label;
-            cluster.records.push_back({ state, conditions, sensitivity, predictor });
-            cluster.priority.extend();
-
-            // Append the new cluster and initialize its connectivity and priority
-            cell.clusters.push_back(cluster);
-            cell.connectivity.extend();
-            cell.priority.extend();
-        }
-
-        result.timing.learning_storage = toc(STORAGE_STEP);
     }
 
     /// Perform a prediction operation in which a chemical equilibrium state is predicted using a first-order Taylor approximation.
@@ -265,7 +273,7 @@ struct SmartEquilibriumSolver::Impl
             {
                 const auto mu0 = predictor0.speciesChemicalPotentialReference(ispecies);
                 const auto mu1 = predictor0.speciesChemicalPotentialPredicted(ispecies, dw, dc);
-                if(abs(mu1 - mu0) >= options.reltol*abs(mu0) + options.abstol)
+                if(abs(mu1 - mu0) >= options.reltol * abs(mu0) + options.abstol || isnan(mu0) || isnan(mu1)
                     return false;
             }
 
