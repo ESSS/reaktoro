@@ -15,9 +15,10 @@ configure_file(${SETUP_PY_IN} ${SETUP_PY})
 add_custom_target(reaktoro ALL
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:PyReaktoro>
         ${CMAKE_CURRENT_BINARY_DIR}/$<TARGET_FILE_NAME:PyReaktoro>
-    COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY} --quiet
-        sdist --dist-dir=${CMAKE_CURRENT_BINARY_DIR}/dist
-        bdist_wheel --dist-dir=${CMAKE_CURRENT_BINARY_DIR}/dist
+    COMMAND ${PYTHON_EXECUTABLE} -m ensurepip
+    COMMAND ${PYTHON_EXECUTABLE} -m pip install build
+    COMMAND ${PYTHON_EXECUTABLE} -m build --sdist --wheel
+        --outdir ${CMAKE_CURRENT_BINARY_DIR}/dist
     COMMAND ${PYTHON_EXECUTABLE} -m pip install
         reaktoro --prefix=${CMAKE_BINARY_DIR}
         --find-links=${CMAKE_CURRENT_BINARY_DIR}/dist
@@ -57,9 +58,8 @@ install(CODE
     endif()
 
     execute_process(
-        COMMAND ${PYTHON_EXECUTABLE} ${SETUP_PY}
-            sdist --dist-dir=\${REAKTORO_PYTHON_DIST_DIR_NATIVE}
-            bdist_wheel --dist-dir=\${REAKTORO_PYTHON_DIST_DIR_NATIVE}
+        COMMAND ${PYTHON_EXECUTABLE} -m build --sdist --wheel
+            --outdir \${REAKTORO_PYTHON_DIST_DIR_NATIVE}
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 
     execute_process(
